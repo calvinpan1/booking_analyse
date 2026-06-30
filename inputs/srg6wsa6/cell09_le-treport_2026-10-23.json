@@ -1,0 +1,335 @@
+{
+  "extensionVersion": "1.0.0",
+  "exportedAt": "2026-06-23T09:28:47.821Z",
+  "participant": {
+    "cells": [
+      {
+        "checkin": "2026-10-23",
+        "checkout": "2026-10-25",
+        "cityKey": "annecy",
+        "listIndex": 2,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-10-30",
+        "checkout": "2026-11-01",
+        "cityKey": "annecy",
+        "listIndex": 0,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-11-06",
+        "checkout": "2026-11-08",
+        "cityKey": "annecy",
+        "listIndex": 3,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-11-20",
+        "checkout": "2026-11-22",
+        "cityKey": "annecy",
+        "listIndex": 1,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-10-23",
+        "checkout": "2026-10-25",
+        "cityKey": "arcachon",
+        "listIndex": 2,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-10-30",
+        "checkout": "2026-11-01",
+        "cityKey": "arcachon",
+        "listIndex": 3,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-11-06",
+        "checkout": "2026-11-08",
+        "cityKey": "arcachon",
+        "listIndex": 0,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-11-20",
+        "checkout": "2026-11-22",
+        "cityKey": "arcachon",
+        "listIndex": 1,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-10-23",
+        "checkout": "2026-10-25",
+        "cityKey": "le-treport",
+        "listIndex": 1,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-10-30",
+        "checkout": "2026-11-01",
+        "cityKey": "le-treport",
+        "listIndex": 0,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-11-06",
+        "checkout": "2026-11-08",
+        "cityKey": "le-treport",
+        "listIndex": 3,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-11-20",
+        "checkout": "2026-11-22",
+        "cityKey": "le-treport",
+        "listIndex": 2,
+        "thumb": "P"
+      }
+    ],
+    "clutter": "O",
+    "installedAt": "2026-06-23T09:15:00.000Z",
+    "participantId": "srg6wsa6",
+    "rawCode": "O|srg6wsa6|annecy:2026-10-23-2P,2026-10-30-0A,2026-11-06-3P,2026-11-20-1A|arcachon:2026-10-23-2A,2026-10-30-3P,2026-11-06-0P,2026-11-20-1A|le-treport:2026-10-23-1P,2026-10-30-0A,2026-11-06-3A,2026-11-20-2P",
+    "subjectId": "srg6wsa6"
+  },
+  "cell": {
+    "cellIndex": 9,
+    "cityKey": "le-treport",
+    "checkin": "2026-10-23",
+    "listIndex": 1,
+    "thumb": "P"
+  },
+  "eventCount": 23,
+  "events": [
+    {
+      "type": "tab_focus",
+      "event": "window-focus",
+      "preStart": true,
+      "tabId": 1009,
+      "windowId": 1000,
+      "timestamp": 1782206866770,
+      "url": "http://s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/srg6wsa6/choice_task_block/Decision/9"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": true,
+      "tabId": 1009,
+      "title": "www.lemonde.fr",
+      "timestamp": 1782206867394,
+      "url": "https://www.lemonde.fr/"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": false,
+      "tabId": 1009,
+      "title": "s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/srg6wsa6/choice_task_block/Decision/9",
+      "timestamp": 1782206874797,
+      "url": "http://s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/srg6wsa6/choice_task_block/Decision/9"
+    },
+    {
+      "type": "page_view",
+      "isTargetSample": true,
+      "referrer": "http://s2ch-adm-c-lab.ad.univ-paris1.fr:8000/",
+      "timestamp": 1782206876292,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "visibility",
+      "isTargetSample": true,
+      "source": "init",
+      "state": "visible",
+      "timestamp": 1782206876292,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "page_ready",
+      "isTargetSample": true,
+      "afterPreload": true,
+      "setupMs": 1615,
+      "timestamp": 1782206883797,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "health",
+      "isTargetSample": true,
+      "ok": true,
+      "page": "search",
+      "failures": [],
+      "timestamp": 1782206883797,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price",
+      "checks": [
+        {
+          "name": "propertyCard",
+          "found": 9,
+          "required": true
+        },
+        {
+          "name": "title",
+          "found": 9,
+          "required": true
+        },
+        {
+          "name": "price",
+          "found": 9,
+          "required": true
+        }
+      ]
+    },
+    {
+      "type": "manip_check",
+      "isTargetSample": true,
+      "ok": true,
+      "thumb": "P",
+      "shownCardCount": 5,
+      "totalPouceCount": 1,
+      "visiblePouceCount": 0,
+      "timestamp": 1782206883797,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "seafront-apartment-with-balcony",
+      "timestamp": 1782206886180,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "le-treport-a-vos-pieds-vue-180-port-et-eglise",
+      "timestamp": 1782206886881,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "family-appart-2",
+      "timestamp": 1782206887378,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "goeland",
+      "timestamp": 1782206888106,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "le-treport-2p-30m2-rdc-tout-a-pied-2mn-plage-port-funiculaire-casino",
+      "timestamp": 1782206888598,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": false,
+      "tabId": 1009,
+      "title": "www.lemonde.fr",
+      "timestamp": 1782206889273,
+      "url": "https://www.lemonde.fr/search?q=le-treport"
+    },
+    {
+      "type": "tab_focus",
+      "event": "activated",
+      "preStart": false,
+      "tabId": 1009,
+      "windowId": 1000,
+      "timestamp": 1782206895093,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "hover",
+      "isTargetSample": true,
+      "kind": "product_card",
+      "targetPropertyId": "seafront-apartment-with-balcony",
+      "targetTestId": "property-card",
+      "durationMs": 851,
+      "timestamp": 1782206896378,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "hover",
+      "isTargetSample": true,
+      "kind": "product_card",
+      "targetPropertyId": "le-treport-a-vos-pieds-vue-180-port-et-eglise",
+      "targetTestId": "property-card",
+      "durationMs": 571,
+      "timestamp": 1782206897162,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "hover",
+      "isTargetSample": true,
+      "kind": "product_card",
+      "targetPropertyId": "goeland",
+      "targetTestId": "property-card",
+      "durationMs": 2379,
+      "timestamp": 1782206897758,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "scroll",
+      "isTargetSample": true,
+      "scrollDepthPercent": 84,
+      "visiblePropertyIds": [
+        "seafront-apartment-with-balcony",
+        "le-treport-a-vos-pieds-vue-180-port-et-eglise",
+        "family-appart-2"
+      ],
+      "timestamp": 1782206898136,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "click",
+      "isTargetSample": true,
+      "kind": "product_card",
+      "targetPropertyId": "family-appart-2",
+      "targetTestId": "availability-cta-btn",
+      "targetText": "Voir les séjours",
+      "timestamp": 1782206900976,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "page_view",
+      "isTargetSample": true,
+      "referrer": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price",
+      "timestamp": 1782206902768,
+      "url": "https://www.booking.com/hotel/fr/family-appart-2.fr.html?dest_id=-1446308&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&sr_order=price"
+    },
+    {
+      "type": "reserve",
+      "isTargetSample": true,
+      "cellIndex": 9,
+      "displayedPrice": "€ 197",
+      "selectedRooms": 1,
+      "targetPropertyId": "family-appart-2",
+      "timestamp": 1782206912643,
+      "url": "https://www.booking.com/hotel/fr/family-appart-2.fr.html?dest_id=-1446308&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&sr_order=price"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": false,
+      "tabId": 1009,
+      "title": "s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/srg6wsa6/choice_task_block/Decision/10",
+      "timestamp": 1782206913295,
+      "url": "http://s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/srg6wsa6/choice_task_block/Decision/10"
+    }
+  ]
+}

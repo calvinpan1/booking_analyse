@@ -1,0 +1,380 @@
+{
+  "extensionVersion": "1.0.0",
+  "exportedAt": "2026-06-23T09:31:53.333Z",
+  "participant": {
+    "cells": [
+      {
+        "checkin": "2026-10-09",
+        "checkout": "2026-10-11",
+        "cityKey": "arcachon",
+        "listIndex": 1,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-10-23",
+        "checkout": "2026-10-25",
+        "cityKey": "arcachon",
+        "listIndex": 2,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-10-30",
+        "checkout": "2026-11-01",
+        "cityKey": "arcachon",
+        "listIndex": 3,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-11-13",
+        "checkout": "2026-11-15",
+        "cityKey": "arcachon",
+        "listIndex": 0,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-10-09",
+        "checkout": "2026-10-11",
+        "cityKey": "le-treport",
+        "listIndex": 2,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-10-23",
+        "checkout": "2026-10-25",
+        "cityKey": "le-treport",
+        "listIndex": 3,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-10-30",
+        "checkout": "2026-11-01",
+        "cityKey": "le-treport",
+        "listIndex": 1,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-11-13",
+        "checkout": "2026-11-15",
+        "cityKey": "le-treport",
+        "listIndex": 0,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-10-09",
+        "checkout": "2026-10-11",
+        "cityKey": "nice",
+        "listIndex": 0,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-10-23",
+        "checkout": "2026-10-25",
+        "cityKey": "nice",
+        "listIndex": 2,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-10-30",
+        "checkout": "2026-11-01",
+        "cityKey": "nice",
+        "listIndex": 3,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-11-13",
+        "checkout": "2026-11-15",
+        "cityKey": "nice",
+        "listIndex": 1,
+        "thumb": "P"
+      }
+    ],
+    "clutter": "N",
+    "installedAt": "2026-06-23T09:16:52.000Z",
+    "participantId": "uiayw8ic",
+    "rawCode": "N|uiayw8ic|arcachon:2026-10-09-1A,2026-10-23-2P,2026-10-30-3A,2026-11-13-0P|le-treport:2026-10-09-2P,2026-10-23-3P,2026-10-30-1A,2026-11-13-0A|nice:2026-10-09-0A,2026-10-23-2P,2026-10-30-3A,2026-11-13-1P",
+    "subjectId": "uiayw8ic"
+  },
+  "cell": {
+    "cellIndex": 9,
+    "cityKey": "nice",
+    "checkin": "2026-10-09",
+    "listIndex": 0,
+    "thumb": "A"
+  },
+  "eventCount": 28,
+  "events": [
+    {
+      "type": "tab_focus",
+      "event": "window-focus",
+      "preStart": true,
+      "tabId": 1009,
+      "windowId": 1000,
+      "timestamp": 1782207033190,
+      "url": "http://s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/uiayw8ic/choice_task_block/Decision/9"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": true,
+      "tabId": 1009,
+      "title": "x.com",
+      "timestamp": 1782207035027,
+      "url": "https://x.com/"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": false,
+      "tabId": 1009,
+      "title": "s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/uiayw8ic/choice_task_block/Decision/9",
+      "timestamp": 1782207048564,
+      "url": "http://s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/uiayw8ic/choice_task_block/Decision/9"
+    },
+    {
+      "type": "page_view",
+      "isTargetSample": true,
+      "referrer": "http://s2ch-adm-c-lab.ad.univ-paris1.fr:8000/",
+      "timestamp": 1782207049150,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-10-09&checkout=2026-10-11&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "visibility",
+      "isTargetSample": true,
+      "source": "init",
+      "state": "visible",
+      "timestamp": 1782207049150,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-10-09&checkout=2026-10-11&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "page_ready",
+      "isTargetSample": true,
+      "afterPreload": true,
+      "setupMs": 1782,
+      "timestamp": 1782207056561,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-10-09&checkout=2026-10-11&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "health",
+      "isTargetSample": true,
+      "ok": true,
+      "page": "search",
+      "failures": [],
+      "timestamp": 1782207056561,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-10-09&checkout=2026-10-11&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price",
+      "checks": [
+        {
+          "name": "propertyCard",
+          "found": 9,
+          "required": true
+        },
+        {
+          "name": "title",
+          "found": 9,
+          "required": true
+        },
+        {
+          "name": "price",
+          "found": 9,
+          "required": true
+        }
+      ]
+    },
+    {
+      "type": "manip_check",
+      "isTargetSample": true,
+      "ok": true,
+      "thumb": "A",
+      "shownCardCount": 8,
+      "totalPouceCount": 0,
+      "visiblePouceCount": 0,
+      "timestamp": 1782207056561,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-10-09&checkout=2026-10-11&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "loft-place-massena",
+      "timestamp": 1782207059163,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-10-09&checkout=2026-10-11&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "deux-pieces-centre-de-nice",
+      "timestamp": 1782207059567,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-10-09&checkout=2026-10-11&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "nice-superbe-studio-chaleureux-et-fonctionnel-nice",
+      "timestamp": 1782207060256,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-10-09&checkout=2026-10-11&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "1-gautier-501-studio-boheme-quartier-du-port",
+      "timestamp": 1782207060638,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-10-09&checkout=2026-10-11&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "cute-duplex-studio",
+      "timestamp": 1782207061282,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-10-09&checkout=2026-10-11&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "inta-c-rieurs-cour",
+      "timestamp": 1782207062133,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-10-09&checkout=2026-10-11&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "astor",
+      "timestamp": 1782207062673,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-10-09&checkout=2026-10-11&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "le-palais-rossini",
+      "timestamp": 1782207062961,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-10-09&checkout=2026-10-11&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": false,
+      "tabId": 1009,
+      "title": "www.lemonde.fr",
+      "timestamp": 1782207063566,
+      "url": "https://www.lemonde.fr/search?q=nice"
+    },
+    {
+      "type": "tab_focus",
+      "event": "activated",
+      "preStart": false,
+      "tabId": 1009,
+      "windowId": 1000,
+      "timestamp": 1782207068854,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-10-09&checkout=2026-10-11&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "hover",
+      "isTargetSample": true,
+      "kind": "product_card",
+      "targetPropertyId": "deux-pieces-centre-de-nice",
+      "targetTestId": "property-card",
+      "durationMs": 1196,
+      "timestamp": 1782207070115,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-10-09&checkout=2026-10-11&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "hover",
+      "isTargetSample": true,
+      "kind": "product_card",
+      "targetPropertyId": "inta-c-rieurs-cour",
+      "targetTestId": "property-card",
+      "durationMs": 612,
+      "timestamp": 1782207070545,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-10-09&checkout=2026-10-11&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "hover",
+      "isTargetSample": true,
+      "kind": "product_card",
+      "targetPropertyId": "le-palais-rossini",
+      "targetTestId": "property-card",
+      "durationMs": 2919,
+      "timestamp": 1782207070999,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-10-09&checkout=2026-10-11&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "scroll",
+      "isTargetSample": true,
+      "scrollDepthPercent": 38,
+      "visiblePropertyIds": [
+        "loft-place-massena",
+        "deux-pieces-centre-de-nice",
+        "nice-superbe-studio-chaleureux-et-fonctionnel-nice"
+      ],
+      "timestamp": 1782207071775,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-10-09&checkout=2026-10-11&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "click",
+      "isTargetSample": true,
+      "kind": "product_card",
+      "targetPropertyId": "le-palais-rossini",
+      "targetTestId": "availability-cta-btn",
+      "targetText": "Voir les séjours",
+      "timestamp": 1782207075280,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-10-09&checkout=2026-10-11&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "page_view",
+      "isTargetSample": true,
+      "referrer": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-10-09&checkout=2026-10-11&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price",
+      "timestamp": 1782207077626,
+      "url": "https://www.booking.com/hotel/fr/le-palais-rossini.fr.html?dest_id=-1454990&dest_type=city&checkin=2026-10-09&checkout=2026-10-11&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&sr_order=price"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": false,
+      "tabId": 1009,
+      "title": "www.airbnb.fr",
+      "timestamp": 1782207092108,
+      "url": "https://www.airbnb.fr/"
+    },
+    {
+      "type": "tab_focus",
+      "event": "activated",
+      "preStart": false,
+      "tabId": 1009,
+      "windowId": 1000,
+      "timestamp": 1782207095181,
+      "url": "https://www.booking.com/hotel/fr/le-palais-rossini.fr.html?dest_id=-1454990&dest_type=city&checkin=2026-10-09&checkout=2026-10-11&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&sr_order=price"
+    },
+    {
+      "type": "reserve",
+      "isTargetSample": true,
+      "cellIndex": 9,
+      "displayedPrice": "€ 97",
+      "selectedRooms": 1,
+      "targetPropertyId": "le-palais-rossini",
+      "timestamp": 1782207095702,
+      "url": "https://www.booking.com/hotel/fr/le-palais-rossini.fr.html?dest_id=-1454990&dest_type=city&checkin=2026-10-09&checkout=2026-10-11&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&sr_order=price"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": false,
+      "tabId": 1009,
+      "title": "s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/uiayw8ic/choice_task_block/Decision/10",
+      "timestamp": 1782207097689,
+      "url": "http://s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/uiayw8ic/choice_task_block/Decision/10"
+    }
+  ]
+}

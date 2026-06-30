@@ -1,0 +1,353 @@
+{
+  "extensionVersion": "1.0.0",
+  "exportedAt": "2026-06-23T09:32:39.510Z",
+  "participant": {
+    "cells": [
+      {
+        "checkin": "2026-10-02",
+        "checkout": "2026-10-04",
+        "cityKey": "arcachon",
+        "listIndex": 2,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-10-09",
+        "checkout": "2026-10-11",
+        "cityKey": "arcachon",
+        "listIndex": 0,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-10-16",
+        "checkout": "2026-10-18",
+        "cityKey": "arcachon",
+        "listIndex": 3,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-11-06",
+        "checkout": "2026-11-08",
+        "cityKey": "arcachon",
+        "listIndex": 1,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-10-02",
+        "checkout": "2026-10-04",
+        "cityKey": "le-treport",
+        "listIndex": 0,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-10-09",
+        "checkout": "2026-10-11",
+        "cityKey": "le-treport",
+        "listIndex": 1,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-10-16",
+        "checkout": "2026-10-18",
+        "cityKey": "le-treport",
+        "listIndex": 2,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-11-06",
+        "checkout": "2026-11-08",
+        "cityKey": "le-treport",
+        "listIndex": 3,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-10-02",
+        "checkout": "2026-10-04",
+        "cityKey": "nice",
+        "listIndex": 3,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-10-09",
+        "checkout": "2026-10-11",
+        "cityKey": "nice",
+        "listIndex": 2,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-10-16",
+        "checkout": "2026-10-18",
+        "cityKey": "nice",
+        "listIndex": 1,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-11-06",
+        "checkout": "2026-11-08",
+        "cityKey": "nice",
+        "listIndex": 0,
+        "thumb": "P"
+      }
+    ],
+    "clutter": "O",
+    "installedAt": "2026-06-23T09:14:58.000Z",
+    "participantId": "wr0wpw4k",
+    "rawCode": "O|wr0wpw4k|arcachon:2026-10-02-2A,2026-10-09-0P,2026-10-16-3P,2026-11-06-1A|le-treport:2026-10-02-0A,2026-10-09-1P,2026-10-16-2A,2026-11-06-3P|nice:2026-10-02-3A,2026-10-09-2A,2026-10-16-1P,2026-11-06-0P",
+    "subjectId": "wr0wpw4k"
+  },
+  "cell": {
+    "cellIndex": 12,
+    "cityKey": "nice",
+    "checkin": "2026-11-06",
+    "listIndex": 0,
+    "thumb": "P"
+  },
+  "eventCount": 25,
+  "events": [
+    {
+      "type": "tab_focus",
+      "event": "window-focus",
+      "preStart": true,
+      "tabId": 1012,
+      "windowId": 1000,
+      "timestamp": 1782207083478,
+      "url": "http://s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/wr0wpw4k/choice_task_block/Decision/12"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": true,
+      "tabId": 1012,
+      "title": "mail.google.com",
+      "timestamp": 1782207084194,
+      "url": "https://mail.google.com/"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": false,
+      "tabId": 1012,
+      "title": "s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/wr0wpw4k/choice_task_block/Decision/12",
+      "timestamp": 1782207096961,
+      "url": "http://s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/wr0wpw4k/choice_task_block/Decision/12"
+    },
+    {
+      "type": "page_view",
+      "isTargetSample": true,
+      "referrer": "http://s2ch-adm-c-lab.ad.univ-paris1.fr:8000/",
+      "timestamp": 1782207098187,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-11-06&checkout=2026-11-08&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "visibility",
+      "isTargetSample": true,
+      "source": "init",
+      "state": "visible",
+      "timestamp": 1782207098187,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-11-06&checkout=2026-11-08&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "page_ready",
+      "isTargetSample": true,
+      "afterPreload": true,
+      "setupMs": 3664,
+      "timestamp": 1782207105265,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-11-06&checkout=2026-11-08&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "health",
+      "isTargetSample": true,
+      "ok": true,
+      "page": "search",
+      "failures": [],
+      "timestamp": 1782207105265,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-11-06&checkout=2026-11-08&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price",
+      "checks": [
+        {
+          "name": "propertyCard",
+          "found": 9,
+          "required": true
+        },
+        {
+          "name": "title",
+          "found": 9,
+          "required": true
+        },
+        {
+          "name": "price",
+          "found": 9,
+          "required": true
+        }
+      ]
+    },
+    {
+      "type": "manip_check",
+      "isTargetSample": true,
+      "ok": true,
+      "thumb": "P",
+      "shownCardCount": 5,
+      "totalPouceCount": 1,
+      "visiblePouceCount": 0,
+      "timestamp": 1782207105265,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-11-06&checkout=2026-11-08&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "loft-place-massena",
+      "timestamp": 1782207106341,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-11-06&checkout=2026-11-08&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "deux-pieces-centre-de-nice",
+      "timestamp": 1782207106918,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-11-06&checkout=2026-11-08&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "nice-superbe-studio-chaleureux-et-fonctionnel-nice",
+      "timestamp": 1782207107466,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-11-06&checkout=2026-11-08&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "1-gautier-501-studio-boheme-quartier-du-port",
+      "timestamp": 1782207107810,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-11-06&checkout=2026-11-08&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "cute-duplex-studio",
+      "timestamp": 1782207108055,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-11-06&checkout=2026-11-08&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": false,
+      "tabId": 1012,
+      "title": "www.youtube.com",
+      "timestamp": 1782207108463,
+      "url": "https://www.youtube.com/search?q=nice"
+    },
+    {
+      "type": "tab_focus",
+      "event": "activated",
+      "preStart": false,
+      "tabId": 1012,
+      "windowId": 1000,
+      "timestamp": 1782207110776,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-11-06&checkout=2026-11-08&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "hover",
+      "isTargetSample": true,
+      "kind": "product_card",
+      "targetPropertyId": "deux-pieces-centre-de-nice",
+      "targetTestId": "property-card",
+      "durationMs": 2175,
+      "timestamp": 1782207111889,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-11-06&checkout=2026-11-08&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "hover",
+      "isTargetSample": true,
+      "kind": "product_card",
+      "targetPropertyId": "loft-place-massena",
+      "targetTestId": "property-card",
+      "durationMs": 2022,
+      "timestamp": 1782207112883,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-11-06&checkout=2026-11-08&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "hover",
+      "isTargetSample": true,
+      "kind": "product_card",
+      "targetPropertyId": "cute-duplex-studio",
+      "targetTestId": "property-card",
+      "durationMs": 3043,
+      "timestamp": 1782207113372,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-11-06&checkout=2026-11-08&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "scroll",
+      "isTargetSample": true,
+      "scrollDepthPercent": 29,
+      "visiblePropertyIds": [
+        "loft-place-massena",
+        "deux-pieces-centre-de-nice",
+        "nice-superbe-studio-chaleureux-et-fonctionnel-nice"
+      ],
+      "timestamp": 1782207113991,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-11-06&checkout=2026-11-08&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "click",
+      "isTargetSample": true,
+      "kind": "product_card",
+      "targetPropertyId": "loft-place-massena",
+      "targetTestId": "availability-cta-btn",
+      "targetText": "Voir les séjours",
+      "timestamp": 1782207115824,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-11-06&checkout=2026-11-08&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "page_view",
+      "isTargetSample": true,
+      "referrer": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-11-06&checkout=2026-11-08&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price",
+      "timestamp": 1782207118452,
+      "url": "https://www.booking.com/hotel/fr/loft-place-massena.fr.html?dest_id=-1454990&dest_type=city&checkin=2026-11-06&checkout=2026-11-08&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&sr_order=price"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": false,
+      "tabId": 1012,
+      "title": "www.instagram.com",
+      "timestamp": 1782207137692,
+      "url": "https://www.instagram.com/"
+    },
+    {
+      "type": "tab_focus",
+      "event": "activated",
+      "preStart": false,
+      "tabId": 1012,
+      "windowId": 1000,
+      "timestamp": 1782207143035,
+      "url": "https://www.booking.com/hotel/fr/loft-place-massena.fr.html?dest_id=-1454990&dest_type=city&checkin=2026-11-06&checkout=2026-11-08&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&sr_order=price"
+    },
+    {
+      "type": "reserve",
+      "isTargetSample": true,
+      "cellIndex": 12,
+      "displayedPrice": "€ 292",
+      "selectedRooms": 1,
+      "targetPropertyId": "loft-place-massena",
+      "timestamp": 1782207143638,
+      "url": "https://www.booking.com/hotel/fr/loft-place-massena.fr.html?dest_id=-1454990&dest_type=city&checkin=2026-11-06&checkout=2026-11-08&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&sr_order=price"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": false,
+      "tabId": 1012,
+      "title": "s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/wr0wpw4k/choice_task_block/Decision/13",
+      "timestamp": 1782207145497,
+      "url": "http://s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/wr0wpw4k/choice_task_block/Decision/13"
+    }
+  ]
+}

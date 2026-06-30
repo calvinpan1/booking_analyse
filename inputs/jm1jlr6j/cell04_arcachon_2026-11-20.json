@@ -1,0 +1,380 @@
+{
+  "extensionVersion": "1.0.0",
+  "exportedAt": "2026-06-23T09:24:44.073Z",
+  "participant": {
+    "cells": [
+      {
+        "checkin": "2026-10-02",
+        "checkout": "2026-10-04",
+        "cityKey": "arcachon",
+        "listIndex": 0,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-10-23",
+        "checkout": "2026-10-25",
+        "cityKey": "arcachon",
+        "listIndex": 3,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-10-30",
+        "checkout": "2026-11-01",
+        "cityKey": "arcachon",
+        "listIndex": 1,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-11-20",
+        "checkout": "2026-11-22",
+        "cityKey": "arcachon",
+        "listIndex": 2,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-10-02",
+        "checkout": "2026-10-04",
+        "cityKey": "le-treport",
+        "listIndex": 0,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-10-23",
+        "checkout": "2026-10-25",
+        "cityKey": "le-treport",
+        "listIndex": 3,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-10-30",
+        "checkout": "2026-11-01",
+        "cityKey": "le-treport",
+        "listIndex": 2,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-11-20",
+        "checkout": "2026-11-22",
+        "cityKey": "le-treport",
+        "listIndex": 1,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-10-02",
+        "checkout": "2026-10-04",
+        "cityKey": "nice",
+        "listIndex": 1,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-10-23",
+        "checkout": "2026-10-25",
+        "cityKey": "nice",
+        "listIndex": 3,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-10-30",
+        "checkout": "2026-11-01",
+        "cityKey": "nice",
+        "listIndex": 0,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-11-20",
+        "checkout": "2026-11-22",
+        "cityKey": "nice",
+        "listIndex": 2,
+        "thumb": "P"
+      }
+    ],
+    "clutter": "O",
+    "installedAt": "2026-06-23T09:15:03.000Z",
+    "participantId": "jm1jlr6j",
+    "rawCode": "O|jm1jlr6j|arcachon:2026-10-02-0P,2026-10-23-3A,2026-10-30-1A,2026-11-20-2P|le-treport:2026-10-02-0P,2026-10-23-3A,2026-10-30-2P,2026-11-20-1A|nice:2026-10-02-1A,2026-10-23-3P,2026-10-30-0A,2026-11-20-2P",
+    "subjectId": "jm1jlr6j"
+  },
+  "cell": {
+    "cellIndex": 4,
+    "cityKey": "arcachon",
+    "checkin": "2026-11-20",
+    "listIndex": 2,
+    "thumb": "P"
+  },
+  "eventCount": 28,
+  "events": [
+    {
+      "type": "tab_focus",
+      "event": "window-focus",
+      "preStart": true,
+      "tabId": 1004,
+      "windowId": 1000,
+      "timestamp": 1782206606596,
+      "url": "http://s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/jm1jlr6j/choice_task_block/Decision/4"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": true,
+      "tabId": 1004,
+      "title": "www.facebook.com",
+      "timestamp": 1782206608418,
+      "url": "https://www.facebook.com/"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": false,
+      "tabId": 1004,
+      "title": "s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/jm1jlr6j/choice_task_block/Decision/4",
+      "timestamp": 1782206617512,
+      "url": "http://s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/jm1jlr6j/choice_task_block/Decision/4"
+    },
+    {
+      "type": "page_view",
+      "isTargetSample": true,
+      "referrer": "http://s2ch-adm-c-lab.ad.univ-paris1.fr:8000/",
+      "timestamp": 1782206618223,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=arcachon&dest_id=-1408052&dest_type=city&checkin=2026-11-20&checkout=2026-11-22&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "visibility",
+      "isTargetSample": true,
+      "source": "init",
+      "state": "visible",
+      "timestamp": 1782206618223,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=arcachon&dest_id=-1408052&dest_type=city&checkin=2026-11-20&checkout=2026-11-22&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "page_ready",
+      "isTargetSample": true,
+      "afterPreload": true,
+      "setupMs": 2956,
+      "timestamp": 1782206622706,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=arcachon&dest_id=-1408052&dest_type=city&checkin=2026-11-20&checkout=2026-11-22&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "health",
+      "isTargetSample": true,
+      "ok": true,
+      "page": "search",
+      "failures": [],
+      "timestamp": 1782206622706,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=arcachon&dest_id=-1408052&dest_type=city&checkin=2026-11-20&checkout=2026-11-22&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price",
+      "checks": [
+        {
+          "name": "propertyCard",
+          "found": 9,
+          "required": true
+        },
+        {
+          "name": "title",
+          "found": 9,
+          "required": true
+        },
+        {
+          "name": "price",
+          "found": 9,
+          "required": true
+        }
+      ]
+    },
+    {
+      "type": "manip_check",
+      "isTargetSample": true,
+      "ok": true,
+      "thumb": "P",
+      "shownCardCount": 8,
+      "totalPouceCount": 2,
+      "visiblePouceCount": 0,
+      "timestamp": 1782206622706,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=arcachon&dest_id=-1408052&dest_type=city&checkin=2026-11-20&checkout=2026-11-22&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "studio-a-50-m-de-la-plage-arcachon",
+      "timestamp": 1782206625551,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=arcachon&dest_id=-1408052&dest_type=city&checkin=2026-11-20&checkout=2026-11-22&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "charming-t2-close-to-the-sea-in-arcachon-welkeys",
+      "timestamp": 1782206626309,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=arcachon&dest_id=-1408052&dest_type=city&checkin=2026-11-20&checkout=2026-11-22&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "residence-l-aquarium",
+      "timestamp": 1782206627022,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=arcachon&dest_id=-1408052&dest_type=city&checkin=2026-11-20&checkout=2026-11-22&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "detached-house-near-pereire-and-moulleau",
+      "timestamp": 1782206627397,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=arcachon&dest_id=-1408052&dest_type=city&checkin=2026-11-20&checkout=2026-11-22&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "studio-arcachon-center",
+      "timestamp": 1782206627985,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=arcachon&dest_id=-1408052&dest_type=city&checkin=2026-11-20&checkout=2026-11-22&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "bel-appartement-bord-de-mer-4-pers-arcachon-centre",
+      "timestamp": 1782206628830,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=arcachon&dest_id=-1408052&dest_type=city&checkin=2026-11-20&checkout=2026-11-22&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "startway-coliving",
+      "timestamp": 1782206629269,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=arcachon&dest_id=-1408052&dest_type=city&checkin=2026-11-20&checkout=2026-11-22&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "rose-mousse-arcachon",
+      "timestamp": 1782206629940,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=arcachon&dest_id=-1408052&dest_type=city&checkin=2026-11-20&checkout=2026-11-22&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": false,
+      "tabId": 1004,
+      "title": "www.airbnb.fr",
+      "timestamp": 1782206630269,
+      "url": "https://www.airbnb.fr/search?q=arcachon"
+    },
+    {
+      "type": "tab_focus",
+      "event": "activated",
+      "preStart": false,
+      "tabId": 1004,
+      "windowId": 1000,
+      "timestamp": 1782206637135,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=arcachon&dest_id=-1408052&dest_type=city&checkin=2026-11-20&checkout=2026-11-22&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "hover",
+      "isTargetSample": true,
+      "kind": "product_card",
+      "targetPropertyId": "studio-a-50-m-de-la-plage-arcachon",
+      "targetTestId": "property-card",
+      "durationMs": 1838,
+      "timestamp": 1782206638407,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=arcachon&dest_id=-1408052&dest_type=city&checkin=2026-11-20&checkout=2026-11-22&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "hover",
+      "isTargetSample": true,
+      "kind": "product_card",
+      "targetPropertyId": "residence-l-aquarium",
+      "targetTestId": "property-card",
+      "durationMs": 1136,
+      "timestamp": 1782206639241,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=arcachon&dest_id=-1408052&dest_type=city&checkin=2026-11-20&checkout=2026-11-22&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "hover",
+      "isTargetSample": true,
+      "kind": "product_card",
+      "targetPropertyId": "studio-arcachon-center",
+      "targetTestId": "property-card",
+      "durationMs": 3953,
+      "timestamp": 1782206640429,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=arcachon&dest_id=-1408052&dest_type=city&checkin=2026-11-20&checkout=2026-11-22&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "scroll",
+      "isTargetSample": true,
+      "scrollDepthPercent": 90,
+      "visiblePropertyIds": [
+        "studio-a-50-m-de-la-plage-arcachon",
+        "charming-t2-close-to-the-sea-in-arcachon-welkeys",
+        "residence-l-aquarium"
+      ],
+      "timestamp": 1782206641190,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=arcachon&dest_id=-1408052&dest_type=city&checkin=2026-11-20&checkout=2026-11-22&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "click",
+      "isTargetSample": true,
+      "kind": "product_card",
+      "targetPropertyId": "residence-l-aquarium",
+      "targetTestId": "availability-cta-btn",
+      "targetText": "Voir les séjours",
+      "timestamp": 1782206643514,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=arcachon&dest_id=-1408052&dest_type=city&checkin=2026-11-20&checkout=2026-11-22&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "page_view",
+      "isTargetSample": true,
+      "referrer": "https://www.booking.com/searchresults.fr.html?ss=arcachon&dest_id=-1408052&dest_type=city&checkin=2026-11-20&checkout=2026-11-22&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price",
+      "timestamp": 1782206645462,
+      "url": "https://www.booking.com/hotel/fr/residence-l-aquarium.fr.html?dest_id=-1408052&dest_type=city&checkin=2026-11-20&checkout=2026-11-22&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&sr_order=price"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": false,
+      "tabId": 1004,
+      "title": "www.youtube.com",
+      "timestamp": 1782206662840,
+      "url": "https://www.youtube.com/"
+    },
+    {
+      "type": "tab_focus",
+      "event": "activated",
+      "preStart": false,
+      "tabId": 1004,
+      "windowId": 1000,
+      "timestamp": 1782206669584,
+      "url": "https://www.booking.com/hotel/fr/residence-l-aquarium.fr.html?dest_id=-1408052&dest_type=city&checkin=2026-11-20&checkout=2026-11-22&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&sr_order=price"
+    },
+    {
+      "type": "reserve",
+      "isTargetSample": true,
+      "cellIndex": 4,
+      "displayedPrice": "€ 154",
+      "selectedRooms": 1,
+      "targetPropertyId": "residence-l-aquarium",
+      "timestamp": 1782206670320,
+      "url": "https://www.booking.com/hotel/fr/residence-l-aquarium.fr.html?dest_id=-1408052&dest_type=city&checkin=2026-11-20&checkout=2026-11-22&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&sr_order=price"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": false,
+      "tabId": 1004,
+      "title": "s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/jm1jlr6j/choice_task_block/Decision/5",
+      "timestamp": 1782206671504,
+      "url": "http://s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/jm1jlr6j/choice_task_block/Decision/5"
+    }
+  ]
+}

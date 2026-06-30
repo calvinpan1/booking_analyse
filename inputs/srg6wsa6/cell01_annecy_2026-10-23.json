@@ -1,0 +1,344 @@
+{
+  "extensionVersion": "1.0.0",
+  "exportedAt": "2026-06-23T09:21:01.212Z",
+  "participant": {
+    "cells": [
+      {
+        "checkin": "2026-10-23",
+        "checkout": "2026-10-25",
+        "cityKey": "annecy",
+        "listIndex": 2,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-10-30",
+        "checkout": "2026-11-01",
+        "cityKey": "annecy",
+        "listIndex": 0,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-11-06",
+        "checkout": "2026-11-08",
+        "cityKey": "annecy",
+        "listIndex": 3,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-11-20",
+        "checkout": "2026-11-22",
+        "cityKey": "annecy",
+        "listIndex": 1,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-10-23",
+        "checkout": "2026-10-25",
+        "cityKey": "arcachon",
+        "listIndex": 2,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-10-30",
+        "checkout": "2026-11-01",
+        "cityKey": "arcachon",
+        "listIndex": 3,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-11-06",
+        "checkout": "2026-11-08",
+        "cityKey": "arcachon",
+        "listIndex": 0,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-11-20",
+        "checkout": "2026-11-22",
+        "cityKey": "arcachon",
+        "listIndex": 1,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-10-23",
+        "checkout": "2026-10-25",
+        "cityKey": "le-treport",
+        "listIndex": 1,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-10-30",
+        "checkout": "2026-11-01",
+        "cityKey": "le-treport",
+        "listIndex": 0,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-11-06",
+        "checkout": "2026-11-08",
+        "cityKey": "le-treport",
+        "listIndex": 3,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-11-20",
+        "checkout": "2026-11-22",
+        "cityKey": "le-treport",
+        "listIndex": 2,
+        "thumb": "P"
+      }
+    ],
+    "clutter": "O",
+    "installedAt": "2026-06-23T09:15:00.000Z",
+    "participantId": "srg6wsa6",
+    "rawCode": "O|srg6wsa6|annecy:2026-10-23-2P,2026-10-30-0A,2026-11-06-3P,2026-11-20-1A|arcachon:2026-10-23-2A,2026-10-30-3P,2026-11-06-0P,2026-11-20-1A|le-treport:2026-10-23-1P,2026-10-30-0A,2026-11-06-3A,2026-11-20-2P",
+    "subjectId": "srg6wsa6"
+  },
+  "cell": {
+    "cellIndex": 1,
+    "cityKey": "annecy",
+    "checkin": "2026-10-23",
+    "listIndex": 2,
+    "thumb": "P"
+  },
+  "eventCount": 24,
+  "events": [
+    {
+      "type": "tab_focus",
+      "event": "window-focus",
+      "preStart": true,
+      "tabId": 1001,
+      "windowId": 1000,
+      "timestamp": 1782206400755,
+      "url": "http://s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/srg6wsa6/choice_task_block/Decision/1"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": true,
+      "tabId": 1001,
+      "title": "www.tiktok.com",
+      "timestamp": 1782206401447,
+      "url": "https://www.tiktok.com/"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": false,
+      "tabId": 1001,
+      "title": "s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/srg6wsa6/choice_task_block/Decision/1",
+      "timestamp": 1782206412430,
+      "url": "http://s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/srg6wsa6/choice_task_block/Decision/1"
+    },
+    {
+      "type": "page_view",
+      "isTargetSample": true,
+      "referrer": "http://s2ch-adm-c-lab.ad.univ-paris1.fr:8000/",
+      "timestamp": 1782206413096,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=annecy&dest_id=-1407760&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "visibility",
+      "isTargetSample": true,
+      "source": "init",
+      "state": "visible",
+      "timestamp": 1782206413096,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=annecy&dest_id=-1407760&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "page_ready",
+      "isTargetSample": true,
+      "afterPreload": true,
+      "setupMs": 2632,
+      "timestamp": 1782206420566,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=annecy&dest_id=-1407760&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "health",
+      "isTargetSample": true,
+      "ok": true,
+      "page": "search",
+      "failures": [],
+      "timestamp": 1782206420566,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=annecy&dest_id=-1407760&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price",
+      "checks": [
+        {
+          "name": "propertyCard",
+          "found": 9,
+          "required": true
+        },
+        {
+          "name": "title",
+          "found": 9,
+          "required": true
+        },
+        {
+          "name": "price",
+          "found": 9,
+          "required": true
+        }
+      ]
+    },
+    {
+      "type": "manip_check",
+      "isTargetSample": true,
+      "ok": true,
+      "thumb": "P",
+      "shownCardCount": 4,
+      "totalPouceCount": 1,
+      "visiblePouceCount": 0,
+      "timestamp": 1782206420566,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=annecy&dest_id=-1407760&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "nid-du-lac-200-m-du-lac",
+      "timestamp": 1782206423012,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=annecy&dest_id=-1407760&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "notting-hill-duplex-au-calme-5-min-du-lac",
+      "timestamp": 1782206423653,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=annecy&dest_id=-1407760&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "apt-au-coeur-de-la-vieille-ville",
+      "timestamp": 1782206424380,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=annecy&dest_id=-1407760&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "studio-proche-centre-annecy",
+      "timestamp": 1782206424993,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=annecy&dest_id=-1407760&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": false,
+      "tabId": 1001,
+      "title": "www.tiktok.com",
+      "timestamp": 1782206425540,
+      "url": "https://www.tiktok.com/search?q=annecy"
+    },
+    {
+      "type": "tab_focus",
+      "event": "activated",
+      "preStart": false,
+      "tabId": 1001,
+      "windowId": 1000,
+      "timestamp": 1782206429143,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=annecy&dest_id=-1407760&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "hover",
+      "isTargetSample": true,
+      "kind": "product_card",
+      "targetPropertyId": "apt-au-coeur-de-la-vieille-ville",
+      "targetTestId": "property-card",
+      "durationMs": 579,
+      "timestamp": 1782206430008,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=annecy&dest_id=-1407760&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "hover",
+      "isTargetSample": true,
+      "kind": "product_card",
+      "targetPropertyId": "nid-du-lac-200-m-du-lac",
+      "targetTestId": "property-card",
+      "durationMs": 2769,
+      "timestamp": 1782206430654,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=annecy&dest_id=-1407760&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "hover",
+      "isTargetSample": true,
+      "kind": "product_card",
+      "targetPropertyId": "notting-hill-duplex-au-calme-5-min-du-lac",
+      "targetTestId": "property-card",
+      "durationMs": 2304,
+      "timestamp": 1782206431423,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=annecy&dest_id=-1407760&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "scroll",
+      "isTargetSample": true,
+      "scrollDepthPercent": 22,
+      "visiblePropertyIds": [
+        "nid-du-lac-200-m-du-lac",
+        "notting-hill-duplex-au-calme-5-min-du-lac",
+        "apt-au-coeur-de-la-vieille-ville"
+      ],
+      "timestamp": 1782206432443,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=annecy&dest_id=-1407760&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "click",
+      "isTargetSample": true,
+      "kind": "product_card",
+      "targetPropertyId": "apt-au-coeur-de-la-vieille-ville",
+      "targetTestId": "availability-cta-btn",
+      "targetText": "Voir les séjours",
+      "timestamp": 1782206435017,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=annecy&dest_id=-1407760&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "page_view",
+      "isTargetSample": true,
+      "referrer": "https://www.booking.com/searchresults.fr.html?ss=annecy&dest_id=-1407760&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price",
+      "timestamp": 1782206437076,
+      "url": "https://www.booking.com/hotel/fr/apt-au-coeur-de-la-vieille-ville.fr.html?dest_id=-1407760&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&sr_order=price"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": false,
+      "tabId": 1001,
+      "title": "www.instagram.com",
+      "timestamp": 1782206449757,
+      "url": "https://www.instagram.com/"
+    },
+    {
+      "type": "tab_focus",
+      "event": "activated",
+      "preStart": false,
+      "tabId": 1001,
+      "windowId": 1000,
+      "timestamp": 1782206452681,
+      "url": "https://www.booking.com/hotel/fr/apt-au-coeur-de-la-vieille-ville.fr.html?dest_id=-1407760&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&sr_order=price"
+    },
+    {
+      "type": "reserve",
+      "isTargetSample": true,
+      "cellIndex": 1,
+      "displayedPrice": "€ 207",
+      "selectedRooms": 1,
+      "targetPropertyId": "apt-au-coeur-de-la-vieille-ville",
+      "timestamp": 1782206454121,
+      "url": "https://www.booking.com/hotel/fr/apt-au-coeur-de-la-vieille-ville.fr.html?dest_id=-1407760&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&sr_order=price"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": false,
+      "tabId": 1001,
+      "title": "s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/srg6wsa6/choice_task_block/Decision/2",
+      "timestamp": 1782206454835,
+      "url": "http://s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/srg6wsa6/choice_task_block/Decision/2"
+    }
+  ]
+}

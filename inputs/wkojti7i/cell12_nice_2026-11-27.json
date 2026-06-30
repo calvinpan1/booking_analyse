@@ -1,0 +1,335 @@
+{
+  "extensionVersion": "1.0.0",
+  "exportedAt": "2026-06-23T09:37:16.765Z",
+  "participant": {
+    "cells": [
+      {
+        "checkin": "2026-10-23",
+        "checkout": "2026-10-25",
+        "cityKey": "arcachon",
+        "listIndex": 0,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-11-06",
+        "checkout": "2026-11-08",
+        "cityKey": "arcachon",
+        "listIndex": 1,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-11-13",
+        "checkout": "2026-11-15",
+        "cityKey": "arcachon",
+        "listIndex": 2,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-11-27",
+        "checkout": "2026-11-29",
+        "cityKey": "arcachon",
+        "listIndex": 3,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-10-23",
+        "checkout": "2026-10-25",
+        "cityKey": "le-treport",
+        "listIndex": 3,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-11-06",
+        "checkout": "2026-11-08",
+        "cityKey": "le-treport",
+        "listIndex": 0,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-11-13",
+        "checkout": "2026-11-15",
+        "cityKey": "le-treport",
+        "listIndex": 1,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-11-27",
+        "checkout": "2026-11-29",
+        "cityKey": "le-treport",
+        "listIndex": 2,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-10-23",
+        "checkout": "2026-10-25",
+        "cityKey": "nice",
+        "listIndex": 1,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-11-06",
+        "checkout": "2026-11-08",
+        "cityKey": "nice",
+        "listIndex": 3,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-11-13",
+        "checkout": "2026-11-15",
+        "cityKey": "nice",
+        "listIndex": 0,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-11-27",
+        "checkout": "2026-11-29",
+        "cityKey": "nice",
+        "listIndex": 2,
+        "thumb": "P"
+      }
+    ],
+    "clutter": "O",
+    "installedAt": "2026-06-23T09:19:50.000Z",
+    "participantId": "wkojti7i",
+    "rawCode": "O|wkojti7i|arcachon:2026-10-23-0P,2026-11-06-1A,2026-11-13-2A,2026-11-27-3P|le-treport:2026-10-23-3P,2026-11-06-0A,2026-11-13-1P,2026-11-27-2A|nice:2026-10-23-1A,2026-11-06-3A,2026-11-13-0P,2026-11-27-2P",
+    "subjectId": "wkojti7i"
+  },
+  "cell": {
+    "cellIndex": 12,
+    "cityKey": "nice",
+    "checkin": "2026-11-27",
+    "listIndex": 2,
+    "thumb": "P"
+  },
+  "eventCount": 23,
+  "events": [
+    {
+      "type": "tab_focus",
+      "event": "window-focus",
+      "preStart": true,
+      "tabId": 1012,
+      "windowId": 1000,
+      "timestamp": 1782207384458,
+      "url": "http://s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/wkojti7i/choice_task_block/Decision/12"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": true,
+      "tabId": 1012,
+      "title": "www.tripadvisor.fr",
+      "timestamp": 1782207385436,
+      "url": "https://www.tripadvisor.fr/"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": false,
+      "tabId": 1012,
+      "title": "s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/wkojti7i/choice_task_block/Decision/12",
+      "timestamp": 1782207393478,
+      "url": "http://s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/wkojti7i/choice_task_block/Decision/12"
+    },
+    {
+      "type": "page_view",
+      "isTargetSample": true,
+      "referrer": "http://s2ch-adm-c-lab.ad.univ-paris1.fr:8000/",
+      "timestamp": 1782207394786,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-11-27&checkout=2026-11-29&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "visibility",
+      "isTargetSample": true,
+      "source": "init",
+      "state": "visible",
+      "timestamp": 1782207394786,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-11-27&checkout=2026-11-29&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "page_ready",
+      "isTargetSample": true,
+      "afterPreload": true,
+      "setupMs": 4007,
+      "timestamp": 1782207398522,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-11-27&checkout=2026-11-29&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "health",
+      "isTargetSample": true,
+      "ok": true,
+      "page": "search",
+      "failures": [],
+      "timestamp": 1782207398522,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-11-27&checkout=2026-11-29&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price",
+      "checks": [
+        {
+          "name": "propertyCard",
+          "found": 9,
+          "required": true
+        },
+        {
+          "name": "title",
+          "found": 9,
+          "required": true
+        },
+        {
+          "name": "price",
+          "found": 9,
+          "required": true
+        }
+      ]
+    },
+    {
+      "type": "manip_check",
+      "isTargetSample": true,
+      "ok": true,
+      "thumb": "P",
+      "shownCardCount": 3,
+      "totalPouceCount": 1,
+      "visiblePouceCount": 0,
+      "timestamp": 1782207398522,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-11-27&checkout=2026-11-29&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "nice-t2-dans-le-carre-d-or-proche-plage",
+      "timestamp": 1782207400679,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-11-27&checkout=2026-11-29&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "central-beautifull-delille-flat",
+      "timestamp": 1782207401054,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-11-27&checkout=2026-11-29&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "zenitude-residences-nice",
+      "timestamp": 1782207401402,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-11-27&checkout=2026-11-29&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": false,
+      "tabId": 1012,
+      "title": "www.facebook.com",
+      "timestamp": 1782207401635,
+      "url": "https://www.facebook.com/search?q=nice"
+    },
+    {
+      "type": "tab_focus",
+      "event": "activated",
+      "preStart": false,
+      "tabId": 1012,
+      "windowId": 1000,
+      "timestamp": 1782207404551,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-11-27&checkout=2026-11-29&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "hover",
+      "isTargetSample": true,
+      "kind": "product_card",
+      "targetPropertyId": "zenitude-residences-nice",
+      "targetTestId": "property-card",
+      "durationMs": 1080,
+      "timestamp": 1782207405160,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-11-27&checkout=2026-11-29&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "hover",
+      "isTargetSample": true,
+      "kind": "product_card",
+      "targetPropertyId": "nice-t2-dans-le-carre-d-or-proche-plage",
+      "targetTestId": "property-card",
+      "durationMs": 617,
+      "timestamp": 1782207406177,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-11-27&checkout=2026-11-29&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "hover",
+      "isTargetSample": true,
+      "kind": "product_card",
+      "targetPropertyId": "central-beautifull-delille-flat",
+      "targetTestId": "property-card",
+      "durationMs": 670,
+      "timestamp": 1782207406508,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-11-27&checkout=2026-11-29&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "scroll",
+      "isTargetSample": true,
+      "scrollDepthPercent": 25,
+      "visiblePropertyIds": [
+        "nice-t2-dans-le-carre-d-or-proche-plage",
+        "central-beautifull-delille-flat",
+        "zenitude-residences-nice"
+      ],
+      "timestamp": 1782207406949,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-11-27&checkout=2026-11-29&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "click",
+      "isTargetSample": true,
+      "kind": "product_card",
+      "targetPropertyId": "nice-t2-dans-le-carre-d-or-proche-plage",
+      "targetTestId": "availability-cta-btn",
+      "targetText": "Voir les séjours",
+      "timestamp": 1782207410803,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-11-27&checkout=2026-11-29&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "page_view",
+      "isTargetSample": true,
+      "referrer": "https://www.booking.com/searchresults.fr.html?ss=nice&dest_id=-1454990&dest_type=city&checkin=2026-11-27&checkout=2026-11-29&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price",
+      "timestamp": 1782207413311,
+      "url": "https://www.booking.com/hotel/fr/nice-t2-dans-le-carre-d-or-proche-plage.fr.html?dest_id=-1454990&dest_type=city&checkin=2026-11-27&checkout=2026-11-29&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&sr_order=price"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": false,
+      "tabId": 1012,
+      "title": "www.tripadvisor.fr",
+      "timestamp": 1782207417840,
+      "url": "https://www.tripadvisor.fr/"
+    },
+    {
+      "type": "tab_focus",
+      "event": "activated",
+      "preStart": false,
+      "tabId": 1012,
+      "windowId": 1000,
+      "timestamp": 1782207422817,
+      "url": "https://www.booking.com/hotel/fr/nice-t2-dans-le-carre-d-or-proche-plage.fr.html?dest_id=-1454990&dest_type=city&checkin=2026-11-27&checkout=2026-11-29&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&sr_order=price"
+    },
+    {
+      "type": "reserve",
+      "isTargetSample": true,
+      "cellIndex": 12,
+      "displayedPrice": "€ 123",
+      "selectedRooms": 1,
+      "targetPropertyId": "nice-t2-dans-le-carre-d-or-proche-plage",
+      "timestamp": 1782207423521,
+      "url": "https://www.booking.com/hotel/fr/nice-t2-dans-le-carre-d-or-proche-plage.fr.html?dest_id=-1454990&dest_type=city&checkin=2026-11-27&checkout=2026-11-29&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&sr_order=price"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": false,
+      "tabId": 1012,
+      "title": "s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/wkojti7i/choice_task_block/Decision/13",
+      "timestamp": 1782207425477,
+      "url": "http://s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/wkojti7i/choice_task_block/Decision/13"
+    }
+  ]
+}

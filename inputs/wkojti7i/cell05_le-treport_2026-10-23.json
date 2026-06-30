@@ -1,0 +1,335 @@
+{
+  "extensionVersion": "1.0.0",
+  "exportedAt": "2026-06-23T09:29:49.492Z",
+  "participant": {
+    "cells": [
+      {
+        "checkin": "2026-10-23",
+        "checkout": "2026-10-25",
+        "cityKey": "arcachon",
+        "listIndex": 0,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-11-06",
+        "checkout": "2026-11-08",
+        "cityKey": "arcachon",
+        "listIndex": 1,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-11-13",
+        "checkout": "2026-11-15",
+        "cityKey": "arcachon",
+        "listIndex": 2,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-11-27",
+        "checkout": "2026-11-29",
+        "cityKey": "arcachon",
+        "listIndex": 3,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-10-23",
+        "checkout": "2026-10-25",
+        "cityKey": "le-treport",
+        "listIndex": 3,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-11-06",
+        "checkout": "2026-11-08",
+        "cityKey": "le-treport",
+        "listIndex": 0,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-11-13",
+        "checkout": "2026-11-15",
+        "cityKey": "le-treport",
+        "listIndex": 1,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-11-27",
+        "checkout": "2026-11-29",
+        "cityKey": "le-treport",
+        "listIndex": 2,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-10-23",
+        "checkout": "2026-10-25",
+        "cityKey": "nice",
+        "listIndex": 1,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-11-06",
+        "checkout": "2026-11-08",
+        "cityKey": "nice",
+        "listIndex": 3,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-11-13",
+        "checkout": "2026-11-15",
+        "cityKey": "nice",
+        "listIndex": 0,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-11-27",
+        "checkout": "2026-11-29",
+        "cityKey": "nice",
+        "listIndex": 2,
+        "thumb": "P"
+      }
+    ],
+    "clutter": "O",
+    "installedAt": "2026-06-23T09:19:50.000Z",
+    "participantId": "wkojti7i",
+    "rawCode": "O|wkojti7i|arcachon:2026-10-23-0P,2026-11-06-1A,2026-11-13-2A,2026-11-27-3P|le-treport:2026-10-23-3P,2026-11-06-0A,2026-11-13-1P,2026-11-27-2A|nice:2026-10-23-1A,2026-11-06-3A,2026-11-13-0P,2026-11-27-2P",
+    "subjectId": "wkojti7i"
+  },
+  "cell": {
+    "cellIndex": 5,
+    "cityKey": "le-treport",
+    "checkin": "2026-10-23",
+    "listIndex": 3,
+    "thumb": "P"
+  },
+  "eventCount": 23,
+  "events": [
+    {
+      "type": "tab_focus",
+      "event": "window-focus",
+      "preStart": true,
+      "tabId": 1005,
+      "windowId": 1000,
+      "timestamp": 1782206925534,
+      "url": "http://s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/wkojti7i/choice_task_block/Decision/5"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": true,
+      "tabId": 1005,
+      "title": "mail.google.com",
+      "timestamp": 1782206927078,
+      "url": "https://mail.google.com/"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": false,
+      "tabId": 1005,
+      "title": "s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/wkojti7i/choice_task_block/Decision/5",
+      "timestamp": 1782206930745,
+      "url": "http://s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/wkojti7i/choice_task_block/Decision/5"
+    },
+    {
+      "type": "page_view",
+      "isTargetSample": true,
+      "referrer": "http://s2ch-adm-c-lab.ad.univ-paris1.fr:8000/",
+      "timestamp": 1782206931286,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "visibility",
+      "isTargetSample": true,
+      "source": "init",
+      "state": "visible",
+      "timestamp": 1782206931286,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "page_ready",
+      "isTargetSample": true,
+      "afterPreload": true,
+      "setupMs": 1867,
+      "timestamp": 1782206938499,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "health",
+      "isTargetSample": true,
+      "ok": true,
+      "page": "search",
+      "failures": [],
+      "timestamp": 1782206938499,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price",
+      "checks": [
+        {
+          "name": "propertyCard",
+          "found": 9,
+          "required": true
+        },
+        {
+          "name": "title",
+          "found": 9,
+          "required": true
+        },
+        {
+          "name": "price",
+          "found": 9,
+          "required": true
+        }
+      ]
+    },
+    {
+      "type": "manip_check",
+      "isTargetSample": true,
+      "ok": true,
+      "thumb": "P",
+      "shownCardCount": 3,
+      "totalPouceCount": 1,
+      "visiblePouceCount": 0,
+      "timestamp": 1782206938499,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "nouveau-au-coeur-des-cordiers-quartier-historique",
+      "timestamp": 1782206941387,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "cocon-vintage-vue-mer-panoramique",
+      "timestamp": 1782206941908,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "appartement-le-treport",
+      "timestamp": 1782206942631,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": false,
+      "tabId": 1005,
+      "title": "www.facebook.com",
+      "timestamp": 1782206942912,
+      "url": "https://www.facebook.com/search?q=le-treport"
+    },
+    {
+      "type": "tab_focus",
+      "event": "activated",
+      "preStart": false,
+      "tabId": 1005,
+      "windowId": 1000,
+      "timestamp": 1782206951072,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "hover",
+      "isTargetSample": true,
+      "kind": "product_card",
+      "targetPropertyId": "cocon-vintage-vue-mer-panoramique",
+      "targetTestId": "property-card",
+      "durationMs": 771,
+      "timestamp": 1782206952088,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "hover",
+      "isTargetSample": true,
+      "kind": "product_card",
+      "targetPropertyId": "nouveau-au-coeur-des-cordiers-quartier-historique",
+      "targetTestId": "property-card",
+      "durationMs": 3498,
+      "timestamp": 1782206953016,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "hover",
+      "isTargetSample": true,
+      "kind": "product_card",
+      "targetPropertyId": "appartement-le-treport",
+      "targetTestId": "property-card",
+      "durationMs": 3838,
+      "timestamp": 1782206954025,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "scroll",
+      "isTargetSample": true,
+      "scrollDepthPercent": 44,
+      "visiblePropertyIds": [
+        "nouveau-au-coeur-des-cordiers-quartier-historique",
+        "cocon-vintage-vue-mer-panoramique",
+        "appartement-le-treport"
+      ],
+      "timestamp": 1782206954437,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "click",
+      "isTargetSample": true,
+      "kind": "product_card",
+      "targetPropertyId": "cocon-vintage-vue-mer-panoramique",
+      "targetTestId": "availability-cta-btn",
+      "targetText": "Voir les séjours",
+      "timestamp": 1782206955976,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "page_view",
+      "isTargetSample": true,
+      "referrer": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price",
+      "timestamp": 1782206957565,
+      "url": "https://www.booking.com/hotel/fr/cocon-vintage-vue-mer-panoramique.fr.html?dest_id=-1446308&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&sr_order=price"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": false,
+      "tabId": 1005,
+      "title": "outlook.live.com",
+      "timestamp": 1782206965975,
+      "url": "https://outlook.live.com/"
+    },
+    {
+      "type": "tab_focus",
+      "event": "activated",
+      "preStart": false,
+      "tabId": 1005,
+      "windowId": 1000,
+      "timestamp": 1782206969786,
+      "url": "https://www.booking.com/hotel/fr/cocon-vintage-vue-mer-panoramique.fr.html?dest_id=-1446308&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&sr_order=price"
+    },
+    {
+      "type": "reserve",
+      "isTargetSample": true,
+      "cellIndex": 5,
+      "displayedPrice": "€ 269",
+      "selectedRooms": 1,
+      "targetPropertyId": "cocon-vintage-vue-mer-panoramique",
+      "timestamp": 1782206970353,
+      "url": "https://www.booking.com/hotel/fr/cocon-vintage-vue-mer-panoramique.fr.html?dest_id=-1446308&dest_type=city&checkin=2026-10-23&checkout=2026-10-25&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&sr_order=price"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": false,
+      "tabId": 1005,
+      "title": "s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/wkojti7i/choice_task_block/Decision/6",
+      "timestamp": 1782206972103,
+      "url": "http://s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/wkojti7i/choice_task_block/Decision/6"
+    }
+  ]
+}

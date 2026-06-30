@@ -1,0 +1,642 @@
+# Booking Experiment Analysis Script
+
+Authors: Calvin Pan Created: June 8th 2026 Last modified: June 8th 2026
+
+NOTE: Before using this script, please run your data through 00a-00c.py.
+
+-   00a cleans all of the json files created by the **extension**, and outputs a CSV with all the events by all experimental subjects concatenated together.
+
+-   00b joins this data from the extension with the choice set. (you have the option of taking the version of the choice set currently in the /config folder, or using a file in /inputs). It also gets rid of events that should not exist.
+
+    -   The script deletes hotels that are not in the choice set that pop up and get recorded when the extension refreshes Booking.com repeatedly (users never see those hotels).
+
+    -   The script also flags if users somehow manage to access features of Booking.com that they shouldn't have access to, like making their own searches.
+
+-   00c joins the extension data with data from **oTree.** It creates a version of the data that is ready to analyze, with each observation being `subject x city x weekend x listing`. Each subject should have 3 cities x 4 weekends x 9 listings = 108 observations.
+
+-   The data is structured in this format so that you can use `groupby` to analyze at the level that you would like.
+
+```{r}
+# Import cleaned data outputted by 00a-00c.py (data cleaning pipeline in Python)
+
+# First, find filepaths
+library(fs)
+
+`%||%` <- function(x, y) {
+  if (is.null(x)) y else x
+}
+
+args <- commandArgs(trailingOnly = TRUE)
+
+script_path <- if (requireNamespace("rstudioapi", quietly = TRUE) &&
+                   rstudioapi::isAvailable()) {
+  rstudioapi::getActiveDocumentContext()$path
+} else {
+  normalizePath(sys.frames()[[1]]$ofile %||% ".")
+}
+
+script_dir <- path_dir(path_dir(script_path)) # Define script directory
+
+# Find inputs folder
+INPUT_DIR <- path(script_dir, "inputs")
+
+# Find output dir, output file
+OUTPUT_DIR <- path(script_dir, "outputs")
+CLEANED_CSV <- path(OUTPUT_DIR, "analysis_dataset.csv")
+
+# Load packages used throughout the script
+library(readr)
+library(dplyr)
+library(fixest)   # fixed-effects OLS / logit / probit, clustered SE
+
+# Load the cleaned analysis dataset (one row per subject x city x weekend x listing)
+df <- read_csv(CLEANED_CSV, show_col_types = FALSE)
+
+# Make sure ID variables used as fixed effects are factors
+df <- df %>%
+  mutate(
+    participant_code = factor(participant_code),
+    city = factor(city)
+  )
+
+glimpse(df)
+```
+
+### Testing H1.1 — Effect of the cue on choice probability
+We will test H1.1 using a fixed-effects logistic regression. The dependent variable
+is the binary indicator “Whether some cued listing is chosen”. The key regressor
+of interest is cue visibility (treatment 1).The specification includes individual
+and city fixed effects to control for individual-level heterogeneity and location-
+specific factors. Since H1.1 predicts that the cue increases choice probability,
+we use a one-sided test on the coefficient of interest (H0 : β1 ≤0, H1 : β1 >0),
+with a Type I error rate of α= 0.05 on the positive tail.
+```{r}
+# Collapse listing-level rows (9 per weekend) to one row per subject x city x weekend,
+# since H1.1's DV is defined at the weekend level, not the listing level.
+h11_df <- df %>%
+  group_by(participant_code, city, weekend_number_global) %>%
+  summarise(
+    # First, construction of the DV. In every single choice set, there are 3 listings out of the 9
+    # (1 per cluster) that are ones that in the real-world Booking.com environment have a thumb:
+    # i.e. they would have a cue if the subject is assigned to see cues that weekend. We are trying
+    # to compare if the probability that a subject chooses a "would_be_cued" listing is higher
+    # when the cue is visible vs. not. As such, chosen_cued_listing, the DV, is TRUE if the subject
+    # chose a would_be_cued listing.
+    chose_cued_listing = any(listing_chosen & would_be_cued, na.rm = TRUE),
+    # treatment 1: TRUE if the cue graphic was actually shown this weekend (cell_thumb == "P")
+    cue_visible = first(cued_weekend),
+    .groups = "drop"
+  ) %>%
+  mutate(participant_code = factor(participant_code), city = factor(city))
+
+# Fixed-effects logit: feglm() absorbs participant_code and city fixed effects
+# (instead of estimating a dummy per subject/city), so cue_visible is identified
+# off within-subject, within-city variation only.
+m_h11 <- feglm(
+  chose_cued_listing ~ cue_visible | participant_code + city,
+  data = h11_df,
+  family = "logit"
+)
+
+# cluster = ~participant_code because each subject contributes multiple,
+# non-independent weekend observations (3 cities x 4 weekends)
+# TODO: Damien — we cluster SEs by participant_code throughout this script (here,
+# H1.2, and H2.1), but the pre-registration only mentions individual + city fixed
+# effects, nothing about clustering. Can you confirm this is fine? If so, the
+# pre-registration should be updated to say so explicitly. (Not repeating this
+# note in every later cell that clusters — same question applies there too.)
+summary(m_h11, cluster = ~participant_code)
+
+# summary() above gives a two-sided p-value (H0: beta = 0); H1.1 predicts a
+# specific direction (H0: beta <= 0, H1: beta > 0), so compute the one-sided
+# p-value manually from the z-statistic.
+coef_h11 <- coef(m_h11)["cue_visibleTRUE"]
+se_h11   <- se(m_h11, cluster = ~participant_code)["cue_visibleTRUE"]
+z_h11    <- coef_h11 / se_h11
+p_onesided_h11 <- pnorm(z_h11, lower.tail = FALSE)
+
+cat("z =", round(z_h11, 3), " | one-sided p-value (H1: beta > 0) =", round(p_onesided_h11, 4), "\n")
+```
+
+
+### Testing H1.2 — Effect of the cue on attention
+
+We will test H1.2 using fixed-effects logistic regression on the binary outcome
+“Whether cued listing is clicked on” and using an OLS regressions with fixed-
+effect on the outcome variable ”Time on the detail page of cued listing”. The key
+regressor of interest is cue visibility (treatment 1). Our specification includes
+individual and city fixed effects to control for individual-level heterogeneity and
+location-specific factors, respectively. Since H1.2 predicts that the cue increases
+attention, we use one-sided tests on the coefficient of interest (H0 : β1 ≤0,
+H1 : β1 >0), with a Type I error rate of α= 0.05 on the positive tail.
+
+#### H1.2.1 first: Binary outcome "whether cued listing is clicked on" with logit & fixed effects
+```{r}
+# Unlike H1.1 (one choice per weekend → must collapse to weekend level), a click
+# is a per-listing event: a subject can click several would_be_cued listings
+# independently within the same weekend. So we stay at listing level and just
+# restrict to listings that are cue-eligible (would_be_cued == TRUE) — i.e. the
+# listings that carry the native "Preferred" badge whenever cue_visible is TRUE.
+# TODO: Damien — the pre-registration doesn't say how to handle the fact that up
+# to 3 of the 9 listings per choice set are cue-eligible at once. We went with
+# listing-level here (one row per eligible listing) instead of collapsing to one
+# row per weekend like H1.1. Does that match what you had in mind?
+h121_df <- df %>%
+  filter(would_be_cued) %>%
+  mutate(participant_code = factor(participant_code), city = factor(city))
+
+# Fixed-effects logit: feglm() absorbs participant_code and city fixed effects
+# (instead of estimating a dummy per subject/city), so cued_weekend is identified
+# off within-subject, within-city variation only.
+m_h121 <- feglm(
+  listing_clicked ~ cued_weekend | participant_code + city,
+  data = h121_df,
+  family = "logit"
+)
+
+# cluster = ~participant_code because each subject contributes multiple,
+# non-independent listing-level observations
+summary(m_h121, cluster = ~participant_code)
+
+# summary() above gives a two-sided p-value (H0: beta = 0); H1.2 predicts a
+# specific direction (H0: beta <= 0, H1: beta > 0), so compute the one-sided
+# p-value manually from the z-statistic.
+coef_h121 <- coef(m_h121)["cued_weekendTRUE"]
+se_h121   <- se(m_h121, cluster = ~participant_code)["cued_weekendTRUE"]
+z_h121    <- coef_h121 / se_h121
+p_onesided_h121 <- pnorm(z_h121, lower.tail = FALSE)
+
+cat("z =", round(z_h121, 3), " | one-sided p-value (H1: beta > 0) =", round(p_onesided_h121, 4), "\n")
+
+```
+
+#### H1.2.2 first: OLS "time on detail page of listing" with fixed effects
+```{r}
+# Again, this is a listing-level question. No groupbys.
+# time_on_listing_page_seconds is only defined for listings that were actually
+# clicked (NA otherwise) — feols() drops the NA rows automatically, so this
+# regression is on the intensive margin only (duration | clicked).
+h122_df <- df %>%
+  filter(would_be_cued) %>%
+  mutate(participant_code = factor(participant_code), city = factor(city))
+
+# Fixed-effects OLS: feols() absorbs participant_code and city fixed effects
+# (instead of estimating a dummy per subject/city), so cued_weekend is identified
+# off within-subject, within-city variation only.
+
+# TODO: Should we include or exclude observations with 0 time spent on listing?
+
+m_h122 <- feols(
+  time_on_listing_page_seconds ~ cued_weekend | participant_code + city,
+  data = h122_df
+)
+
+# cluster = ~participant_code because each subject contributes multiple,
+# non-independent listing-level observations
+summary(m_h122, cluster = ~participant_code)
+
+# summary() above gives a two-sided p-value (H0: beta = 0); H1.2 predicts a
+# specific direction (H0: beta <= 0, H1: beta > 0), so compute the one-sided
+# p-value manually from the z-statistic.
+coef_h122 <- coef(m_h122)["cued_weekendTRUE"]
+se_h122   <- se(m_h122, cluster = ~participant_code)["cued_weekendTRUE"]
+z_h122    <- coef_h122 / se_h122
+p_onesided_h122 <- pnorm(z_h122, lower.tail = FALSE)
+
+cat("z =", round(z_h122, 3), " | one-sided p-value (H1: beta > 0) =", round(p_onesided_h122, 4), "\n")
+```
+
+### Testing H2.1 — Clutter as moderator of the cue effect
+We test H2.1 using the same models described above. For binary outcomes —
+Whether the cued listing is chosen and Whether the cued listing is clicked on —
+we use fixed-effects logistic regression. For the continuous outcome Time spent
+on the detail page of the cued listing, we use OLS with fixed effects. To test
+whether clutter moderates the effect of the cue, we augment each model with
+an interaction term between:
+• Treatment 1 (Cue Visible): whether the sustainability cue is displayed,
+• Treatment 2 (Clutter): whether the interface is in the high-clutter condi-
+tion.
+Since H2.1 does not specify the direction of the interaction effect, we use a two-
+sided test on the interaction coefficient (H0 : β12 = 0, H1 : β12 ̸= 0), with a
+Type I error rate of α= 0.05 split across both tails.
+
+#### H2.1.1 DV: Whether cued listing is chosen, binary logit with fixed effects and interaction
+```{r}
+# Collapse listing-level rows (9 per weekend) to one row per subject x city x weekend, since we're working at the weekend level
+h211_df <- df %>%
+  group_by(participant_code, city, weekend_number_global) %>%
+  summarise(
+    # Like before, DV, chosen_cued_listing, is TRUE if the subject chose a would_be_cued listing.
+    chose_cued_listing = any(listing_chosen & would_be_cued, na.rm = TRUE),
+    # treatment 1: TRUE if the cue graphic was actually shown this weekend (cell_thumb == "P")
+    cue_visible = first(cued_weekend),
+    # clutter_high is subject-level constant; first() avoids the same row-duplication
+    # bug we hit in h22_df/h231_df (bare column references aren't aggregated by summarise()).
+    clutter_high = first(clutter_high),
+    .groups = "drop"
+  ) %>%
+  mutate(participant_code = factor(participant_code), city = factor(city))
+
+# Fixed-effects logit: feglm() absorbs participant_code and city fixed effects
+# (instead of estimating a dummy per subject/city), so cue_visible is identified
+# off within-subject, within-city variation only. This time, interaction between cue_visible and clutter_high
+m_h211 <- feglm(
+  chose_cued_listing ~ cue_visible * clutter_high | participant_code + city,
+  data = h211_df,
+  family = "logit"
+)
+
+# cluster = ~participant_code because each subject contributes multiple,
+# non-independent weekend observations (3 cities x 4 weekends)
+summary(m_h211, cluster = ~participant_code)
+```
+
+#### H2.1.2 DV: Whether cued listing is clicked on, binary logit with fixed effects and interaction
+```{r}
+h212_df <- df %>%
+  filter(would_be_cued) %>%
+  mutate(participant_code = factor(participant_code), city = factor(city))
+
+# Fixed-effects logit: feglm() absorbs participant_code and city fixed effects
+# (instead of estimating a dummy per subject/city), so cued_weekend is identified
+# off within-subject, within-city variation only. Interaction added too.
+m_h212 <- feglm(
+  listing_clicked ~ cued_weekend * clutter_high | participant_code + city,
+  data = h212_df,
+  family = "logit"
+)
+
+# cluster = ~participant_code because each subject contributes multiple,
+# non-independent listing-level observations
+summary(m_h212, cluster = ~participant_code)
+```
+
+#### H2.1.3 DV: Time spent on detail page, OLS with fixed effects and interaction
+```{r}
+# Listing level, no groupbys
+h213_df <- df %>%
+  filter(would_be_cued) %>%
+  mutate(participant_code = factor(participant_code), city = factor(city))
+
+# Fixed-effects OLS: feols() absorbs participant_code and city fixed effects
+# (instead of estimating a dummy per subject/city), so cued_weekend is identified
+# off within-subject, within-city variation only.
+
+# TODO: Should we include or exclude observations with 0 time spent on listing?
+
+m_h213 <- feols(
+  time_on_listing_page_seconds ~ cued_weekend * clutter_high | participant_code + city,
+  data = h213_df
+)
+
+# cluster = ~participant_code because each subject contributes multiple,
+# non-independent listing-level observations
+summary(m_h213, cluster = ~participant_code)
+```
+
+### Testing H2.2 — Dilution mechanism
+We will test H2.2 using a logistic regression. The dependent variable is the
+binary indicator “Cue recognition”. The key regressor of interest is whether the
+interface is in the high-clutter condition (treatment 2). We have 1 observation
+per subject. Since H2.2 predicts that clutter reduces cue recognition, we use a
+one-sided test (H0 : β1 ≥0, H1 : β1 <0), with a Type I error rate of α= 0.05
+on the negative tail.
+```{r}
+# Collapse listing-level to one row per subject only, since we're working at the subject level.
+# cue_recognition and clutter_high are subject-level constants (same value on every one of the
+# subject's 108 rows), so first() picks that single value instead of keeping all repeats.
+h22_df <- df %>%
+  group_by(participant_code) %>%
+  summarise(
+    cue_recognition = first(cue_recognition),
+    clutter_high = first(clutter_high),
+    .groups = "drop"
+  ) %>%
+  mutate(participant_code = factor(participant_code))
+
+# Logit: glm(), no fixed effects (1 observation per subject — no panel structure to absorb).
+m_h22 <- glm(
+  cue_recognition ~ clutter_high,
+  data = h22_df,
+  family = binomial(link = "logit")
+)
+
+summary(m_h22)
+
+# H2.2 predicts clutter REDUCES cue recognition (H0: beta1 >= 0, H1: beta1 < 0),
+# so the one-sided p-value is the area to the LEFT of the z-statistic.
+coef_h22 <- coef(m_h22)["clutter_highTRUE"]
+se_h22   <- summary(m_h22)$coefficients["clutter_highTRUE", "Std. Error"]
+z_h22    <- coef_h22 / se_h22
+p_onesided_h22 <- pnorm(z_h22, lower.tail = TRUE)
+
+cat("z =", round(z_h22, 3), " | one-sided p-value (H1: beta < 0) =", round(p_onesided_h22, 4), "\n")
+```
+
+### Testing H2.3 — Decision mode mechanism
+We will test H2.3 using OLS regressions with fixed effects. The dependent
+variables are: (i) decision time and (ii) number of property page visits. The
+key regressor of interest is whether the interface is in the high-clutter condi-
+tion (treatment 2). All specifications include individual and city fixed effects to
+control for individual-level heterogeneity and location-specific factors, respec-
+tively. Additionally, we test the effect of clutter on perceived cognitive load as
+measured by the NASA Task Load Index (NASA-TLX). Since the NASA-TLX
+is collected once per participant at the end of the experiment, this yields one
+observation per subject. We therefore estimate this model using OLS without
+fixed effects. Since H2.3 predicts that clutter induces more reliance on heuris-
+tics, we use one-sided tests throughout: we expect lower decision time and fewer
+page visits under high clutter (H0 : β1 ≥0, H1 : β1 <0), and higher perceived
+cognitive load (H0 : β1 ≤0, H1 : β1 > 0), each with a Type I error rate of
+α= 0.05 on the respective tail.
+
+#### H2.3.1: IV: Decision time, DV: Clutter, OLS with fixed effects
+```{r}
+# Weekend level: decision_time_seconds and clutter_high are both constant across
+# the 9 listing-rows of a weekend, so first() picks that single value per group.
+h231_df <- df %>%
+  group_by(participant_code, city, weekend_number_global) %>%
+  summarise(
+    decision_time_seconds = first(decision_time_seconds),
+    clutter_high = first(clutter_high),
+    .groups = "drop"
+  ) %>%
+  mutate(participant_code = factor(participant_code), city = factor(city))
+
+# NOTE: clutter_high is a BETWEEN-subject treatment — it never varies across a
+# given subject's weekends/cities, so it is perfectly collinear with the
+# participant_code fixed effect (each subject dummy already fully encodes their
+# own clutter_high). Including participant_code here leaves zero residual
+# variation to estimate beta, so we drop it and keep only the city fixed effect.
+
+# TODO: Damien, please let me know if it's ok that we don't do individual subject effects due to collinearity, as explained above. If so, the preregistration will need to be changed.
+m_h231 <- feols(
+  decision_time_seconds ~ clutter_high | city,
+  data = h231_df
+)
+
+# I'm clustering here because even if decision times are theoretically independent between weekends for a subject, each subject has innate tendencies that motivate them to be slow/fast. Thus, it makes sense for us to evaluate standard errors on a subject by subject level. 
+# TODO: Damien, let me know your thoughts on this; if you want to cluster, the preregistration should mention clustering.
+summary(m_h231, cluster ~participant_code)
+
+# H2.3 predicts LOWER decision time under high clutter (H0: beta1 >= 0, H1: beta1 < 0),
+# so the one-sided p-value is the area to the LEFT of the t-statistic.
+coef_h231 <- coef(m_h231)["clutter_highTRUE"]
+se_h231   <- se(m_h231, cluster = ~participant_code)["clutter_highTRUE"]
+t_h231    <- coef_h231 / se_h231
+p_onesided_h231 <- pnorm(t_h231, lower.tail = TRUE)
+
+cat("t =", round(t_h231, 3), " | one-sided p-value (H1: beta < 0) =", round(p_onesided_h231, 4), "\n")
+```
+
+#### H2.3.2: IV: Number of property page visits, DV: Clutter, OLS with fixed effect
+```{r}
+# Weekend level: property_page_visits_number and clutter_high are both constant across
+# the 9 listing-rows of a weekend, so first() picks that single value per group.
+h232_df <- df %>%
+  group_by(participant_code, city, weekend_number_global) %>%
+  summarise(
+    property_page_visits_number = first(property_page_visits_number),
+    clutter_high = first(clutter_high),
+    .groups = "drop"
+  ) %>%
+  mutate(participant_code = factor(participant_code), city = factor(city))
+
+# NOTE: clutter_high is a BETWEEN-subject treatment — it never varies across a
+# given subject's weekends/cities, so it is perfectly collinear with the
+# participant_code fixed effect (each subject dummy already fully encodes their
+# own clutter_high). Including participant_code here leaves zero residual
+# variation to estimate beta, so we drop it and keep only the city fixed effect.
+
+# TODO: Damien, please let me know if it's ok that we don't do individual subject effects due to collinearity, as explained above. If so, the preregistration will need to be changed.
+m_h232 <- feols(
+  property_page_visits_number ~ clutter_high | city,
+  data = h232_df
+)
+
+# Clustering here too for the same rationale -- even if property visits # is theoretically independent weekend-to-weekend, each subject has innate tendencies to click on more or less weekends that we should account for in our calculation of standard errors.
+# TODO: Damien, let me know your thoughts on this; if you want to cluster, the preregistration should mention clustering.
+summary(m_h232, cluster ~participant_code)
+
+# H2.3 predicts LOWER decision time under high clutter (H0: beta1 >= 0, H1: beta1 < 0),
+# so the one-sided p-value is the area to the LEFT of the t-statistic.
+coef_h232 <- coef(m_h232)["clutter_highTRUE"]
+se_h232   <- se(m_h232, cluster = ~participant_code)["clutter_highTRUE"]
+t_h232    <- coef_h232 / se_h232
+p_onesided_h232 <- pnorm(t_h232, lower.tail = TRUE)
+
+cat("t =", round(t_h232, 3), " | one-sided p-value (H1: beta < 0) =", round(p_onesided_h232, 4), "\n")
+```
+
+#### H2.3.3: NASA-TLX dimensions, OLS without fixed effects
+```{r}
+# NASA-TLX is collected once per participant -> collapse to 1 row/subject.
+nasa_vars <- c("nasa_tlx_mental", "nasa_tlx_physical", "nasa_tlx_temporal",
+               "nasa_tlx_performance", "nasa_tlx_effort", "nasa_tlx_frustration")
+
+h233_df <- df %>%
+  group_by(participant_code) %>%
+  summarise(
+    clutter_high = first(clutter_high),
+    across(all_of(nasa_vars), first),
+    .groups = "drop"
+  )
+
+# Loop over each NASA-TLX dimension: OLS, no FE (1 row/subject = no panel
+# structure to absorb) and no clustering (same reason — see H2.2).
+m_h233_list <- setNames(vector("list", length(nasa_vars)), nasa_vars)
+h233_results <- data.frame()
+
+for (v in nasa_vars) {
+  fml <- as.formula(paste(v, "~ clutter_high"))
+  m <- feols(fml, data = h233_df)
+  m_h233_list[[v]] <- m
+
+  # H2.3 predicts HIGHER cognitive load under high clutter (H0: beta1 <= 0,
+  # H1: beta1 > 0), so the one-sided p-value is the area to the RIGHT of t.
+  b          <- coef(m)["clutter_highTRUE"]
+  std_err    <- se(m)["clutter_highTRUE"]
+  t_stat     <- b / std_err
+  p_onesided <- pnorm(t_stat, lower.tail = FALSE)
+
+  h233_results <- rbind(h233_results, data.frame(
+    dv = v, estimate = b, std_error = std_err, t_stat = t_stat, p_onesided = p_onesided
+  ))
+}
+
+# esttab()-style side-by-side regression table — fixest's equivalent.
+etable(m_h233_list)
+
+# Compact one-sided-test summary across all 6 dimensions.
+print(h233_results, row.names = FALSE)
+```
+
+
+### Testing H3.1 — Reduced-form analysis of the welfare effect of visual clutter in absence of cue
+We will test H3.1 using a fixed-effects logistic regression. The dependent variable
+is the binary indicator ”Preference consistency”. The key regressor of interest is whether the interface is in the high-clutter condition (treatment 2). We test whether subjects have a significantly lower preference consistency in the High
+Clutter condition.
+```{r}
+# Subject x city level: preference consistency is calculated at that level. Clutter condition is assigned on a per-subject level, so we can just take the first value for each observation.
+h31_df <- df %>%
+  group_by(participant_code, city) %>%
+  summarise(
+    preference_consistency = first(preference_consistency),
+    clutter_high = first(clutter_high),
+    .groups = "drop"
+  ) %>%
+  mutate(participant_code = factor(participant_code), city = factor(city))
+
+# NOTE: clutter_high is a BETWEEN-subject treatment — it never varies across a
+# given subject's weekends/cities, so it is perfectly collinear with the
+# participant_code fixed effect (each subject dummy already fully encodes their
+# own clutter_high). Including participant_code here leaves zero residual
+# variation to estimate beta, so we drop it and keep only the city fixed effect.
+
+# TODO: Damien — same collinearity issue as H2.3, but worth noting the pre-reg
+# text for H3.1 only says "a fixed-effects logistic regression" without spelling
+# out "individual and city" the way H1.1/H1.2/H2.3 do. So city-only here is even
+# less of a deviation from what's written than it was for H2.3 — but flagging
+# anyway since it's still a real choice we made on your behalf.
+# NOTE: switched to feglm(family = "logit") to match the spec ("fixed-effects
+# logistic regression") — preference_consistency is binary, so OLS (feols) was
+# the wrong estimator here.
+m_h31 <- feglm(
+  preference_consistency ~ clutter_high | city,
+  data = h31_df,
+  family = "logit"
+)
+
+# Clustering here too for the same rationale -- even if preference_consistency is theoretically independent city to city, each subject has innate tendencies to be more or less consistent that we should account for in our calculation of standard errors.
+# TODO: Damien, let me know your thoughts on this; if you want to cluster, the preregistration should mention clustering.
+summary(m_h31, cluster = ~participant_code)
+
+# H3.1 predicts LOWER preference consistency under high clutter (H0: beta1 >= 0, H1: beta1 < 0),
+# so the one-sided p-value is the area to the LEFT of the z-statistic.
+coef_h31 <- coef(m_h31)["clutter_highTRUE"]
+se_h31   <- se(m_h31, cluster = ~participant_code)["clutter_highTRUE"]
+z_h31    <- coef_h31 / se_h31
+p_onesided_h31 <- pnorm(z_h31, lower.tail = TRUE)
+
+cat("z =", round(z_h31, 3), " | one-sided p-value (H1: beta < 0) =", round(p_onesided_h31, 4), "\n")
+```
+
+
+### Testing H3.2 — Reduced-form analysis of the welfare effect of cue visibility
+We will test H3.2 using two one-sample binomial tests. We will test whether the
+frequency at which the binary indicator ”Cued choice-preferences consistency”
+equals 1 to two fixed values. This frequency will be computed on the subject ×
+city pair for with the ”Preference consistency” indicator equals 1, no matter the Clutter condition. The fixed values are theoretically motivated. A value above
+the square root of the frequency of ”Preference consistency” across all subject x
+city pair is interpreted as indicative of a positive welfare effect. A value below the
+square root of the frequency of ”Preference consistency” divided by the square
+root of 3 is interpreted as indicative of a negative welfare effect. Intermediary
+values are interpreted as ambiguous.
+```{r}
+# preference_consistency and cued_choice_preference_consistency are both
+# constant within a (participant_code, city) pair, so collapse to 1 row per pair.
+h32_df <- df %>%
+  group_by(participant_code, city) %>%
+  summarise(
+    preference_consistency = first(preference_consistency),
+    cued_choice_preference_consistency = first(cued_choice_preference_consistency),
+    .groups = "drop"
+  )
+
+# Reference frequency: share of ALL subject x city pairs with a consistent
+# revealed preference across the two no-cue weekends.
+p_consistency <- mean(h32_df$preference_consistency, na.rm = TRUE)
+
+# Restrict to pairs where preference_consistency == TRUE — cued_choice_preference_consistency
+# is only defined (non-NA) there, since it's only meaningful when the subject has a
+# well-defined preferred cluster to compare the cued choices against.
+h32_eligible <- h32_df %>% filter(preference_consistency == TRUE)
+
+n_eligible        <- nrow(h32_eligible)
+n_cued_consistent <- sum(h32_eligible$cued_choice_preference_consistency, na.rm = TRUE)
+freq_cued         <- n_cued_consistent / n_eligible
+
+# Theoretically motivated thresholds from the pre-registration.
+upper_threshold <- sqrt(p_consistency)
+lower_threshold <- sqrt(p_consistency) / sqrt(3)
+
+cat("p_consistency (all pairs):", round(p_consistency, 4), "\n")
+cat("Observed frequency (cued, among consistent pairs):", round(freq_cued, 4),
+    "out of", n_eligible, "pairs\n")
+cat("Upper threshold (positive welfare):", round(upper_threshold, 4), "\n")
+cat("Lower threshold (negative welfare):", round(lower_threshold, 4), "\n\n")
+
+# Two one-sample binomial tests: is the observed frequency significantly
+# different from each fixed, theoretically motivated value?
+test_upper <- binom.test(n_cued_consistent, n_eligible, p = upper_threshold)
+test_lower <- binom.test(n_cued_consistent, n_eligible, p = lower_threshold)
+
+print(test_upper)
+print(test_lower)
+
+# Interpretation per the pre-registration rule.
+welfare_conclusion <- dplyr::case_when(
+  freq_cued > upper_threshold ~ "Positive welfare effect",
+  freq_cued < lower_threshold ~ "Negative welfare effect",
+  TRUE ~ "Ambiguous"
+)
+
+cat("\nConclusion:", welfare_conclusion, "\n")
+```
+
+
+### Manipulation/ Internal validity checks
+Clutter perception: To verify that Treatment 2 successfully manipulates
+perceived visual complexity, we compare subjects in the High Clutter
+and Low Clutter groups in terms of their answers to the post-experiment
+questionnaire item “How visually complex did you find the website inter-
+face” (7-point Likert scale). We test whether the mean difference between
+groups is non-zero using a two-sided two-sample t-test, expecting subjects
+in the High Clutter condition to report higher perceived visual complexity
+than those in the Low Clutter condition.
+```{r}
+# visual_complexity is collected once per participant (post-experiment
+# questionnaire) -> collapse to 1 row per subject.
+h_manip_df <- df %>%
+  group_by(participant_code) %>%
+  summarise(
+    visual_complexity = first(visual_complexity),
+    clutter_high = first(clutter_high),
+    .groups = "drop"
+  )
+
+# Two-sided, two-sample t-test (Welch by default) comparing perceived visual
+# complexity between High Clutter and Low Clutter subjects.
+t_manip <- t.test(visual_complexity ~ clutter_high, data = h_manip_df)
+print(t_manip)
+
+# Right now this errors with only 6 subjects as synthetic test data, but theoretically this should work if we have enough observations
+
+cat("Mean visual complexity — High Clutter:",
+    round(mean(h_manip_df$visual_complexity[h_manip_df$clutter_high], na.rm = TRUE), 2),
+    "| Low Clutter:",
+    round(mean(h_manip_df$visual_complexity[!h_manip_df$clutter_high], na.rm = TRUE), 2), "\n")
+```
+
+Preference consistency: As a validation that the clusters capture mean-
+ingful and stable consumer preferences, we report the average preference
+consistency rate across all subject ×city pairs — that is, the share of
+subject ×city pairs for which the two choices made in no-cue weekends
+belong to the same cluster. A high consistency rate provides evidence that
+clusters reflect genuine preference types and that subjects make coherent
+choices across weekends in the absence of the cue.
+```{r}
+# preference_consistency is constant within a (participant_code, city) pair,
+# so collapse to 1 row per pair before averaging (otherwise the 108 listing-rows
+# per pair would just repeat the same value and not bias the mean, but it's
+# cleaner/cheaper to collapse first).
+h_consistency_df <- df %>%
+  group_by(participant_code, city) %>%
+  summarise(preference_consistency = first(preference_consistency), .groups = "drop")
+
+consistency_rate <- mean(h_consistency_df$preference_consistency, na.rm = TRUE)
+n_pairs <- sum(!is.na(h_consistency_df$preference_consistency))
+
+cat("Preference consistency rate:", round(consistency_rate * 100, 1), "%",
+    "(", n_pairs, "subject x city pairs )\n")
+```
+

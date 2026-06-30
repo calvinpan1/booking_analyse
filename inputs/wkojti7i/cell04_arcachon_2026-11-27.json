@@ -1,0 +1,353 @@
+{
+  "extensionVersion": "1.0.0",
+  "exportedAt": "2026-06-23T09:28:45.534Z",
+  "participant": {
+    "cells": [
+      {
+        "checkin": "2026-10-23",
+        "checkout": "2026-10-25",
+        "cityKey": "arcachon",
+        "listIndex": 0,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-11-06",
+        "checkout": "2026-11-08",
+        "cityKey": "arcachon",
+        "listIndex": 1,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-11-13",
+        "checkout": "2026-11-15",
+        "cityKey": "arcachon",
+        "listIndex": 2,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-11-27",
+        "checkout": "2026-11-29",
+        "cityKey": "arcachon",
+        "listIndex": 3,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-10-23",
+        "checkout": "2026-10-25",
+        "cityKey": "le-treport",
+        "listIndex": 3,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-11-06",
+        "checkout": "2026-11-08",
+        "cityKey": "le-treport",
+        "listIndex": 0,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-11-13",
+        "checkout": "2026-11-15",
+        "cityKey": "le-treport",
+        "listIndex": 1,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-11-27",
+        "checkout": "2026-11-29",
+        "cityKey": "le-treport",
+        "listIndex": 2,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-10-23",
+        "checkout": "2026-10-25",
+        "cityKey": "nice",
+        "listIndex": 1,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-11-06",
+        "checkout": "2026-11-08",
+        "cityKey": "nice",
+        "listIndex": 3,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-11-13",
+        "checkout": "2026-11-15",
+        "cityKey": "nice",
+        "listIndex": 0,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-11-27",
+        "checkout": "2026-11-29",
+        "cityKey": "nice",
+        "listIndex": 2,
+        "thumb": "P"
+      }
+    ],
+    "clutter": "O",
+    "installedAt": "2026-06-23T09:19:50.000Z",
+    "participantId": "wkojti7i",
+    "rawCode": "O|wkojti7i|arcachon:2026-10-23-0P,2026-11-06-1A,2026-11-13-2A,2026-11-27-3P|le-treport:2026-10-23-3P,2026-11-06-0A,2026-11-13-1P,2026-11-27-2A|nice:2026-10-23-1A,2026-11-06-3A,2026-11-13-0P,2026-11-27-2P",
+    "subjectId": "wkojti7i"
+  },
+  "cell": {
+    "cellIndex": 4,
+    "cityKey": "arcachon",
+    "checkin": "2026-11-27",
+    "listIndex": 3,
+    "thumb": "P"
+  },
+  "eventCount": 25,
+  "events": [
+    {
+      "type": "tab_focus",
+      "event": "window-focus",
+      "preStart": true,
+      "tabId": 1004,
+      "windowId": 1000,
+      "timestamp": 1782206865891,
+      "url": "http://s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/wkojti7i/choice_task_block/Decision/4"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": true,
+      "tabId": 1004,
+      "title": "www.netflix.com",
+      "timestamp": 1782206867675,
+      "url": "https://www.netflix.com/"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": false,
+      "tabId": 1004,
+      "title": "s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/wkojti7i/choice_task_block/Decision/4",
+      "timestamp": 1782206875692,
+      "url": "http://s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/wkojti7i/choice_task_block/Decision/4"
+    },
+    {
+      "type": "page_view",
+      "isTargetSample": true,
+      "referrer": "http://s2ch-adm-c-lab.ad.univ-paris1.fr:8000/",
+      "timestamp": 1782206876856,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=arcachon&dest_id=-1408052&dest_type=city&checkin=2026-11-27&checkout=2026-11-29&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "visibility",
+      "isTargetSample": true,
+      "source": "init",
+      "state": "visible",
+      "timestamp": 1782206876856,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=arcachon&dest_id=-1408052&dest_type=city&checkin=2026-11-27&checkout=2026-11-29&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "page_ready",
+      "isTargetSample": true,
+      "afterPreload": true,
+      "setupMs": 3324,
+      "timestamp": 1782206882297,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=arcachon&dest_id=-1408052&dest_type=city&checkin=2026-11-27&checkout=2026-11-29&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "health",
+      "isTargetSample": true,
+      "ok": true,
+      "page": "search",
+      "failures": [],
+      "timestamp": 1782206882297,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=arcachon&dest_id=-1408052&dest_type=city&checkin=2026-11-27&checkout=2026-11-29&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price",
+      "checks": [
+        {
+          "name": "propertyCard",
+          "found": 9,
+          "required": true
+        },
+        {
+          "name": "title",
+          "found": 9,
+          "required": true
+        },
+        {
+          "name": "price",
+          "found": 9,
+          "required": true
+        }
+      ]
+    },
+    {
+      "type": "manip_check",
+      "isTargetSample": true,
+      "ok": true,
+      "thumb": "P",
+      "shownCardCount": 5,
+      "totalPouceCount": 1,
+      "visiblePouceCount": 0,
+      "timestamp": 1782206882297,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=arcachon&dest_id=-1408052&dest_type=city&checkin=2026-11-27&checkout=2026-11-29&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "apartment-terrasse-sud-et-acces-direct-plage",
+      "timestamp": 1782206884168,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=arcachon&dest_id=-1408052&dest_type=city&checkin=2026-11-27&checkout=2026-11-29&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "appartement-lumineux-avec-terrasse-arcachon-ville-dautomne-fr-1-474-293",
+      "timestamp": 1782206884766,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=arcachon&dest_id=-1408052&dest_type=city&checkin=2026-11-27&checkout=2026-11-29&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "sarl-bord-39-oappart-hoya-bella",
+      "timestamp": 1782206885640,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=arcachon&dest_id=-1408052&dest_type=city&checkin=2026-11-27&checkout=2026-11-29&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "appartement-central-animaux-admis-3-pers-fr-1-474-294",
+      "timestamp": 1782206886216,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=arcachon&dest_id=-1408052&dest_type=city&checkin=2026-11-27&checkout=2026-11-29&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "studio-lumineux-avec-terrasse-arcachon1",
+      "timestamp": 1782206886873,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=arcachon&dest_id=-1408052&dest_type=city&checkin=2026-11-27&checkout=2026-11-29&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": false,
+      "tabId": 1004,
+      "title": "www.lemonde.fr",
+      "timestamp": 1782206887588,
+      "url": "https://www.lemonde.fr/search?q=arcachon"
+    },
+    {
+      "type": "tab_focus",
+      "event": "activated",
+      "preStart": false,
+      "tabId": 1004,
+      "windowId": 1000,
+      "timestamp": 1782206891052,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=arcachon&dest_id=-1408052&dest_type=city&checkin=2026-11-27&checkout=2026-11-29&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "hover",
+      "isTargetSample": true,
+      "kind": "product_card",
+      "targetPropertyId": "apartment-terrasse-sud-et-acces-direct-plage",
+      "targetTestId": "property-card",
+      "durationMs": 1463,
+      "timestamp": 1782206891575,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=arcachon&dest_id=-1408052&dest_type=city&checkin=2026-11-27&checkout=2026-11-29&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "hover",
+      "isTargetSample": true,
+      "kind": "product_card",
+      "targetPropertyId": "appartement-central-animaux-admis-3-pers-fr-1-474-294",
+      "targetTestId": "property-card",
+      "durationMs": 3627,
+      "timestamp": 1782206892332,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=arcachon&dest_id=-1408052&dest_type=city&checkin=2026-11-27&checkout=2026-11-29&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "hover",
+      "isTargetSample": true,
+      "kind": "product_card",
+      "targetPropertyId": "appartement-lumineux-avec-terrasse-arcachon-ville-dautomne-fr-1-474-293",
+      "targetTestId": "property-card",
+      "durationMs": 3694,
+      "timestamp": 1782206893265,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=arcachon&dest_id=-1408052&dest_type=city&checkin=2026-11-27&checkout=2026-11-29&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "scroll",
+      "isTargetSample": true,
+      "scrollDepthPercent": 78,
+      "visiblePropertyIds": [
+        "apartment-terrasse-sud-et-acces-direct-plage",
+        "appartement-lumineux-avec-terrasse-arcachon-ville-dautomne-fr-1-474-293",
+        "sarl-bord-39-oappart-hoya-bella"
+      ],
+      "timestamp": 1782206894403,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=arcachon&dest_id=-1408052&dest_type=city&checkin=2026-11-27&checkout=2026-11-29&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "click",
+      "isTargetSample": true,
+      "kind": "product_card",
+      "targetPropertyId": "appartement-central-animaux-admis-3-pers-fr-1-474-294",
+      "targetTestId": "availability-cta-btn",
+      "targetText": "Voir les séjours",
+      "timestamp": 1782206896138,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=arcachon&dest_id=-1408052&dest_type=city&checkin=2026-11-27&checkout=2026-11-29&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "page_view",
+      "isTargetSample": true,
+      "referrer": "https://www.booking.com/searchresults.fr.html?ss=arcachon&dest_id=-1408052&dest_type=city&checkin=2026-11-27&checkout=2026-11-29&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price",
+      "timestamp": 1782206897957,
+      "url": "https://www.booking.com/hotel/fr/appartement-central-animaux-admis-3-pers-fr-1-474-294.fr.html?dest_id=-1408052&dest_type=city&checkin=2026-11-27&checkout=2026-11-29&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&sr_order=price"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": false,
+      "tabId": 1004,
+      "title": "x.com",
+      "timestamp": 1782206904465,
+      "url": "https://x.com/"
+    },
+    {
+      "type": "tab_focus",
+      "event": "activated",
+      "preStart": false,
+      "tabId": 1004,
+      "windowId": 1000,
+      "timestamp": 1782206909992,
+      "url": "https://www.booking.com/hotel/fr/appartement-central-animaux-admis-3-pers-fr-1-474-294.fr.html?dest_id=-1408052&dest_type=city&checkin=2026-11-27&checkout=2026-11-29&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&sr_order=price"
+    },
+    {
+      "type": "reserve",
+      "isTargetSample": true,
+      "cellIndex": 4,
+      "displayedPrice": "€ 136",
+      "selectedRooms": 1,
+      "targetPropertyId": "appartement-central-animaux-admis-3-pers-fr-1-474-294",
+      "timestamp": 1782206910866,
+      "url": "https://www.booking.com/hotel/fr/appartement-central-animaux-admis-3-pers-fr-1-474-294.fr.html?dest_id=-1408052&dest_type=city&checkin=2026-11-27&checkout=2026-11-29&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&sr_order=price"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": false,
+      "tabId": 1004,
+      "title": "s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/wkojti7i/choice_task_block/Decision/5",
+      "timestamp": 1782206912271,
+      "url": "http://s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/wkojti7i/choice_task_block/Decision/5"
+    }
+  ]
+}

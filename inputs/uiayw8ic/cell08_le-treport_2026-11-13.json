@@ -1,0 +1,353 @@
+{
+  "extensionVersion": "1.0.0",
+  "exportedAt": "2026-06-23T09:30:33.190Z",
+  "participant": {
+    "cells": [
+      {
+        "checkin": "2026-10-09",
+        "checkout": "2026-10-11",
+        "cityKey": "arcachon",
+        "listIndex": 1,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-10-23",
+        "checkout": "2026-10-25",
+        "cityKey": "arcachon",
+        "listIndex": 2,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-10-30",
+        "checkout": "2026-11-01",
+        "cityKey": "arcachon",
+        "listIndex": 3,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-11-13",
+        "checkout": "2026-11-15",
+        "cityKey": "arcachon",
+        "listIndex": 0,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-10-09",
+        "checkout": "2026-10-11",
+        "cityKey": "le-treport",
+        "listIndex": 2,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-10-23",
+        "checkout": "2026-10-25",
+        "cityKey": "le-treport",
+        "listIndex": 3,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-10-30",
+        "checkout": "2026-11-01",
+        "cityKey": "le-treport",
+        "listIndex": 1,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-11-13",
+        "checkout": "2026-11-15",
+        "cityKey": "le-treport",
+        "listIndex": 0,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-10-09",
+        "checkout": "2026-10-11",
+        "cityKey": "nice",
+        "listIndex": 0,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-10-23",
+        "checkout": "2026-10-25",
+        "cityKey": "nice",
+        "listIndex": 2,
+        "thumb": "P"
+      },
+      {
+        "checkin": "2026-10-30",
+        "checkout": "2026-11-01",
+        "cityKey": "nice",
+        "listIndex": 3,
+        "thumb": "A"
+      },
+      {
+        "checkin": "2026-11-13",
+        "checkout": "2026-11-15",
+        "cityKey": "nice",
+        "listIndex": 1,
+        "thumb": "P"
+      }
+    ],
+    "clutter": "N",
+    "installedAt": "2026-06-23T09:16:52.000Z",
+    "participantId": "uiayw8ic",
+    "rawCode": "N|uiayw8ic|arcachon:2026-10-09-1A,2026-10-23-2P,2026-10-30-3A,2026-11-13-0P|le-treport:2026-10-09-2P,2026-10-23-3P,2026-10-30-1A,2026-11-13-0A|nice:2026-10-09-0A,2026-10-23-2P,2026-10-30-3A,2026-11-13-1P",
+    "subjectId": "uiayw8ic"
+  },
+  "cell": {
+    "cellIndex": 8,
+    "cityKey": "le-treport",
+    "checkin": "2026-11-13",
+    "listIndex": 0,
+    "thumb": "A"
+  },
+  "eventCount": 25,
+  "events": [
+    {
+      "type": "tab_focus",
+      "event": "window-focus",
+      "preStart": true,
+      "tabId": 1008,
+      "windowId": 1000,
+      "timestamp": 1782206960287,
+      "url": "http://s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/uiayw8ic/choice_task_block/Decision/8"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": true,
+      "tabId": 1008,
+      "title": "www.netflix.com",
+      "timestamp": 1782206961186,
+      "url": "https://www.netflix.com/"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": false,
+      "tabId": 1008,
+      "title": "s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/uiayw8ic/choice_task_block/Decision/8",
+      "timestamp": 1782206968108,
+      "url": "http://s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/uiayw8ic/choice_task_block/Decision/8"
+    },
+    {
+      "type": "page_view",
+      "isTargetSample": true,
+      "referrer": "http://s2ch-adm-c-lab.ad.univ-paris1.fr:8000/",
+      "timestamp": 1782206969445,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-11-13&checkout=2026-11-15&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "visibility",
+      "isTargetSample": true,
+      "source": "init",
+      "state": "visible",
+      "timestamp": 1782206969445,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-11-13&checkout=2026-11-15&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "page_ready",
+      "isTargetSample": true,
+      "afterPreload": true,
+      "setupMs": 2657,
+      "timestamp": 1782206974727,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-11-13&checkout=2026-11-15&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "health",
+      "isTargetSample": true,
+      "ok": true,
+      "page": "search",
+      "failures": [],
+      "timestamp": 1782206974727,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-11-13&checkout=2026-11-15&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price",
+      "checks": [
+        {
+          "name": "propertyCard",
+          "found": 9,
+          "required": true
+        },
+        {
+          "name": "title",
+          "found": 9,
+          "required": true
+        },
+        {
+          "name": "price",
+          "found": 9,
+          "required": true
+        }
+      ]
+    },
+    {
+      "type": "manip_check",
+      "isTargetSample": true,
+      "ok": true,
+      "thumb": "A",
+      "shownCardCount": 5,
+      "totalPouceCount": 0,
+      "visiblePouceCount": 0,
+      "timestamp": 1782206974727,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-11-13&checkout=2026-11-15&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "pause-iodee-au-treport",
+      "timestamp": 1782206976787,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-11-13&checkout=2026-11-15&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "maison-avec-vue-panoramique-mer",
+      "timestamp": 1782206977491,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-11-13&checkout=2026-11-15&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "appartement-le-treport-centre",
+      "timestamp": 1782206978055,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-11-13&checkout=2026-11-15&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "la-brise-le-treport",
+      "timestamp": 1782206978284,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-11-13&checkout=2026-11-15&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "viewport",
+      "isTargetSample": true,
+      "isIntersecting": true,
+      "ratio": 1,
+      "targetPropertyId": "le-saint-yves",
+      "timestamp": 1782206978512,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-11-13&checkout=2026-11-15&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": false,
+      "tabId": 1008,
+      "title": "www.lemonde.fr",
+      "timestamp": 1782206978998,
+      "url": "https://www.lemonde.fr/search?q=le-treport"
+    },
+    {
+      "type": "tab_focus",
+      "event": "activated",
+      "preStart": false,
+      "tabId": 1008,
+      "windowId": 1000,
+      "timestamp": 1782206983121,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-11-13&checkout=2026-11-15&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "hover",
+      "isTargetSample": true,
+      "kind": "product_card",
+      "targetPropertyId": "le-saint-yves",
+      "targetTestId": "property-card",
+      "durationMs": 3811,
+      "timestamp": 1782206983819,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-11-13&checkout=2026-11-15&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "hover",
+      "isTargetSample": true,
+      "kind": "product_card",
+      "targetPropertyId": "appartement-le-treport-centre",
+      "targetTestId": "property-card",
+      "durationMs": 1931,
+      "timestamp": 1782206984859,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-11-13&checkout=2026-11-15&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "hover",
+      "isTargetSample": true,
+      "kind": "product_card",
+      "targetPropertyId": "maison-avec-vue-panoramique-mer",
+      "targetTestId": "property-card",
+      "durationMs": 829,
+      "timestamp": 1782206985532,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-11-13&checkout=2026-11-15&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "scroll",
+      "isTargetSample": true,
+      "scrollDepthPercent": 33,
+      "visiblePropertyIds": [
+        "pause-iodee-au-treport",
+        "maison-avec-vue-panoramique-mer",
+        "appartement-le-treport-centre"
+      ],
+      "timestamp": 1782206986057,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-11-13&checkout=2026-11-15&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "click",
+      "isTargetSample": true,
+      "kind": "product_card",
+      "targetPropertyId": "la-brise-le-treport",
+      "targetTestId": "availability-cta-btn",
+      "targetText": "Voir les séjours",
+      "timestamp": 1782206987986,
+      "url": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-11-13&checkout=2026-11-15&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price"
+    },
+    {
+      "type": "page_view",
+      "isTargetSample": true,
+      "referrer": "https://www.booking.com/searchresults.fr.html?ss=le-treport&dest_id=-1446308&dest_type=city&checkin=2026-11-13&checkout=2026-11-15&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&order=price",
+      "timestamp": 1782206989388,
+      "url": "https://www.booking.com/hotel/fr/la-brise-le-treport.fr.html?dest_id=-1446308&dest_type=city&checkin=2026-11-13&checkout=2026-11-15&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&sr_order=price"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": false,
+      "tabId": 1008,
+      "title": "www.tripadvisor.fr",
+      "timestamp": 1782207003454,
+      "url": "https://www.tripadvisor.fr/"
+    },
+    {
+      "type": "tab_focus",
+      "event": "activated",
+      "preStart": false,
+      "tabId": 1008,
+      "windowId": 1000,
+      "timestamp": 1782207010453,
+      "url": "https://www.booking.com/hotel/fr/la-brise-le-treport.fr.html?dest_id=-1446308&dest_type=city&checkin=2026-11-13&checkout=2026-11-15&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&sr_order=price"
+    },
+    {
+      "type": "reserve",
+      "isTargetSample": true,
+      "cellIndex": 8,
+      "displayedPrice": "€ 90",
+      "selectedRooms": 1,
+      "targetPropertyId": "la-brise-le-treport",
+      "timestamp": 1782207011813,
+      "url": "https://www.booking.com/hotel/fr/la-brise-le-treport.fr.html?dest_id=-1446308&dest_type=city&checkin=2026-11-13&checkout=2026-11-15&group_adults=2&no_rooms=1&group_children=0&lang=fr&selected_currency=EUR&sr_order=price"
+    },
+    {
+      "type": "tab_navigation",
+      "isBooking": false,
+      "preStart": false,
+      "tabId": 1008,
+      "title": "s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/uiayw8ic/choice_task_block/Decision/9",
+      "timestamp": 1782207013294,
+      "url": "http://s2ch-adm-c-lab.ad.univ-paris1.fr:8000/p/uiayw8ic/choice_task_block/Decision/9"
+    }
+  ]
+}

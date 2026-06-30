@@ -1,0 +1,1338 @@
+{
+    "Annecy": {
+        "choice_set_1": [
+            {
+                "city_search": "Annecy",
+                "property_id": 16221040,
+                "property_slug": "appartement-cosy-annecy",
+                "preferred": false,
+                "cluster": 1,
+                "dest_id": 1407760,
+                "city_slug": "annecy"
+            },
+            {
+                "city_search": "Annecy",
+                "property_id": 7988169,
+                "property_slug": "spacieux-4-pers-parking-prive-gare-centre",
+                "preferred": false,
+                "cluster": 1,
+                "dest_id": 1407760,
+                "city_slug": "annecy"
+            },
+            {
+                "city_search": "Annecy",
+                "property_id": 376313,
+                "property_slug": "au-faisan-dora-c",
+                "preferred": true,
+                "cluster": 1,
+                "dest_id": 1407760,
+                "city_slug": "annecy"
+            },
+            {
+                "city_search": "Annecy",
+                "property_id": 11899488,
+                "property_slug": "b-amp-b-annecy-cran-gevrier",
+                "preferred": false,
+                "cluster": 2,
+                "dest_id": 1407760,
+                "city_slug": "annecy"
+            },
+            {
+                "city_search": "Annecy",
+                "property_id": 55440,
+                "property_slug": "mercure-annecy-sud",
+                "preferred": false,
+                "cluster": 2,
+                "dest_id": 1407760,
+                "city_slug": "annecy"
+            },
+            {
+                "city_search": "Annecy",
+                "property_id": 51421,
+                "property_slug": "hoteldunordannecy",
+                "preferred": true,
+                "cluster": 2,
+                "dest_id": 1407760,
+                "city_slug": "annecy"
+            },
+            {
+                "city_search": "Annecy",
+                "property_id": 9601897,
+                "property_slug": "nero-station-city-500-m-du-lac",
+                "preferred": false,
+                "cluster": 3,
+                "dest_id": 1407760,
+                "city_slug": "annecy"
+            },
+            {
+                "city_search": "Annecy",
+                "property_id": 12843886,
+                "property_slug": "soleil-d-or-proche-de-la-vielle-ville",
+                "preferred": false,
+                "cluster": 3,
+                "dest_id": 1407760,
+                "city_slug": "annecy"
+            },
+            {
+                "city_search": "Annecy",
+                "property_id": 9594131,
+                "property_slug": "diane-100-m-du-lac",
+                "preferred": true,
+                "cluster": 3,
+                "dest_id": 1407760,
+                "city_slug": "annecy"
+            }
+        ],
+        "choice_set_2": [
+            {
+                "city_search": "Annecy",
+                "property_id": 7021568,
+                "property_slug": "l-39-echappee-belle-charme-parking-amp-proche-lac",
+                "preferred": false,
+                "cluster": 1,
+                "dest_id": 1407760,
+                "city_slug": "annecy"
+            },
+            {
+                "city_search": "Annecy",
+                "property_id": 11696125,
+                "property_slug": "studio-douillet-a-annecy-avec-parking",
+                "preferred": false,
+                "cluster": 1,
+                "dest_id": 1407760,
+                "city_slug": "annecy"
+            },
+            {
+                "city_search": "Annecy",
+                "property_id": 184035,
+                "property_slug": "du-chateau-annecy",
+                "preferred": true,
+                "cluster": 1,
+                "dest_id": 1407760,
+                "city_slug": "annecy"
+            },
+            {
+                "city_search": "Annecy",
+                "property_id": 1664849,
+                "property_slug": "premiere-classe-annecy-cran-gevrier",
+                "preferred": false,
+                "cluster": 2,
+                "dest_id": 1407760,
+                "city_slug": "annecy"
+            },
+            {
+                "city_search": "Annecy",
+                "property_id": 8779013,
+                "property_slug": "residence-hoteliere-para-medicalisee-la-villa-sully",
+                "preferred": false,
+                "cluster": 2,
+                "dest_id": 1407760,
+                "city_slug": "annecy"
+            },
+            {
+                "city_search": "Annecy",
+                "property_id": 54335,
+                "property_slug": "fasthotel-seynod",
+                "preferred": true,
+                "cluster": 2,
+                "dest_id": 1407760,
+                "city_slug": "annecy"
+            },
+            {
+                "city_search": "Annecy",
+                "property_id": 10495137,
+                "property_slug": "litchi",
+                "preferred": false,
+                "cluster": 3,
+                "dest_id": 1407760,
+                "city_slug": "annecy"
+            },
+            {
+                "city_search": "Annecy",
+                "property_id": 12350375,
+                "property_slug": "balmettes-balcon-parking",
+                "preferred": false,
+                "cluster": 3,
+                "dest_id": 1407760,
+                "city_slug": "annecy"
+            },
+            {
+                "city_search": "Annecy",
+                "property_id": 6563951,
+                "property_slug": "homebuddy-39-le-cocon-colore-centre-ville-50m-de-la-gare",
+                "preferred": true,
+                "cluster": 3,
+                "dest_id": 1407760,
+                "city_slug": "annecy"
+            }
+        ],
+        "choice_set_3": [
+            {
+                "city_search": "Annecy",
+                "property_id": 9900408,
+                "property_slug": "nid-du-lac-200-m-du-lac",
+                "preferred": false,
+                "cluster": 1,
+                "dest_id": 1407760,
+                "city_slug": "annecy"
+            },
+            {
+                "city_search": "Annecy",
+                "property_id": 11206217,
+                "property_slug": "notting-hill-duplex-au-calme-5-min-du-lac",
+                "preferred": false,
+                "cluster": 1,
+                "dest_id": 1407760,
+                "city_slug": "annecy"
+            },
+            {
+                "city_search": "Annecy",
+                "property_id": 1677656,
+                "property_slug": "apt-au-coeur-de-la-vieille-ville",
+                "preferred": true,
+                "cluster": 1,
+                "dest_id": 1407760,
+                "city_slug": "annecy"
+            },
+            {
+                "city_search": "Annecy",
+                "property_id": 16523171,
+                "property_slug": "studio-proche-centre-annecy",
+                "preferred": false,
+                "cluster": 2,
+                "dest_id": 1407760,
+                "city_slug": "annecy"
+            },
+            {
+                "city_search": "Annecy",
+                "property_id": 8050706,
+                "property_slug": "le-semnoz",
+                "preferred": false,
+                "cluster": 2,
+                "dest_id": 1407760,
+                "city_slug": "annecy"
+            },
+            {
+                "city_search": "Annecy",
+                "property_id": 230814,
+                "property_slug": "hotel-balladins-annecy-superior",
+                "preferred": true,
+                "cluster": 2,
+                "dest_id": 1407760,
+                "city_slug": "annecy"
+            },
+            {
+                "city_search": "Annecy",
+                "property_id": 9824934,
+                "property_slug": "mango-balcon-5-min-de-la-vieille-ville",
+                "preferred": false,
+                "cluster": 3,
+                "dest_id": 1407760,
+                "city_slug": "annecy"
+            },
+            {
+                "city_search": "Annecy",
+                "property_id": 14236523,
+                "property_slug": "authentik-annecy",
+                "preferred": false,
+                "cluster": 3,
+                "dest_id": 1407760,
+                "city_slug": "annecy"
+            },
+            {
+                "city_search": "Annecy",
+                "property_id": 55186,
+                "property_slug": "logis-de-france-novel-rest-la-mamma",
+                "preferred": true,
+                "cluster": 3,
+                "dest_id": 1407760,
+                "city_slug": "annecy"
+            }
+        ],
+        "choice_set_4": [
+            {
+                "city_search": "Annecy",
+                "property_id": 10957942,
+                "property_slug": "sencha-rue-du-paquier",
+                "preferred": false,
+                "cluster": 1,
+                "dest_id": 1407760,
+                "city_slug": "annecy"
+            },
+            {
+                "city_search": "Annecy",
+                "property_id": 16248292,
+                "property_slug": "appartement-annecy-le-vieux-vue-lac",
+                "preferred": false,
+                "cluster": 1,
+                "dest_id": 1407760,
+                "city_slug": "annecy"
+            },
+            {
+                "city_search": "Annecy",
+                "property_id": 2417538,
+                "property_slug": "centre-jean-xxiii",
+                "preferred": true,
+                "cluster": 1,
+                "dest_id": 1407760,
+                "city_slug": "annecy"
+            },
+            {
+                "city_search": "Annecy",
+                "property_id": 14494811,
+                "property_slug": "bulle-annecy-avec-un-garage-prive",
+                "preferred": false,
+                "cluster": 2,
+                "dest_id": 1407760,
+                "city_slug": "annecy"
+            },
+            {
+                "city_search": "Annecy",
+                "property_id": 7112565,
+                "property_slug": "le-vert-bois-calme-verdure-terrains-de-tennis",
+                "preferred": false,
+                "cluster": 2,
+                "dest_id": 1407760,
+                "city_slug": "annecy"
+            },
+            {
+                "city_search": "Annecy",
+                "property_id": 183327,
+                "property_slug": "appart-city-annecy-seynod",
+                "preferred": true,
+                "cluster": 2,
+                "dest_id": 1407760,
+                "city_slug": "annecy"
+            },
+            {
+                "city_search": "Annecy",
+                "property_id": 9877789,
+                "property_slug": "reve-de-jade-devant-le-canal",
+                "preferred": false,
+                "cluster": 3,
+                "dest_id": 1407760,
+                "city_slug": "annecy"
+            },
+            {
+                "city_search": "Annecy",
+                "property_id": 16565523,
+                "property_slug": "smartstay-lake-centre-annecy",
+                "preferred": false,
+                "cluster": 3,
+                "dest_id": 1407760,
+                "city_slug": "annecy"
+            },
+            {
+                "city_search": "Annecy",
+                "property_id": 243638,
+                "property_slug": "bellevue-annecy",
+                "preferred": true,
+                "cluster": 3,
+                "dest_id": 1407760,
+                "city_slug": "annecy"
+            }
+        ]
+    },
+    "Le Treport": {
+        "choice_set_1": [
+            {
+                "city_search": "Le Treport",
+                "property_id": 16413838,
+                "property_slug": "pause-iodee-au-treport",
+                "preferred": false,
+                "cluster": 1,
+                "dest_id": 1446308,
+                "city_slug": "le-treport"
+            },
+            {
+                "city_search": "Le Treport",
+                "property_id": 14028068,
+                "property_slug": "maison-avec-vue-panoramique-mer",
+                "preferred": false,
+                "cluster": 1,
+                "dest_id": 1446308,
+                "city_slug": "le-treport"
+            },
+            {
+                "city_search": "Le Treport",
+                "property_id": 5182695,
+                "property_slug": "appartement-le-treport-centre",
+                "preferred": true,
+                "cluster": 1,
+                "dest_id": 1446308,
+                "city_slug": "le-treport"
+            },
+            {
+                "city_search": "Le Treport",
+                "property_id": 6666070,
+                "property_slug": "la-brise-le-treport",
+                "preferred": false,
+                "cluster": 2,
+                "dest_id": 1446308,
+                "city_slug": "le-treport"
+            },
+            {
+                "city_search": "Le Treport",
+                "property_id": 535848,
+                "property_slug": "le-saint-yves",
+                "preferred": false,
+                "cluster": 2,
+                "dest_id": 1446308,
+                "city_slug": "le-treport"
+            },
+            {
+                "city_search": "Le Treport",
+                "property_id": 15693007,
+                "property_slug": "la-perle-rare-du-treport",
+                "preferred": true,
+                "cluster": 2,
+                "dest_id": 1446308,
+                "city_slug": "le-treport"
+            },
+            {
+                "city_search": "Le Treport",
+                "property_id": 12496092,
+                "property_slug": "hublot-studio-vue-port",
+                "preferred": false,
+                "cluster": 3,
+                "dest_id": 1446308,
+                "city_slug": "le-treport"
+            },
+            {
+                "city_search": "Le Treport",
+                "property_id": 14173175,
+                "property_slug": "appartement-le-vintage-le-treport",
+                "preferred": false,
+                "cluster": 3,
+                "dest_id": 1446308,
+                "city_slug": "le-treport"
+            },
+            {
+                "city_search": "Le Treport",
+                "property_id": 9013052,
+                "property_slug": "air-marin-appartement-5mn-a-pied-port-treport",
+                "preferred": true,
+                "cluster": 3,
+                "dest_id": 1446308,
+                "city_slug": "le-treport"
+            }
+        ],
+        "choice_set_2": [
+            {
+                "city_search": "Le Treport",
+                "property_id": 15057888,
+                "property_slug": "seafront-apartment-with-balcony",
+                "preferred": false,
+                "cluster": 1,
+                "dest_id": 1446308,
+                "city_slug": "le-treport"
+            },
+            {
+                "city_search": "Le Treport",
+                "property_id": 16189896,
+                "property_slug": "le-treport-a-vos-pieds-vue-180-port-et-eglise",
+                "preferred": false,
+                "cluster": 1,
+                "dest_id": 1446308,
+                "city_slug": "le-treport"
+            },
+            {
+                "city_search": "Le Treport",
+                "property_id": 7398090,
+                "property_slug": "family-appart-2",
+                "preferred": true,
+                "cluster": 1,
+                "dest_id": 1446308,
+                "city_slug": "le-treport"
+            },
+            {
+                "city_search": "Le Treport",
+                "property_id": 1915698,
+                "property_slug": "goeland",
+                "preferred": false,
+                "cluster": 2,
+                "dest_id": 1446308,
+                "city_slug": "le-treport"
+            },
+            {
+                "city_search": "Le Treport",
+                "property_id": 10188679,
+                "property_slug": "le-treport-2p-30m2-rdc-tout-a-pied-2mn-plage-port-funiculaire-casino",
+                "preferred": false,
+                "cluster": 2,
+                "dest_id": 1446308,
+                "city_slug": "le-treport"
+            },
+            {
+                "city_search": "Le Treport",
+                "property_id": 57396,
+                "property_slug": "la-villa-marine",
+                "preferred": true,
+                "cluster": 2,
+                "dest_id": 1446308,
+                "city_slug": "le-treport"
+            },
+            {
+                "city_search": "Le Treport",
+                "property_id": 7142472,
+                "property_slug": "la-parenthese-maison-treportaise-avec-jardin-le-treport",
+                "preferred": false,
+                "cluster": 3,
+                "dest_id": 1446308,
+                "city_slug": "le-treport"
+            },
+            {
+                "city_search": "Le Treport",
+                "property_id": 15053251,
+                "property_slug": "villa-la-surprise",
+                "preferred": false,
+                "cluster": 3,
+                "dest_id": 1446308,
+                "city_slug": "le-treport"
+            },
+            {
+                "city_search": "Le Treport",
+                "property_id": 9843574,
+                "property_slug": "ma-piote-cabine-maison",
+                "preferred": true,
+                "cluster": 3,
+                "dest_id": 1446308,
+                "city_slug": "le-treport"
+            }
+        ],
+        "choice_set_3": [
+            {
+                "city_search": "Le Treport",
+                "property_id": 11156389,
+                "property_slug": "les-tournepierres-appartement-3-pieces-bord-de-mer",
+                "preferred": false,
+                "cluster": 1,
+                "dest_id": 1446308,
+                "city_slug": "le-treport"
+            },
+            {
+                "city_search": "Le Treport",
+                "property_id": 14373097,
+                "property_slug": "studio-3ieme-etage-proche-de-la-plage-quartier-des-cordiers",
+                "preferred": false,
+                "cluster": 1,
+                "dest_id": 1446308,
+                "city_slug": "le-treport"
+            },
+            {
+                "city_search": "Le Treport",
+                "property_id": 12631051,
+                "property_slug": "villa-konny-studio-1er-etage",
+                "preferred": true,
+                "cluster": 1,
+                "dest_id": 1446308,
+                "city_slug": "le-treport"
+            },
+            {
+                "city_search": "Le Treport",
+                "property_id": 14738876,
+                "property_slug": "echappee-belle-face-aux-falaises",
+                "preferred": false,
+                "cluster": 2,
+                "dest_id": 1446308,
+                "city_slug": "le-treport"
+            },
+            {
+                "city_search": "Le Treport",
+                "property_id": 9545525,
+                "property_slug": "arc-en-ciel-le-treport",
+                "preferred": false,
+                "cluster": 2,
+                "dest_id": 1446308,
+                "city_slug": "le-treport"
+            },
+            {
+                "city_search": "Le Treport",
+                "property_id": 6349796,
+                "property_slug": "appartement-le-treport-2eme-etage-2-chambres",
+                "preferred": true,
+                "cluster": 2,
+                "dest_id": 1446308,
+                "city_slug": "le-treport"
+            },
+            {
+                "city_search": "Le Treport",
+                "property_id": 7577866,
+                "property_slug": "aqualina-studio-proche-mer",
+                "preferred": false,
+                "cluster": 3,
+                "dest_id": 1446308,
+                "city_slug": "le-treport"
+            },
+            {
+                "city_search": "Le Treport",
+                "property_id": 9820365,
+                "property_slug": "domitys-la-palangre",
+                "preferred": false,
+                "cluster": 3,
+                "dest_id": 1446308,
+                "city_slug": "le-treport"
+            },
+            {
+                "city_search": "Le Treport",
+                "property_id": 1094805,
+                "property_slug": "appartement-au-treport-a-5-mn-de-la-mer",
+                "preferred": true,
+                "cluster": 3,
+                "dest_id": 1446308,
+                "city_slug": "le-treport"
+            }
+        ],
+        "choice_set_4": [
+            {
+                "city_search": "Le Treport",
+                "property_id": 6579963,
+                "property_slug": "nouveau-au-coeur-des-cordiers-quartier-historique",
+                "preferred": false,
+                "cluster": 1,
+                "dest_id": 1446308,
+                "city_slug": "le-treport"
+            },
+            {
+                "city_search": "Le Treport",
+                "property_id": 16189803,
+                "property_slug": "cocon-vintage-vue-mer-panoramique",
+                "preferred": false,
+                "cluster": 1,
+                "dest_id": 1446308,
+                "city_slug": "le-treport"
+            },
+            {
+                "city_search": "Le Treport",
+                "property_id": 12711606,
+                "property_slug": "appartement-le-treport",
+                "preferred": true,
+                "cluster": 1,
+                "dest_id": 1446308,
+                "city_slug": "le-treport"
+            },
+            {
+                "city_search": "Le Treport",
+                "property_id": 9294787,
+                "property_slug": "appartement-cosy-au-treport",
+                "preferred": false,
+                "cluster": 2,
+                "dest_id": 1446308,
+                "city_slug": "le-treport"
+            },
+            {
+                "city_search": "Le Treport",
+                "property_id": 3421352,
+                "property_slug": "o2-horizon",
+                "preferred": false,
+                "cluster": 2,
+                "dest_id": 1446308,
+                "city_slug": "le-treport"
+            },
+            {
+                "city_search": "Le Treport",
+                "property_id": 7458519,
+                "property_slug": "le-treport-f2-bord-de-mer-100-metres-de-la-plage",
+                "preferred": true,
+                "cluster": 2,
+                "dest_id": 1446308,
+                "city_slug": "le-treport"
+            },
+            {
+                "city_search": "Le Treport",
+                "property_id": 6368035,
+                "property_slug": "maison-de-vacances-le-treport",
+                "preferred": false,
+                "cluster": 3,
+                "dest_id": 1446308,
+                "city_slug": "le-treport"
+            },
+            {
+                "city_search": "Le Treport",
+                "property_id": 15712664,
+                "property_slug": "studio-l-ecluse-le-treport",
+                "preferred": false,
+                "cluster": 3,
+                "dest_id": 1446308,
+                "city_slug": "le-treport"
+            },
+            {
+                "city_search": "Le Treport",
+                "property_id": 9249228,
+                "property_slug": "air-des-falaises-appartement-confort-treport",
+                "preferred": true,
+                "cluster": 3,
+                "dest_id": 1446308,
+                "city_slug": "le-treport"
+            }
+        ]
+    },
+    "Nice": {
+        "choice_set_1": [
+            {
+                "city_search": "Nice",
+                "property_id": 10372492,
+                "property_slug": "loft-place-massena",
+                "preferred": false,
+                "cluster": 1,
+                "dest_id": 1454990,
+                "city_slug": "nice"
+            },
+            {
+                "city_search": "Nice",
+                "property_id": 16602914,
+                "property_slug": "deux-pieces-centre-de-nice",
+                "preferred": false,
+                "cluster": 1,
+                "dest_id": 1454990,
+                "city_slug": "nice"
+            },
+            {
+                "city_search": "Nice",
+                "property_id": 10994299,
+                "property_slug": "nice-superbe-studio-chaleureux-et-fonctionnel-nice",
+                "preferred": true,
+                "cluster": 1,
+                "dest_id": 1454990,
+                "city_slug": "nice"
+            },
+            {
+                "city_search": "Nice",
+                "property_id": 13082230,
+                "property_slug": "1-gautier-501-studio-boheme-quartier-du-port",
+                "preferred": false,
+                "cluster": 2,
+                "dest_id": 1454990,
+                "city_slug": "nice"
+            },
+            {
+                "city_search": "Nice",
+                "property_id": 14483862,
+                "property_slug": "cute-duplex-studio",
+                "preferred": false,
+                "cluster": 2,
+                "dest_id": 1454990,
+                "city_slug": "nice"
+            },
+            {
+                "city_search": "Nice",
+                "property_id": 367103,
+                "property_slug": "inta-c-rieurs-cour",
+                "preferred": true,
+                "cluster": 2,
+                "dest_id": 1454990,
+                "city_slug": "nice"
+            },
+            {
+                "city_search": "Nice",
+                "property_id": 54440,
+                "property_slug": "astor",
+                "preferred": false,
+                "cluster": 3,
+                "dest_id": 1454990,
+                "city_slug": "nice"
+            },
+            {
+                "city_search": "Nice",
+                "property_id": 57955,
+                "property_slug": "le-palais-rossini",
+                "preferred": false,
+                "cluster": 3,
+                "dest_id": 1454990,
+                "city_slug": "nice"
+            },
+            {
+                "city_search": "Nice",
+                "property_id": 1486313,
+                "property_slug": "monsigny-nice1",
+                "preferred": true,
+                "cluster": 3,
+                "dest_id": 1454990,
+                "city_slug": "nice"
+            }
+        ],
+        "choice_set_2": [
+            {
+                "city_search": "Nice",
+                "property_id": 16143557,
+                "property_slug": "sunny-loft-at-nices-old-city-gate",
+                "preferred": false,
+                "cluster": 1,
+                "dest_id": 1454990,
+                "city_slug": "nice"
+            },
+            {
+                "city_search": "Nice",
+                "property_id": 15698473,
+                "property_slug": "duplex-studio-50-metres-de-la-plage",
+                "preferred": false,
+                "cluster": 1,
+                "dest_id": 1454990,
+                "city_slug": "nice"
+            },
+            {
+                "city_search": "Nice",
+                "property_id": 8736679,
+                "property_slug": "villa-monte-0ropa",
+                "preferred": true,
+                "cluster": 1,
+                "dest_id": 1454990,
+                "city_slug": "nice"
+            },
+            {
+                "city_search": "Nice",
+                "property_id": 11026964,
+                "property_slug": "slo-nice",
+                "preferred": false,
+                "cluster": 2,
+                "dest_id": 1454990,
+                "city_slug": "nice"
+            },
+            {
+                "city_search": "Nice",
+                "property_id": 8783850,
+                "property_slug": "port-de-nice-residence-neptune-superbe-studio",
+                "preferred": false,
+                "cluster": 2,
+                "dest_id": 1454990,
+                "city_slug": "nice"
+            },
+            {
+                "city_search": "Nice",
+                "property_id": 10311132,
+                "property_slug": "les-chambres-de-cedric-iconic",
+                "preferred": true,
+                "cluster": 2,
+                "dest_id": 1454990,
+                "city_slug": "nice"
+            },
+            {
+                "city_search": "Nice",
+                "property_id": 53613,
+                "property_slug": "interlaken",
+                "preferred": false,
+                "cluster": 3,
+                "dest_id": 1454990,
+                "city_slug": "nice"
+            },
+            {
+                "city_search": "Nice",
+                "property_id": 15644289,
+                "property_slug": "studio-k-nice",
+                "preferred": false,
+                "cluster": 3,
+                "dest_id": 1454990,
+                "city_slug": "nice"
+            },
+            {
+                "city_search": "Nice",
+                "property_id": 6433525,
+                "property_slug": "holiday-inn-express-nice-grand-arenas",
+                "preferred": true,
+                "cluster": 3,
+                "dest_id": 1454990,
+                "city_slug": "nice"
+            }
+        ],
+        "choice_set_3": [
+            {
+                "city_search": "Nice",
+                "property_id": 15975781,
+                "property_slug": "nice-t2-dans-le-carre-d-or-proche-plage",
+                "preferred": false,
+                "cluster": 1,
+                "dest_id": 1454990,
+                "city_slug": "nice"
+            },
+            {
+                "city_search": "Nice",
+                "property_id": 10020725,
+                "property_slug": "central-beautifull-delille-flat",
+                "preferred": false,
+                "cluster": 1,
+                "dest_id": 1454990,
+                "city_slug": "nice"
+            },
+            {
+                "city_search": "Nice",
+                "property_id": 13579312,
+                "property_slug": "zenitude-residences-nice",
+                "preferred": true,
+                "cluster": 1,
+                "dest_id": 1454990,
+                "city_slug": "nice"
+            },
+            {
+                "city_search": "Nice",
+                "property_id": 13384145,
+                "property_slug": "nice-renting-penchienatti-chic-amp-modern-urban-pearl-massena-old-nice",
+                "preferred": false,
+                "cluster": 2,
+                "dest_id": 1454990,
+                "city_slug": "nice"
+            },
+            {
+                "city_search": "Nice",
+                "property_id": 13082222,
+                "property_slug": "1-gautier-101-joli-studio-equipe-quartier-du-port",
+                "preferred": false,
+                "cluster": 2,
+                "dest_id": 1454990,
+                "city_slug": "nice"
+            },
+            {
+                "city_search": "Nice",
+                "property_id": 270454,
+                "property_slug": "villa-saint-exupery-beach-plage",
+                "preferred": true,
+                "cluster": 2,
+                "dest_id": 1454990,
+                "city_slug": "nice"
+            },
+            {
+                "city_search": "Nice",
+                "property_id": 9999357,
+                "property_slug": "villa-soleil-levant",
+                "preferred": false,
+                "cluster": 3,
+                "dest_id": 1454990,
+                "city_slug": "nice"
+            },
+            {
+                "city_search": "Nice",
+                "property_id": 542012,
+                "property_slug": "ibis-nice-centre-gare",
+                "preferred": false,
+                "cluster": 3,
+                "dest_id": 1454990,
+                "city_slug": "nice"
+            },
+            {
+                "city_search": "Nice",
+                "property_id": 219638,
+                "property_slug": "campanile-nice-aeroport",
+                "preferred": true,
+                "cluster": 3,
+                "dest_id": 1454990,
+                "city_slug": "nice"
+            }
+        ],
+        "choice_set_4": [
+            {
+                "city_search": "Nice",
+                "property_id": 13230482,
+                "property_slug": "studio-avec-terrasse-au-calme-nice",
+                "preferred": false,
+                "cluster": 1,
+                "dest_id": 1454990,
+                "city_slug": "nice"
+            },
+            {
+                "city_search": "Nice",
+                "property_id": 16662947,
+                "property_slug": "garibaldi-studio-near-port-and-place-du-pin-nice",
+                "preferred": false,
+                "cluster": 1,
+                "dest_id": 1454990,
+                "city_slug": "nice"
+            },
+            {
+                "city_search": "Nice",
+                "property_id": 53443,
+                "property_slug": "saint-georges-nice",
+                "preferred": true,
+                "cluster": 1,
+                "dest_id": 1454990,
+                "city_slug": "nice"
+            },
+            {
+                "city_search": "Nice",
+                "property_id": 14931567,
+                "property_slug": "studio-proche-gare-nice1",
+                "preferred": false,
+                "cluster": 2,
+                "dest_id": 1454990,
+                "city_slug": "nice"
+            },
+            {
+                "city_search": "Nice",
+                "property_id": 16661187,
+                "property_slug": "gautiernice",
+                "preferred": false,
+                "cluster": 2,
+                "dest_id": 1454990,
+                "city_slug": "nice"
+            },
+            {
+                "city_search": "Nice",
+                "property_id": 50293,
+                "property_slug": "normandie",
+                "preferred": true,
+                "cluster": 2,
+                "dest_id": 1454990,
+                "city_slug": "nice"
+            },
+            {
+                "city_search": "Nice",
+                "property_id": 387822,
+                "property_slug": "etap-nice-aeroport",
+                "preferred": false,
+                "cluster": 3,
+                "dest_id": 1454990,
+                "city_slug": "nice"
+            },
+            {
+                "city_search": "Nice",
+                "property_id": 15896859,
+                "property_slug": "nemea-appart-sunset-nice-arenas",
+                "preferred": false,
+                "cluster": 3,
+                "dest_id": 1454990,
+                "city_slug": "nice"
+            },
+            {
+                "city_search": "Nice",
+                "property_id": 290850,
+                "property_slug": "kyriad-nice-ouest-saint-isidore",
+                "preferred": true,
+                "cluster": 3,
+                "dest_id": 1454990,
+                "city_slug": "nice"
+            }
+        ]
+    },
+    "Arcachon": {
+        "choice_set_1": [
+            {
+                "city_search": "Arcachon",
+                "property_id": 16233144,
+                "property_slug": "les-pins-d-eugenie-t2-direct-plage",
+                "preferred": false,
+                "cluster": 1,
+                "dest_id": 1408052,
+                "city_slug": "arcachon"
+            },
+            {
+                "city_search": "Arcachon",
+                "property_id": 13822222,
+                "property_slug": "vue-imprenable-bassin-d-arcachon-arcachon",
+                "preferred": false,
+                "cluster": 1,
+                "dest_id": 1408052,
+                "city_slug": "arcachon"
+            },
+            {
+                "city_search": "Arcachon",
+                "property_id": 53343,
+                "property_slug": "le-nautic",
+                "preferred": true,
+                "cluster": 1,
+                "dest_id": 1408052,
+                "city_slug": "arcachon"
+            },
+            {
+                "city_search": "Arcachon",
+                "property_id": 9069877,
+                "property_slug": "t2-arcachon-aiguillon-acces-immediat-a-la-plage",
+                "preferred": false,
+                "cluster": 2,
+                "dest_id": 1408052,
+                "city_slug": "arcachon"
+            },
+            {
+                "city_search": "Arcachon",
+                "property_id": 11913272,
+                "property_slug": "pretty-cocoon-with-two-balconies-and-garden",
+                "preferred": false,
+                "cluster": 2,
+                "dest_id": 1408052,
+                "city_slug": "arcachon"
+            },
+            {
+                "city_search": "Arcachon",
+                "property_id": 7743126,
+                "property_slug": "t2-cosy-moulleau-plage-parking-wifi-netflix-imprimante",
+                "preferred": true,
+                "cluster": 2,
+                "dest_id": 1408052,
+                "city_slug": "arcachon"
+            },
+            {
+                "city_search": "Arcachon",
+                "property_id": 16231707,
+                "property_slug": "villa-do-sol-arcachon1",
+                "preferred": false,
+                "cluster": 3,
+                "dest_id": 1408052,
+                "city_slug": "arcachon"
+            },
+            {
+                "city_search": "Arcachon",
+                "property_id": 9976557,
+                "property_slug": "le-cocoon-de-marie-astrid-centre-amp-plage-arcachon",
+                "preferred": false,
+                "cluster": 3,
+                "dest_id": 1408052,
+                "city_slug": "arcachon"
+            },
+            {
+                "city_search": "Arcachon",
+                "property_id": 7414049,
+                "property_slug": "les-suites-du-port",
+                "preferred": true,
+                "cluster": 3,
+                "dest_id": 1408052,
+                "city_slug": "arcachon"
+            }
+        ],
+        "choice_set_2": [
+            {
+                "city_search": "Arcachon",
+                "property_id": 14815875,
+                "property_slug": "vos-vacances-a-arcachon-quartier-abatilles-moulleau-proche-de-la-plage-fr-1-474",
+                "preferred": false,
+                "cluster": 1,
+                "dest_id": 1408052,
+                "city_slug": "arcachon"
+            },
+            {
+                "city_search": "Arcachon",
+                "property_id": 51854,
+                "property_slug": "hotelresidenceletrianon",
+                "preferred": false,
+                "cluster": 1,
+                "dest_id": 1408052,
+                "city_slug": "arcachon"
+            },
+            {
+                "city_search": "Arcachon",
+                "property_id": 398828,
+                "property_slug": "yatt",
+                "preferred": true,
+                "cluster": 1,
+                "dest_id": 1408052,
+                "city_slug": "arcachon"
+            },
+            {
+                "city_search": "Arcachon",
+                "property_id": 16254061,
+                "property_slug": "lagoon-view-direct-beach-access-arcachon",
+                "preferred": false,
+                "cluster": 2,
+                "dest_id": 1408052,
+                "city_slug": "arcachon"
+            },
+            {
+                "city_search": "Arcachon",
+                "property_id": 14537434,
+                "property_slug": "charmant-t2-lumineux-arcachon",
+                "preferred": false,
+                "cluster": 2,
+                "dest_id": 1408052,
+                "city_slug": "arcachon"
+            },
+            {
+                "city_search": "Arcachon",
+                "property_id": 7672130,
+                "property_slug": "le-provence-arcachon",
+                "preferred": true,
+                "cluster": 2,
+                "dest_id": 1408052,
+                "city_slug": "arcachon"
+            },
+            {
+                "city_search": "Arcachon",
+                "property_id": 15338129,
+                "property_slug": "appartement-t2-hypercentre-arcachon",
+                "preferred": false,
+                "cluster": 3,
+                "dest_id": 1408052,
+                "city_slug": "arcachon"
+            },
+            {
+                "city_search": "Arcachon",
+                "property_id": 15361332,
+                "property_slug": "appartement-dernier-etage-avec-terrasse-et-parking-a-arcachon-fr-1-474-287",
+                "preferred": false,
+                "cluster": 3,
+                "dest_id": 1408052,
+                "city_slug": "arcachon"
+            },
+            {
+                "city_search": "Arcachon",
+                "property_id": 7146490,
+                "property_slug": "flat-with-swimming-pool-close-to-the-beach",
+                "preferred": true,
+                "cluster": 3,
+                "dest_id": 1408052,
+                "city_slug": "arcachon"
+            }
+        ],
+        "choice_set_3": [
+            {
+                "city_search": "Arcachon",
+                "property_id": 16602202,
+                "property_slug": "studio-a-50-m-de-la-plage-arcachon",
+                "preferred": false,
+                "cluster": 1,
+                "dest_id": 1408052,
+                "city_slug": "arcachon"
+            },
+            {
+                "city_search": "Arcachon",
+                "property_id": 11982335,
+                "property_slug": "charming-t2-close-to-the-sea-in-arcachon-welkeys",
+                "preferred": false,
+                "cluster": 1,
+                "dest_id": 1408052,
+                "city_slug": "arcachon"
+            },
+            {
+                "city_search": "Arcachon",
+                "property_id": 59408,
+                "property_slug": "residence-l-aquarium",
+                "preferred": true,
+                "cluster": 1,
+                "dest_id": 1408052,
+                "city_slug": "arcachon"
+            },
+            {
+                "city_search": "Arcachon",
+                "property_id": 16662128,
+                "property_slug": "detached-house-near-pereire-and-moulleau",
+                "preferred": false,
+                "cluster": 2,
+                "dest_id": 1408052,
+                "city_slug": "arcachon"
+            },
+            {
+                "city_search": "Arcachon",
+                "property_id": 12518478,
+                "property_slug": "studio-arcachon-center",
+                "preferred": false,
+                "cluster": 2,
+                "dest_id": 1408052,
+                "city_slug": "arcachon"
+            },
+            {
+                "city_search": "Arcachon",
+                "property_id": 7788109,
+                "property_slug": "bel-appartement-bord-de-mer-4-pers-arcachon-centre",
+                "preferred": true,
+                "cluster": 2,
+                "dest_id": 1408052,
+                "city_slug": "arcachon"
+            },
+            {
+                "city_search": "Arcachon",
+                "property_id": 12439107,
+                "property_slug": "startway-coliving",
+                "preferred": false,
+                "cluster": 3,
+                "dest_id": 1408052,
+                "city_slug": "arcachon"
+            },
+            {
+                "city_search": "Arcachon",
+                "property_id": 12548732,
+                "property_slug": "rose-mousse-arcachon",
+                "preferred": false,
+                "cluster": 3,
+                "dest_id": 1408052,
+                "city_slug": "arcachon"
+            },
+            {
+                "city_search": "Arcachon",
+                "property_id": 12099031,
+                "property_slug": "studio-face-plage-centre-ville",
+                "preferred": true,
+                "cluster": 3,
+                "dest_id": 1408052,
+                "city_slug": "arcachon"
+            }
+        ],
+        "choice_set_4": [
+            {
+                "city_search": "Arcachon",
+                "property_id": 2685820,
+                "property_slug": "apartment-terrasse-sud-et-acces-direct-plage",
+                "preferred": false,
+                "cluster": 1,
+                "dest_id": 1408052,
+                "city_slug": "arcachon"
+            },
+            {
+                "city_search": "Arcachon",
+                "property_id": 15985152,
+                "property_slug": "appartement-lumineux-avec-terrasse-arcachon-ville-dautomne-fr-1-474-293",
+                "preferred": false,
+                "cluster": 1,
+                "dest_id": 1408052,
+                "city_slug": "arcachon"
+            },
+            {
+                "city_search": "Arcachon",
+                "property_id": 1193430,
+                "property_slug": "sarl-bord-39-oappart-hoya-bella",
+                "preferred": true,
+                "cluster": 1,
+                "dest_id": 1408052,
+                "city_slug": "arcachon"
+            },
+            {
+                "city_search": "Arcachon",
+                "property_id": 16093698,
+                "property_slug": "appartement-central-animaux-admis-3-pers-fr-1-474-294",
+                "preferred": false,
+                "cluster": 2,
+                "dest_id": 1408052,
+                "city_slug": "arcachon"
+            },
+            {
+                "city_search": "Arcachon",
+                "property_id": 15277066,
+                "property_slug": "studio-lumineux-avec-terrasse-arcachon1",
+                "preferred": false,
+                "cluster": 2,
+                "dest_id": 1408052,
+                "city_slug": "arcachon"
+            },
+            {
+                "city_search": "Arcachon",
+                "property_id": 12138461,
+                "property_slug": "t2-independant-centre-arcachon",
+                "preferred": true,
+                "cluster": 2,
+                "dest_id": 1408052,
+                "city_slug": "arcachon"
+            },
+            {
+                "city_search": "Arcachon",
+                "property_id": 13008677,
+                "property_slug": "le-grillon-2",
+                "preferred": false,
+                "cluster": 3,
+                "dest_id": 1408052,
+                "city_slug": "arcachon"
+            },
+            {
+                "city_search": "Arcachon",
+                "property_id": 15324717,
+                "property_slug": "appartement-t2-centre-arcachon-avec-balcon-4-couchages-fr-1-474-286",
+                "preferred": false,
+                "cluster": 3,
+                "dest_id": 1408052,
+                "city_slug": "arcachon"
+            },
+            {
+                "city_search": "Arcachon",
+                "property_id": 11885595,
+                "property_slug": "cozy-renovated-apartment-behind-arcachon-station",
+                "preferred": true,
+                "cluster": 3,
+                "dest_id": 1408052,
+                "city_slug": "arcachon"
+            }
+        ]
+    }
+}
