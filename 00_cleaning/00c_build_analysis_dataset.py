@@ -1,13 +1,18 @@
 # AUTHOR: Calvin Pan
 # DATE CREATED: 23 June 2026
-# DATE LAST MODIFIED: 23 June 2026
+# DATE LAST MODIFIED: 8 July 2026
 # PURPOSE: Build the final analysis dataset for the pre-registration
 #   (Documents/20260618_Booking_preregistration.pdf): one row per
 #   subject × city × weekend × listing, joining the oTree wide export
 #   (post-experiment questionnaire, treatment assignment) with
 #   extension_joined.csv (from 00b — tracked browsing behaviour) and
-#   config/choice_sets.json (the canonical 9-listing roster of each
-#   city × choice_set, independent of what was actually tracked).
+#   config/choice_sets_with_substitutes.json (the canonical 9-listing roster
+#   of each city × choice_set, PLUS the substitute_pools the extension draws
+#   from live, in-session, whenever an original listing's card never loads —
+#   cf. resolveVisibleSubstitutes() in booking_plugin/src/shared/choice-sets.ts.
+#   The listing set actually shown to a subject in a given weekend is read
+#   from the tracked `preload` event's effectiveWhitelist field, not assumed
+#   to be the static choice_set_N roster.
 # OUTPUTS: analysis_dataset.csv (in outputs/)
 #   60 subjects × 3 cities × 4 weekends × 9 listings = 6,480 rows (108/subject),
 #   per the pre-registration's observation structure.
@@ -15,6 +20,7 @@
 import sys
 import json
 import re
+import unicodedata
 from pathlib import Path
 from urllib.parse import urlparse
 import pandas as pd
@@ -27,16 +33,27 @@ BASE_DIR    = Path(__file__).parent.parent          # analyse/
 PLUGIN_DIR  = BASE_DIR.parent                       # booking_plugin/
 INPUTS_DIR  = BASE_DIR / "inputs"
 OUTPUTS_DIR = BASE_DIR / "outputs"
-CONFIG_CHOICESET_JSON = PLUGIN_DIR / "config" / "choice_sets.json"
+CONFIG_CHOICESET_JSON = PLUGIN_DIR /"booking_plugin" / "config" / "choice_sets_with_substitutes.json"
 
 EXTENSION_CONVERTED_CSV = OUTPUTS_DIR / "extension_converted.csv"  # from 00a (every event, unfiltered)
 EXTENSION_JOINED_CSV    = OUTPUTS_DIR / "extension_joined.csv"     # from 00b (events ↔ choice-set join)
 OUTPUT_CSV               = OUTPUTS_DIR / "analysis_dataset.csv"
 
-CITY_SLUG_TO_DISPLAY = {
-    "annecy": "Annecy", "arcachon": "Arcachon",
-    "le-treport": "Le Treport", "nice": "Nice",
-}
+# City slug helper — mirrors 00b's derive_city_key(): lowercase, strip accents,
+# non-alnum runs → single dash. Used as a fallback ONLY for properties with no
+# city_slug field of their own; every property in choice_sets_with_substitutes.json
+# already carries one (e.g. "sete", "la-ciotat"), which is preferred since a
+# hardcoded display-name→slug map would silently go stale if a city is renamed,
+# added, or removed in the JSON (as happened here: Sète/La Ciotat replaced
+# Annecy/Nice in the config the analysis pipeline actually runs against).
+def derive_city_key(text) -> str:
+    if not text or not isinstance(text, str):
+        return ""
+    text = unicodedata.normalize("NFKD", text)
+    text = "".join(c for c in text if not unicodedata.combining(c))
+    text = text.lower()
+    text = re.sub(r"[^a-z0-9]+", "-", text)
+    return text.strip("-")
 
 # ---------------------------------------------------------------------------
 # Prompt for the oTree wide-export CSV — same numbered-list / filename /
@@ -80,6 +97,33 @@ else:
 
 print(f"oTree input: {OTREE_CSV}")
 
+# ---------------------------------------------------------------------------
+# Prompt for the oTree PageTimes export (session_code/participant_code/
+# app_name/page_name/round_number/epoch_time_completed — per-page timestamps,
+# recorded even for subjects who never finished). Optional: older runs may not
+# have this file, in which case whole_experiment_time_seconds and
+# choice_task_time_seconds are left blank rather than failing the whole script.
+# ---------------------------------------------------------------------------
+
+pagetimes_candidates = sorted(
+    (p for p in INPUTS_DIR.glob("*.csv") if p.name.lower().startswith("pagetimes")),
+    key=lambda p: p.stat().st_mtime, reverse=True,
+)
+if len(sys.argv) > 2:
+    pt_name = sys.argv[2]
+    if not pt_name.endswith(".csv"):
+        pt_name += ".csv"
+    PAGETIMES_CSV = INPUTS_DIR / pt_name
+elif pagetimes_candidates:
+    PAGETIMES_CSV = prompt_for_file_choice(pagetimes_candidates, "Fichier oTree PageTimes à utiliser ?")
+else:
+    PAGETIMES_CSV = None
+    print("  ! No PageTimes-*.csv found in inputs/ — whole_experiment_time_seconds and "
+          "choice_task_time_seconds will be left blank.")
+
+if PAGETIMES_CSV:
+    print(f"PageTimes input: {PAGETIMES_CSV}")
+
 if not EXTENSION_JOINED_CSV.exists():
     sys.exit(f"{EXTENSION_JOINED_CSV} not found. Run 00b first.")
 if not EXTENSION_CONVERTED_CSV.exists():
@@ -89,27 +133,58 @@ if not EXTENSION_CONVERTED_CSV.exists():
 # Load everything
 # ---------------------------------------------------------------------------
 
-df_otree   = pd.read_csv(OTREE_CSV, dtype=str, encoding="utf-8-sig")
-df_conv    = pd.read_csv(EXTENSION_CONVERTED_CSV, dtype=str)
-df_joined  = pd.read_csv(EXTENSION_JOINED_CSV, dtype=str)
+df_otree     = pd.read_csv(OTREE_CSV, dtype=str, encoding="utf-8-sig")
+df_conv      = pd.read_csv(EXTENSION_CONVERTED_CSV, dtype=str)
+df_joined    = pd.read_csv(EXTENSION_JOINED_CSV, dtype=str)
+df_pagetimes = pd.read_csv(PAGETIMES_CSV, dtype=str) if PAGETIMES_CSV else None
 
 with open(CONFIG_CHOICESET_JSON, encoding="utf-8") as f:
     raw_cs = json.load(f)
 
 # Flatten {city display name → choice_set_N → [properties]} the same way 00b
-# does, but keyed by the lowercase slug (annecy/arcachon/le-treport/nice) so
-# it lines up with cell_city_key / _city_key.
-DISPLAY_TO_SLUG = {v: k for k, v in CITY_SLUG_TO_DISPLAY.items()}
+# does. City slug comes from each property's own `city_slug` field (present
+# on every property in choice_sets_with_substitutes.json), falling back to a
+# derived slug of the display-name key only if that field is somehow absent —
+# NOT from a hardcoded display-name→slug map, which previously went stale
+# (Sète/La Ciotat replaced Annecy/Nice in this config at some point) and
+# silently produced empty listing rows for the un-mapped cities. The JSON
+# nests each city under {"choice_sets": {choice_set_N: [...]}, "substitute_pools":
+# {...}}. Unlike the earlier version of this script, substitute_pools is KEPT
+# (not dropped): the extension substitutes a same-cluster, same-preferred
+# property from that pool live, in-session, whenever an original listing's
+# card never loads in the visible SERP DOM (resolveVisibleSubstitutes(),
+# booking_plugin/src/shared/choice-sets.ts) — the subject sees and can choose
+# the substitute instead of the original, so its attributes (cluster,
+# preferred, property_id, ...) must be resolvable too, or a substituted
+# listing's row below would be missing them. A substitute isn't tied to one
+# choice_set_N in the JSON (it can fill in for whichever weekend needs it),
+# so `choice_set` is left blank for these rows — the weekend it actually
+# ended up in is resolved per-subject in PART B, from the tracked event data,
+# not from this static roster.
 choiceset_rows = []
 for city_display, sets in raw_cs.items():
-    city_slug = DISPLAY_TO_SLUG.get(city_display, city_display.lower())
-    for set_name, properties in sets.items():
+    choice_sets = sets["choice_sets"] if "choice_sets" in sets else sets
+    for set_name, properties in choice_sets.items():
         for prop in properties:
-            choiceset_rows.append({**prop, "city_slug": city_slug, "choice_set": set_name})
+            city_slug = prop.get("city_slug") or derive_city_key(city_display)
+            choiceset_rows.append({**prop, "city_slug": city_slug, "choice_set": set_name, "_is_substitute": False})
+    for pool_name, properties in sets.get("substitute_pools", {}).items():
+        for prop in properties:
+            city_slug = prop.get("city_slug") or derive_city_key(city_display)
+            choiceset_rows.append({**prop, "city_slug": city_slug, "choice_set": None, "_is_substitute": True})
 df_choicesets = pd.DataFrame(choiceset_rows)
-print(f"Choice-sets roster: {len(df_choicesets)} listings "
-      f"({df_choicesets['city_slug'].nunique()} cities × "
-      f"{df_choicesets['choice_set'].nunique()} weekends × 9 listings)")
+
+n_substitute_props = int(df_choicesets["_is_substitute"].sum())
+df_canonical = df_choicesets[~df_choicesets["_is_substitute"]]
+print(f"Choice-sets roster: {len(df_canonical)} canonical listings "
+      f"({df_canonical['city_slug'].nunique()} cities × "
+      f"{df_canonical['choice_set'].nunique()} weekends × 9 listings), "
+      f"plus {n_substitute_props} substitute-pool propert{'y' if n_substitute_props == 1 else 'ies'}")
+
+# Lookup table keyed by (city_slug, property_slug), spanning both buckets —
+# used below to resolve whichever slug actually ended up displayed to a
+# subject, canonical or substitute alike.
+prop_lookup = df_choicesets.drop_duplicates(subset=["city_slug", "property_slug"])
 
 # ---------------------------------------------------------------------------
 # PART A: Per-subject weekend roster — every (participant_code, cell_index)
@@ -135,21 +210,100 @@ if len(df_roster) != n_expected_cells:
 
 # ---------------------------------------------------------------------------
 # PART B: Listing-level skeleton — cross the per-subject weekend roster with
-# the canonical 9-listing roster of that (city, choice_set), so every listing
-# gets a row even if the subject never interacted with it (no viewport/click/
-# hover/reserve event at all).
+# the listings ACTUALLY displayed that weekend, so every listing gets a row
+# even if the subject never interacted with it (no viewport/click/hover/
+# reserve event at all). "Actually displayed" is not always the canonical
+# choice_set_N roster (see note above df_choicesets) — the `preload` event's
+# `effectiveWhitelist` field is the authoritative record of the 9 (or fewer)
+# cards a subject actually had for that weekend, cf. runPreloadCycle() in
+# booking_plugin/src/content/index.ts. We fall back to the canonical roster
+# only for weekends with no preload event at all (e.g. dropped by the
+# extension/tracker), so every cell still gets a full roster.
 # ---------------------------------------------------------------------------
 
-df_skeleton = df_roster.merge(
-    df_choicesets,
+def _parse_json_list(s):
+    if isinstance(s, str) and s.strip():
+        try:
+            return json.loads(s)
+        except json.JSONDecodeError:
+            return []
+    return []
+
+preload_ev = df_conv[df_conv["type"] == "preload"].copy()
+preload_ev["cell_index"] = pd.to_numeric(preload_ev["cell_index"], errors="coerce")
+preload_ev["timestamp"] = pd.to_numeric(preload_ev["timestamp"], errors="coerce")
+preload_ev = preload_ev.dropna(subset=["cell_index", "participant_code"])
+preload_ev["cell_index"] = preload_ev["cell_index"].astype(int)
+# A subject can revisit the search page within the same weekend, firing more
+# than one preload event for the same cell — the LAST one reflects what was
+# actually left on screen for the rest of that weekend.
+preload_ev = preload_ev.sort_values(["participant_code", "cell_index", "timestamp"])
+preload_last = preload_ev.drop_duplicates(subset=["participant_code", "cell_index"], keep="last")
+
+displayed_rows = []
+for _, r in preload_last.iterrows():
+    slugs = _parse_json_list(r.get("effectiveWhitelist"))
+    if not slugs:
+        continue
+    replaced_by = {
+        s["substituteSlug"]: s["missingSlug"]
+        for s in _parse_json_list(r.get("substitutions"))
+        if s.get("reason") == "selected" and s.get("substituteSlug")
+    }
+    for slug in slugs:
+        displayed_rows.append({
+            "participant_code": r["participant_code"],
+            "cell_index": r["cell_index"],
+            "property_slug": slug,
+            "replaced_property_slug": replaced_by.get(slug),
+        })
+df_displayed = pd.DataFrame(
+    displayed_rows, columns=["participant_code", "cell_index", "property_slug", "replaced_property_slug"]
+)
+
+cells_with_preload = set(zip(df_displayed["participant_code"], df_displayed["cell_index"]))
+has_preload = df_roster.apply(lambda r: (r["participant_code"], r["cell_index"]) in cells_with_preload, axis=1)
+
+roster_tracked = df_roster[has_preload]
+roster_fallback = df_roster[~has_preload]
+if len(roster_fallback):
+    print(f"  ! {len(roster_fallback)} weekend(s) with no `preload` event tracked — falling back to the "
+          f"canonical choice-set roster for these (actual substitutions, if any, unknown).")
+
+skeleton_cols = [
+    "participant_code", "cell_index", "cell_city_key", "cell_list_index",
+    "cell_checkin", "cell_thumb", "choice_set", "property_slug", "replaced_property_slug",
+]
+
+skeleton_tracked = roster_tracked.merge(df_displayed, on=["participant_code", "cell_index"], how="left")
+
+skeleton_fallback = roster_fallback.merge(
+    df_canonical,
     left_on=["cell_city_key", "choice_set"],
     right_on=["city_slug", "choice_set"],
     how="left",
 )
+skeleton_fallback["replaced_property_slug"] = pd.NA
+
+skeleton_ids = pd.concat(
+    [skeleton_tracked[skeleton_cols], skeleton_fallback[skeleton_cols]], ignore_index=True
+)
+
+# Attach property attributes (cluster, preferred, property_id, price_total, ...)
+# for whichever slug ended up actually displayed — canonical or substitute alike.
+df_skeleton = skeleton_ids.merge(
+    prop_lookup.drop(columns=["choice_set"]),
+    left_on=["cell_city_key", "property_slug"],
+    right_on=["city_slug", "property_slug"],
+    how="left",
+)
+df_skeleton = df_skeleton.rename(columns={"_is_substitute": "is_substitute_listing"})
+df_skeleton["is_substitute_listing"] = df_skeleton["is_substitute_listing"].fillna(False)
 
 n_expected_rows = df_roster["participant_code"].nunique() * 3 * 4 * 9
 print(f"Listing-level skeleton: {len(df_skeleton)} rows "
-      f"(expected {n_expected_rows} = subjects × 3 cities × 4 weekends × 9 listings)")
+      f"(expected {n_expected_rows} = subjects × 3 cities × 4 weekends × 9 listings); "
+      f"{int(df_skeleton['is_substitute_listing'].sum())} substitute-listing row(s)")
 
 # ---------------------------------------------------------------------------
 # PART C: Event-derived measures. Work off extension_joined.csv, restricted to
@@ -338,6 +492,105 @@ city_consistency = (
 df = df.merge(city_consistency, on=["participant_code", "cell_city_key"], how="left")
 
 # ---------------------------------------------------------------------------
+# PART F0: Whole-experiment & choice-task timing, from oTree's PageTimes
+# export. epoch_time_completed is when a page was COMPLETED (i.e. left), not
+# when it was arrived at — so "begin weekend 1" / "reach the questionnaire" is
+# the completion time of whatever page came immediately BEFORE the round-1
+# ChoiceTaskLoop / first postexperiment_block row, not that row's own
+# timestamp. Kept in oTree's own time domain (seconds) throughout, except for
+# the "last click" boundary of choice_task_time, which comes from the
+# extension's click events (ms epoch, converted to seconds) — both are Unix
+# epoch, so this is valid as long as the lab machine and subject browser
+# clocks are roughly in sync, the same assumption the rest of this pipeline
+# already relies on. PageTimes records every page reached even for subjects
+# who never finished, so this works for incomplete sessions too.
+# ---------------------------------------------------------------------------
+
+def _timestamp_before(grouped, page_idx_series, out_col):
+    """For each (participant_code -> page_index) pair, the latest
+    epoch_time_completed among that subject's PageTimes rows strictly before
+    page_index — i.e. the arrival time at that page."""
+    rows = []
+    for pcode, idx in page_idx_series.items():
+        g = grouped.get_group(pcode)
+        prior = g[g["page_index"] < idx]
+        ts = prior["epoch_time_completed"].max() if not prior.empty else pd.NA
+        rows.append({"participant_code": pcode, out_col: ts})
+    return pd.DataFrame(rows)
+
+
+if df_pagetimes is not None:
+    df_pt = df_pagetimes.copy()
+    df_pt["epoch_time_completed"] = pd.to_numeric(df_pt["epoch_time_completed"], errors="coerce")
+    df_pt["round_number"] = pd.to_numeric(df_pt["round_number"], errors="coerce")
+    df_pt["page_index"] = pd.to_numeric(df_pt["page_index"], errors="coerce")
+    df_pt = df_pt.dropna(subset=["epoch_time_completed", "page_index"])
+
+    # Whole experiment time: span from the first recorded page (InitializeParticipant)
+    # to the last recorded page, per subject — works for incomplete sessions:
+    # an abandoned subject just has fewer rows, and "last" is wherever they stopped.
+    experiment_span = (
+        df_pt.groupby("participant_code")["epoch_time_completed"]
+        .agg(_first_page_ts="min", _last_page_ts="max")
+        .reset_index()
+    )
+    experiment_span["whole_experiment_time_seconds"] = (
+        experiment_span["_last_page_ts"] - experiment_span["_first_page_ts"]
+    )
+
+    grouped_pt = df_pt.groupby("participant_code")
+
+    round1_idx = (
+        df_pt[(df_pt["app_name"] == "choice_task_block") & (df_pt["round_number"] == 1)]
+        .groupby("participant_code")["page_index"].min()
+    )
+    begin_weekend1 = _timestamp_before(grouped_pt, round1_idx, "_weekend1_start_ts")
+
+    postexp_idx = (
+        df_pt[df_pt["app_name"] == "postexperiment_block"]
+        .groupby("participant_code")["page_index"].min()
+    )
+    postexp_start = _timestamp_before(grouped_pt, postexp_idx, "_postexp_start_ts")
+
+    # Last interface interaction (click) per subject, from the extension's own
+    # click events (ms epoch) — converted to seconds to match PageTimes.
+    df_conv_ts = df_conv.copy()
+    df_conv_ts["timestamp"] = pd.to_numeric(df_conv_ts["timestamp"], errors="coerce")
+    last_click = (
+        df_conv_ts[df_conv_ts["type"] == "click"]
+        .groupby("participant_code")["timestamp"].max() / 1000.0
+    ).rename("_last_click_ts").reset_index()
+
+    df_experiment_times = (
+        experiment_span[["participant_code", "whole_experiment_time_seconds"]]
+        .merge(begin_weekend1, on="participant_code", how="left")
+        .merge(postexp_start, on="participant_code", how="left")
+        .merge(last_click, on="participant_code", how="left")
+    )
+
+    # choice_task end = the EARLIEST of (last click, arrival at postexperiment_block)
+    # that's actually available — a subject who never clicked has no
+    # _last_click_ts, one who never reached the questionnaire has no
+    # _postexp_start_ts; min(skipna=True) uses whichever bound(s) exist.
+    df_experiment_times["_choice_task_end_ts"] = df_experiment_times[
+        ["_last_click_ts", "_postexp_start_ts"]
+    ].min(axis=1, skipna=True)
+
+    df_experiment_times["choice_task_time_seconds"] = (
+        df_experiment_times["_choice_task_end_ts"] - df_experiment_times["_weekend1_start_ts"]
+    )
+
+    df_experiment_times = df_experiment_times[
+        ["participant_code", "whole_experiment_time_seconds", "choice_task_time_seconds"]
+    ]
+else:
+    df_experiment_times = pd.DataFrame(
+        columns=["participant_code", "whole_experiment_time_seconds", "choice_task_time_seconds"]
+    )
+
+df = df.merge(df_experiment_times, on="participant_code", how="left")
+
+# ---------------------------------------------------------------------------
 # PART F: Subject-level variables from the oTree wide export.
 # ---------------------------------------------------------------------------
 
@@ -426,6 +679,7 @@ COLUMNS = [
     "nasa_tlx_mental", "nasa_tlx_physical", "nasa_tlx_temporal",
     "nasa_tlx_performance", "nasa_tlx_effort", "nasa_tlx_frustration",
     "visual_complexity",
+    "whole_experiment_time_seconds", "choice_task_time_seconds",
     # city level
     "preference_consistency", "cued_choice_preference_consistency",
     # weekend level
@@ -436,6 +690,7 @@ COLUMNS = [
     "time_on_listing_page_seconds", "cluster", "cued_listing",
     # reference (not pre-registered DVs, kept for QA / debugging)
     "checkin", "choice_set", "would_be_cued",
+    "is_substitute_listing", "replaced_property_slug",
 ]
 df = df[[c for c in COLUMNS if c in df.columns]]
 df = df.sort_values(["participant_code", "city", "weekend_number_global", "property_slug"])

@@ -193,6 +193,8 @@ se_h11   <- se(m_h11, cluster = ~participant_code)["cue_visibleTRUE"]
 z_h11    <- coef_h11 / se_h11
 p_onesided_h11 <- pnorm(z_h11, lower.tail = FALSE)
 
+# TODO 10%
+
 cat("z =", round(z_h11, 3), " | one-sided p-value (H1: beta > 0) =", round(p_onesided_h11, 4), "\n")
 ```
 
@@ -261,6 +263,8 @@ h122_df <- df %>%
 
 # TODO: Should we include or exclude observations with 0 time spent on listing?
 
+# TODO: IS THIS LOGGED?, also ways we deal with 0s, log 1+ x
+
 m_h122 <- feols(
   time_on_listing_page_seconds ~ cued_weekend | participant_code + city,
   data = h122_df
@@ -324,6 +328,9 @@ m_h211 <- feglm(
 # cluster = ~participant_code because each subject contributes multiple,
 # non-independent weekend observations (3 cities x 4 weekends)
 summary(m_h211, cluster = ~participant_code)
+
+
+### Collinear
 ```
 
 #### H2.1.2 DV: Whether cued listing is clicked on, binary logit with fixed effects and interaction
@@ -389,6 +396,8 @@ h22_df <- df %>%
   ) %>%
   mutate(participant_code = factor(participant_code))
 
+## TODO :THIS IS WEIRD FIX
+
 # Logit: glm(), no fixed effects (1 observation per subject — no panel structure to absorb).
 m_h22 <- glm(
   cue_recognition ~ clutter_high,
@@ -426,6 +435,8 @@ cognitive load (H0 : β1 ≤0, H1 : β1 > 0), each with a Type I error rate of
 
 #### H2.3.1: IV: Decision time, DV: Clutter, OLS with fixed effects
 ```{r}
+# TODO: UPDATE TO PREREGISTRATION 
+
 # Weekend level: decision_time_seconds and clutter_high are both constant across
 # the 9 listing-rows of a weekend, so first() picks that single value per group.
 h231_df <- df %>%
@@ -444,6 +455,8 @@ h231_df <- df %>%
 # variation to estimate beta, so we drop it and keep only the city fixed effect.
 
 # TODO: Damien, please let me know if it's ok that we don't do individual subject effects due to collinearity, as explained above. If so, the preregistration will need to be changed.
+
+# TODO : Make sure this doesn't involve loading
 m_h231 <- feols(
   decision_time_seconds ~ clutter_high | city,
   data = h231_df
@@ -593,6 +606,8 @@ z_h31    <- coef_h31 / se_h31
 p_onesided_h31 <- pnorm(z_h31, lower.tail = TRUE)
 
 cat("z =", round(z_h31, 3), " | one-sided p-value (H1: beta < 0) =", round(p_onesided_h31, 4), "\n")
+
+# TODO: Print average preference consistency, at indv-time-city level
 ```
 
 

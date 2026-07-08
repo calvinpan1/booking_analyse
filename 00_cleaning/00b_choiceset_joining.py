@@ -219,21 +219,47 @@ if n_backfilled:
 
 # ---------------------------------------------------------------------------
 # Flatten {city → choice_set_N → [properties]} → flat DataFrame
-# Adds _city, _city_key and _choice_set columns to track origin.
+# Adds _city, _city_key, _choice_set and _is_substitute columns to track origin.
+#
+# Supports two JSON shapes:
+#   - legacy/flat:   {city: {choice_set_N: [properties]}}
+#   - with-substitutes (nested): {city: {"choice_sets": {choice_set_N: [...]},
+#                                          "substitute_pools": {pool_name: [...]}}}
 # ---------------------------------------------------------------------------
+
+def iter_property_sets(sets: dict):
+    """Yield (set_name, properties, is_substitute) for one city's blob,
+    regardless of which of the two JSON shapes above it uses."""
+    if "choice_sets" in sets or "substitute_pools" in sets:
+        for set_name, properties in sets.get("choice_sets", {}).items():
+            yield set_name, properties, False
+        for pool_name, properties in sets.get("substitute_pools", {}).items():
+            yield pool_name, properties, True
+    else:
+        for set_name, properties in sets.items():
+            yield set_name, properties, False
+
 
 rows = []
 for city, sets in raw_cs.items():
-    for set_name, properties in sets.items():
+    for set_name, properties, is_substitute in iter_property_sets(sets):
         for prop in properties:
             city_key = prop.get("city_slug") or derive_city_key(prop.get("city_search") or city)
-            rows.append({**prop, "_city": city, "_city_key": city_key, "_choice_set": set_name})
+            rows.append({
+                **prop,
+                "_city": city,
+                "_city_key": city_key,
+                "_choice_set": set_name,
+                "_is_substitute": is_substitute,
+            })
 
 df_choiceset = pd.DataFrame(rows)
+n_substitutes = int(df_choiceset["_is_substitute"].sum())
 print(f"  Flattened choice-sets: {len(df_choiceset)} rows "
       f"({df_choiceset['property_slug'].nunique()} unique slugs, "
       f"{len(raw_cs)} cities, "
-      f"{df_choiceset['_choice_set'].nunique()} sets per city)")
+      f"{df_choiceset['_choice_set'].nunique()} sets/pools per city, "
+      f"{n_substitutes} substitute-pool row(s))")
 
 # ---------------------------------------------------------------------------
 # Sanity checks
@@ -293,7 +319,7 @@ df_merged.drop(columns=["_merge"], inplace=True)
 # Flag them with a dedicated status instead of the generic "master only" label,
 # so they're not counted as join failures in the validation matrix below.
 # ---------------------------------------------------------------------------
-
+inp
 NOT_JOINABLE_TYPES = {
     "visibility", "scroll", "tab_focus", "tab_navigation", "manip_check",
     "page_view", "page_ready", "health", "preload", "page_snapshot",
@@ -480,7 +506,7 @@ COLS_FIRST = [
     "cell_index", "cell_city_key", "cell_checkin", "cell_list_index", "cell_thumb",
     # property (join key + choice-set fields)
     "targetPropertyId", "_targetPropertyId_backfilled", "property_slug",
-    "_city_key", "_city", "_choice_set",
+    "_city_key", "_city", "_choice_set", "_is_substitute",
     "property_id", "cluster", "preferred", "dest_id", "city_search",
     # interaction
     "kind", "isTargetSample",
