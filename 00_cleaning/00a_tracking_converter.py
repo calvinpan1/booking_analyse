@@ -234,6 +234,24 @@ def event_to_row(event: dict) -> dict:
         shownCardCount
         ok
 
+    preload
+        Flattened PreloadOutcome (src/shared/types.ts) describing how the
+        "Chargement des options…" curtain loop resolved for this page load.
+        ok, stopReason         — success flag + why the loop stopped
+        whitelistCount, foundCount, cardCount, iterations, clicks, elapsedMs
+        missingSlugs           — JSON-encoded list, whitelist slugs never found
+        bookingOrder, displayOrder — JSON-encoded lists (DOM order / shuffled order)
+        priceGuard, resultCountGuard, noTargetGuard — JSON-encoded early-stop guard details
+        priceRejectedSlugs     — JSON-encoded list of {slug, totalEur, thresholdEur}
+        originalMissingSlugs, effectiveWhitelist — JSON-encoded lists (substitution passes)
+        substitutions          — JSON-encoded list of SubstituteSelection
+        substitutionError      — set when substitution was skipped (dependency unavailable)
+        passes                 — number of preload passes run (1 = originals only, 2+ = with substitutes)
+        passDetails            — JSON-encoded list of PreloadPassDetail (per-pass summary)
+        finalDisplayedCount    — size of the list actually shown after substitutions
+        usedSubstitutesFallback — substitution ran with an empty used-substitutes set (getUsedSubstitutes failed)
+        groupsCovered          — offers covered (original OR substitute present), passes 2+
+
     cell_* columns (present on EVERY event, regardless of type)
         Injected by merge_export_folder() onto every event of a per-cell
         export folder (_cellIndex/_cityKey/_checkin/_listIndex/_thumb) — the
@@ -347,6 +365,64 @@ def event_to_row(event: dict) -> dict:
         "visiblePouceCount": event.get("visiblePouceCount"),
         "totalPouceCount":  event.get("totalPouceCount"),
         "shownCardCount":   event.get("shownCardCount"),
+
+        # --- preload (flattened PreloadOutcome, src/shared/types.ts) ---
+        "stopReason":       event.get("stopReason"),
+        "whitelistCount":   event.get("whitelistCount"),
+        "foundCount":       event.get("foundCount"),
+        "cardCount":        event.get("cardCount"),
+        "iterations":       event.get("iterations"),
+        "clicks":           event.get("clicks"),
+        "elapsedMs":        event.get("elapsedMs"),
+        "missingSlugs":     (
+            json.dumps(event["missingSlugs"], ensure_ascii=False)
+            if "missingSlugs" in event else None
+        ),
+        "bookingOrder":     (
+            json.dumps(event["bookingOrder"], ensure_ascii=False)
+            if "bookingOrder" in event else None
+        ),
+        "displayOrder":     (
+            json.dumps(event["displayOrder"], ensure_ascii=False)
+            if "displayOrder" in event else None
+        ),
+        "priceGuard":       (
+            json.dumps(event["priceGuard"], ensure_ascii=False)
+            if "priceGuard" in event else None
+        ),
+        "priceRejectedSlugs": (
+            json.dumps(event["priceRejectedSlugs"], ensure_ascii=False)
+            if "priceRejectedSlugs" in event else None
+        ),
+        "resultCountGuard": (
+            json.dumps(event["resultCountGuard"], ensure_ascii=False)
+            if "resultCountGuard" in event else None
+        ),
+        "noTargetGuard":    (
+            json.dumps(event["noTargetGuard"], ensure_ascii=False)
+            if "noTargetGuard" in event else None
+        ),
+        "originalMissingSlugs": (
+            json.dumps(event["originalMissingSlugs"], ensure_ascii=False)
+            if "originalMissingSlugs" in event else None
+        ),
+        "effectiveWhitelist": (
+            json.dumps(event["effectiveWhitelist"], ensure_ascii=False)
+            if "effectiveWhitelist" in event else None
+        ),
+        "substitutions":    (
+            json.dumps(event["substitutions"], ensure_ascii=False)
+            if "substitutions" in event else None
+        ),
+        "substitutionError": event.get("substitutionError"),
+        "passes":           event.get("passes"),
+        "passDetails":      (
+            json.dumps(event["passDetails"], ensure_ascii=False)
+            if "passDetails" in event else None
+        ),
+        "finalDisplayedCount": event.get("finalDisplayedCount"),
+        "usedSubstitutesFallback": event.get("usedSubstitutesFallback"),
+        "groupsCovered":    event.get("groupsCovered"),
     }
     return row
 
@@ -448,6 +524,30 @@ COLUMNS = [
     "visiblePouceCount",
     "totalPouceCount",
     "shownCardCount",
+    # preload (flattened PreloadOutcome)
+    "stopReason",
+    "whitelistCount",
+    "foundCount",
+    "cardCount",
+    "iterations",
+    "clicks",
+    "elapsedMs",
+    "missingSlugs",
+    "bookingOrder",
+    "displayOrder",
+    "priceGuard",
+    "priceRejectedSlugs",
+    "resultCountGuard",
+    "noTargetGuard",
+    "originalMissingSlugs",
+    "effectiveWhitelist",
+    "substitutions",
+    "substitutionError",
+    "passes",
+    "passDetails",
+    "finalDisplayedCount",
+    "usedSubstitutesFallback",
+    "groupsCovered",
 ]
 
 # Also pick up any unexpected keys that might appear in future extension versions

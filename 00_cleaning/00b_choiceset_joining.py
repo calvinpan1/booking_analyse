@@ -138,8 +138,10 @@ DEST_ID_TO_CITY = {
     -1407760: "annecy",
     -1408052: "arcachon",
     -1416533: "cannes",
+    -1435362: "la-ciotat",
     -1446308: "le-treport",
     -1454990: "nice",
+    -1470743: "sete",
 }
 
 
