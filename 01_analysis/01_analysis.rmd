@@ -48,6 +48,7 @@ CLEANED_CSV <- path(OUTPUT_DIR, "analysis_dataset.csv")
 library(readr)
 library(dplyr)
 library(fixest)   # fixed-effects OLS / logit / probit, clustered SE
+library(ggplot2)  # descriptives plots
 
 # Load the cleaned analysis dataset (one row per subject x city x weekend x listing)
 df <- read_csv(CLEANED_CSV, show_col_types = FALSE)
@@ -87,9 +88,56 @@ if (length(excluded_subjects) > 0) {
   cat("No subjects excluded — every subject made all 12 choices.\n")
 }
 
+# Keep a pre-exclusion copy for the descriptives below — loading time is a
+# technical/logistics measure independent of whether the subject completed
+# all 12 choices, so it's reported on the full collected sample, not just the
+# subjects that survive the exclusion.
+df_all <- df
+
 df <- df %>%
   filter(!participant_code %in% excluded_subjects) %>%
   droplevels()
+```
+
+### Descriptives — choice completeness & loading time
+Two data-quality checks on the full collected sample (before the exclusion
+above): the share of subjects who did not complete all 12 choices, and how
+long Booking took to load the 9-listing choice set each weekend (the
+`loading_time_seconds` measure built in 00c from the extension's `preload`
+event).
+```{r}
+# --- Share of subjects with fewer than 12 choices made ---
+n_subjects_total    <- nrow(n_choices_per_subject)
+n_subjects_excluded <- sum(n_choices_per_subject$n_choices < 12)
+pct_excluded        <- 100 * n_subjects_excluded / n_subjects_total
+
+cat(n_subjects_excluded, "of", n_subjects_total, "subjects (",
+    round(pct_excluded, 1), "%) made fewer than 12 choices.\n\n")
+
+# --- Loading time: weekend-level measure, so collapse the listing-level
+# df_all (9 rows/weekend) down to one row per (participant_code,
+# weekend_number_global) before summarising/plotting — otherwise every
+# weekend's loading time would be counted 9 times over. ---
+loading_by_weekend <- df_all %>%
+  group_by(participant_code, weekend_number_global) %>%
+  summarise(loading_time_seconds = first(loading_time_seconds), .groups = "drop")
+
+n_missing_loading <- sum(is.na(loading_by_weekend$loading_time_seconds))
+
+cat("Loading time (seconds), across", nrow(loading_by_weekend), "subject x weekend observations",
+    if (n_missing_loading > 0) paste0(" (", n_missing_loading, " missing — no preload event tracked):\n") else ":\n")
+cat("  Mean:  ", round(mean(loading_by_weekend$loading_time_seconds, na.rm = TRUE), 2), "s\n")
+cat("  Median:", round(median(loading_by_weekend$loading_time_seconds, na.rm = TRUE), 2), "s\n")
+cat("  SD:    ", round(sd(loading_by_weekend$loading_time_seconds, na.rm = TRUE), 2), "s\n")
+
+ggplot(loading_by_weekend, aes(x = loading_time_seconds)) +
+  geom_histogram(binwidth = 5, fill = "steelblue", color = "white", na.rm = TRUE) +
+  labs(
+    title = "Distribution of loading time per weekend",
+    x = "Loading time (seconds)",
+    y = "Number of subject x weekend observations"
+  ) +
+  theme_minimal()
 ```
 
 ### Testing H1.1 — Effect of the cue on choice probability
