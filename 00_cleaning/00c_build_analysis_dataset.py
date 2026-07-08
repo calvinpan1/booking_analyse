@@ -245,6 +245,36 @@ property_page_visits = (
     .reset_index(name="property_page_visits_number")
 )
 
+# --- Loading time: how long Booking took to load the search results down to
+# the design's 9-listing choice set for this weekend, from the `preload` event
+# (flattened PreloadOutcome, cf. src/content/preload.ts). Each preload PASS
+# resets its own internal `start = Date.now()`, so when substitute retries
+# happened (passes > 1), the top-level `elapsedMs` reflects only the LAST
+# pass — the true total curtain duration is the sum of passDetails[].elapsedMs.
+# Single-pass successes have no passDetails, so elapsedMs alone IS the total
+# there. If several preload events land in the same weekend (e.g. the subject
+# revisited the search page), take the chronologically FIRST one. ---
+preload_events = (
+    df_ev[df_ev["type"] == "preload"]
+    .sort_values(["participant_code", "cell_index", "timestamp"])
+    .drop_duplicates(subset=["participant_code", "cell_index"], keep="first")
+    .copy()
+)
+
+def total_loading_ms(row) -> float:
+    pass_details = row.get("passDetails")
+    if isinstance(pass_details, str) and pass_details.strip():
+        try:
+            details = json.loads(pass_details)
+            return float(sum(d["elapsedMs"] for d in details))
+        except (json.JSONDecodeError, KeyError, TypeError):
+            pass
+    elapsed = row.get("elapsedMs")
+    return float(elapsed) if pd.notna(elapsed) else float("nan")
+
+preload_events["loading_time_seconds"] = preload_events.apply(total_loading_ms, axis=1) / 1000.0
+loading_time = preload_events[["participant_code", "cell_index", "loading_time_seconds"]]
+
 # ---------------------------------------------------------------------------
 # PART D: Assemble the listing-level table
 # ---------------------------------------------------------------------------
@@ -254,6 +284,7 @@ df = df.merge(chosen, on=["participant_code", "cell_index", "property_slug"], ho
 df = df.merge(time_on_listing, on=["participant_code", "cell_index", "property_slug"], how="left")
 df = df.merge(decision_time, on=["participant_code", "cell_index"], how="left")
 df = df.merge(property_page_visits, on=["participant_code", "cell_index"], how="left")
+df = df.merge(loading_time, on=["participant_code", "cell_index"], how="left")
 
 df["listing_n_clicks"] = df["listing_n_clicks"].fillna(0).astype(int)
 df["listing_clicked"] = df["listing_n_clicks"] > 0
@@ -321,6 +352,9 @@ subject_cols = {
     "postexperiment_block.1.player.nasa_tlx_performance":         "nasa_tlx_performance",
     "postexperiment_block.1.player.nasa_tlx_effort":              "nasa_tlx_effort",
     "postexperiment_block.1.player.nasa_tlx_frustration":         "nasa_tlx_frustration",
+    "instructions_block.1.player.failed_comprehension_prize":                       "failed_comprehension_prize",
+    "instructions_block.1.player.failed_comprehension_choice_city_weekend":         "failed_comprehension_choice_city_weekend",
+    "instructions_block.1.player.failed_comprehension_no_cancellation":             "failed_comprehension_no_cancellation",
 }
 missing_otree_cols = [c for c in subject_cols if c not in df_otree.columns]
 if missing_otree_cols:
@@ -396,7 +430,7 @@ COLUMNS = [
     "preference_consistency", "cued_choice_preference_consistency",
     # weekend level
     "n_hotels_in_choice_set", "property_page_visits_number",
-    "decision_time_seconds", "cued_weekend",
+    "decision_time_seconds", "loading_time_seconds", "cued_weekend",
     # listing level
     "listing_chosen", "listing_clicked", "listing_n_clicks",
     "time_on_listing_page_seconds", "cluster", "cued_listing",

@@ -1,6 +1,6 @@
 # Booking Experiment Analysis Script
 
-Authors: Calvin Pan Created: June 8th 2026 Last modified: June 8th 2026
+Authors: Calvin Pan Created: June 8th 2026 Last modified: June 30th 2026
 
 NOTE: Before using this script, please run your data through 00a-00c.py.
 
@@ -60,6 +60,36 @@ df <- df %>%
   )
 
 glimpse(df)
+```
+
+### Sample exclusions
+Each subject should have exactly one recorded choice (`listing_chosen`) per
+weekend, across all 12 weekends (3 cities x 4 weekends). Subjects with fewer
+than 12 recorded choices — e.g. a `reserve` event that never got tracked for
+some weekend, or a session abandoned partway through — are dropped from the
+analysis dataset before any hypothesis test below.
+```{r}
+n_choices_per_subject <- df %>%
+  group_by(participant_code) %>%
+  summarise(
+    n_choices = n_distinct(weekend_number_global[listing_chosen]),
+    .groups = "drop"
+  )
+
+excluded_subjects <- n_choices_per_subject %>%
+  filter(n_choices < 12) %>%
+  pull(participant_code)
+
+if (length(excluded_subjects) > 0) {
+  cat("Excluding", length(excluded_subjects), "subject(s) with fewer than 12 choices made:\n")
+  print(n_choices_per_subject %>% filter(participant_code %in% excluded_subjects))
+} else {
+  cat("No subjects excluded — every subject made all 12 choices.\n")
+}
+
+df <- df %>%
+  filter(!participant_code %in% excluded_subjects) %>%
+  droplevels()
 ```
 
 ### Testing H1.1 — Effect of the cue on choice probability
@@ -132,11 +162,8 @@ H1 : β1 >0), with a Type I error rate of α= 0.05 on the positive tail.
 
 #### H1.2.1 first: Binary outcome "whether cued listing is clicked on" with logit & fixed effects
 ```{r}
-# Unlike H1.1 (one choice per weekend → must collapse to weekend level), a click
-# is a per-listing event: a subject can click several would_be_cued listings
-# independently within the same weekend. So we stay at listing level and just
-# restrict to listings that are cue-eligible (would_be_cued == TRUE) — i.e. the
-# listings that carry the native "Preferred" badge whenever cue_visible is TRUE.
+# Following Chiara's advice, we'll collapse this to the 
+
 # TODO: Damien — the pre-registration doesn't say how to handle the fact that up
 # to 3 of the 9 listings per choice set are cue-eligible at once. We went with
 # listing-level here (one row per eligible listing) instead of collapsing to one
