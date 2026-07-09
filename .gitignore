@@ -3,7 +3,8 @@ documents/
 __pycache__/
 *.log
 
-inputs/
+inputs/*
+!inputs/choice_sets_with_substitutes.json
 outputs/extension_converted.csv
 outputs/extension_joined_raw.csv
 outputs/extension_joined.csv

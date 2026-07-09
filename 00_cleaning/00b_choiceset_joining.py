@@ -25,7 +25,7 @@ BASE_DIR    = Path(__file__).parent.parent          # analyse/
 PLUGIN_DIR  = BASE_DIR.parent                       # booking_plugin/
 INPUTS_DIR  = BASE_DIR / "inputs"
 OUTPUTS_DIR = BASE_DIR / "outputs"
-CONFIG_CHOICESET_JSON = PLUGIN_DIR / "config" / "choice_sets.json"
+CONFIG_CHOICESET_JSON = PLUGIN_DIR / "booking_plugin" / "config" / "choice_sets_with_substitutes.json"
 
 EXTENSION_CSV = OUTPUTS_DIR / "extension_converted.csv"
 OUTPUT_CSV_RAW = OUTPUTS_DIR / "extension_joined_raw.csv"
@@ -218,6 +218,64 @@ if n_backfilled:
           f"reviews, share, FAQ, map POI, ...)")
 
 # ---------------------------------------------------------------------------
+# Fallback for `reserve` events fired directly from a search-results page —
+# Booking.com sometimes renders an inline "Réserver pour X €" CTA on a
+# search-result row itself (seen for bra326dw/weekend 10: targetText
+# "Réserver pour 99 euros", url still searchresults.fr.html), letting a
+# subject reserve without ever opening the property's own /hotel/... page.
+# The reserve interceptor (src/content/index.ts) reads targetPropertyId via
+# slugFromHotelUrl(window.location.href), which returns nothing for a
+# search-results URL, and the URL-backfill above can't help either (same
+# regex, same URL). Rather than leave these permanently unjoinable, code the
+# reservation as the last hotel-detail page the subject actually viewed in
+# that SAME weekend before clicking reserve — found by looking at every
+# event's own url (any type: page_view, click, hover, viewport, scroll, ...),
+# not just PROPERTY_AWARE_TYPES, since merely being on the detail page counts
+# as "viewed" regardless of what the subject did there.
+# ---------------------------------------------------------------------------
+
+df_events["timestamp"] = pd.to_numeric(df_events["timestamp"], errors="coerce")
+df_events["_url_slug"] = df_events["url"].apply(slug_from_url)
+
+viewed = (
+    df_events[df_events["_url_slug"] != ""]
+    .sort_values(["participant_code", "cell_index", "timestamp"])
+)
+
+reserve_needs_fallback = (df_events["type"] == "reserve") & df_events["targetPropertyId"].isna()
+n_candidates = int(reserve_needs_fallback.sum())
+
+df_events["_targetPropertyId_fallback_last_viewed"] = False
+
+if n_candidates:
+    fallback_slug = pd.Series(pd.NA, index=df_events.index, dtype=object)
+    for idx in df_events.index[reserve_needs_fallback]:
+        pcode = df_events.at[idx, "participant_code"]
+        cell = df_events.at[idx, "cell_index"]
+        ts = df_events.at[idx, "timestamp"]
+        prior = viewed[
+            (viewed["participant_code"] == pcode)
+            & (viewed["cell_index"] == cell)
+            & (viewed["timestamp"] <= ts)
+        ]
+        if not prior.empty:
+            fallback_slug.at[idx] = prior.iloc[-1]["_url_slug"]
+
+    applied = reserve_needs_fallback & fallback_slug.notna()
+    df_events.loc[applied, "targetPropertyId"] = fallback_slug[applied]
+    df_events.loc[applied, "_targetPropertyId_fallback_last_viewed"] = True
+
+    n_applied = int(applied.sum())
+    print(f"Fallback: coded {n_applied} of {n_candidates} `reserve` event(s) with no "
+          f"/hotel/... URL at click time as the last hotel-detail page viewed that "
+          f"weekend (flagged _targetPropertyId_fallback_last_viewed).")
+    if n_applied < n_candidates:
+        print(f"  ! {n_candidates - n_applied} such reserve(s) had NO prior hotel-detail "
+              f"page view in the same weekend to fall back to — left unresolved.")
+
+df_events.drop(columns=["_url_slug"], inplace=True)
+
+# ---------------------------------------------------------------------------
 # Flatten {city → choice_set_N → [properties]} → flat DataFrame
 # Adds _city, _city_key, _choice_set and _is_substitute columns to track origin.
 #
@@ -319,7 +377,6 @@ df_merged.drop(columns=["_merge"], inplace=True)
 # Flag them with a dedicated status instead of the generic "master only" label,
 # so they're not counted as join failures in the validation matrix below.
 # ---------------------------------------------------------------------------
-inp
 NOT_JOINABLE_TYPES = {
     "visibility", "scroll", "tab_focus", "tab_navigation", "manip_check",
     "page_view", "page_ready", "health", "preload", "page_snapshot",

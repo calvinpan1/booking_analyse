@@ -376,38 +376,22 @@ chosen = (
 )
 chosen["listing_chosen"] = True
 
-# --- Weekend-level: decision time (first page_view → reserve, in seconds)
-# and property page visits number (count of detail-page page_views). ---
-first_page_view = (
-    df_ev[df_ev["type"] == "page_view"]
-    .groupby(["participant_code", "cell_index"])["timestamp"].min()
-    .rename("_first_pv_ts")
-)
-reserve_ts = (
-    df_ev[df_ev["type"] == "reserve"]
-    .groupby(["participant_code", "cell_index"])["timestamp"].max()
-    .rename("_reserve_ts")
-)
-decision_time = pd.concat([first_page_view, reserve_ts], axis=1).reset_index()
-decision_time["decision_time_seconds"] = (decision_time["_reserve_ts"] - decision_time["_first_pv_ts"]) / 1000.0
-decision_time = decision_time[["participant_code", "cell_index", "decision_time_seconds"]]
-
-property_page_visits = (
-    df_ev[df_ev["_is_detail_page_view"]]
-    .groupby(["participant_code", "cell_index"])
-    .size()
-    .reset_index(name="property_page_visits_number")
-)
-
-# --- Loading time: how long Booking took to load the search results down to
-# the design's 9-listing choice set for this weekend, from the `preload` event
-# (flattened PreloadOutcome, cf. src/content/preload.ts). Each preload PASS
-# resets its own internal `start = Date.now()`, so when substitute retries
-# happened (passes > 1), the top-level `elapsedMs` reflects only the LAST
-# pass — the true total curtain duration is the sum of passDetails[].elapsedMs.
-# Single-pass successes have no passDetails, so elapsedMs alone IS the total
-# there. If several preload events land in the same weekend (e.g. the subject
-# revisited the search page), take the chronologically FIRST one. ---
+# --- Loading time / cards-ready anchor: how long Booking took to load the
+# search results down to the design's 9-listing choice set for this weekend,
+# from the `preload` event (flattened PreloadOutcome, cf. src/content/preload.ts).
+# Each preload PASS resets its own internal `start = Date.now()`, so when
+# substitute retries happened (passes > 1), the top-level `elapsedMs` reflects
+# only the LAST pass — the true total curtain duration is the sum of
+# passDetails[].elapsedMs. Single-pass successes have no passDetails, so
+# elapsedMs alone IS the total there. If several preload events land in the
+# same weekend (e.g. the subject revisited the search page), take the
+# chronologically FIRST one — this is also the "cards ready" anchor used for
+# decision_time_seconds below: the preload event's own `timestamp` is set
+# right after the whitelist/substitution resolution finishes and just before
+# the loading curtain is hidden (cf. index.ts, where the event is built right
+# after finalizeDisplay() and before hideCurtain()/observer.resume()), i.e. the
+# moment the final 9-listing set is actually in place and about to become
+# interactable. ---
 preload_events = (
     df_ev[df_ev["type"] == "preload"]
     .sort_values(["participant_code", "cell_index", "timestamp"])
@@ -428,6 +412,33 @@ def total_loading_ms(row) -> float:
 
 preload_events["loading_time_seconds"] = preload_events.apply(total_loading_ms, axis=1) / 1000.0
 loading_time = preload_events[["participant_code", "cell_index", "loading_time_seconds"]]
+
+# --- Weekend-level: decision time (cards ready → reserve, in seconds) and
+# property page visits number (count of detail-page page_views). Deliberately
+# NOT anchored on page_view (raw page arrival) — that would count the loading
+# curtain itself as part of the subject's decision. Anchored on the (first)
+# preload event's timestamp instead, i.e. the moment the 9-listing choice set
+# is actually visible and the subject can start freely exploring. ---
+cards_ready_ts = (
+    preload_events
+    .set_index(["participant_code", "cell_index"])["timestamp"]
+    .rename("_cards_ready_ts")
+)
+reserve_ts = (
+    df_ev[df_ev["type"] == "reserve"]
+    .groupby(["participant_code", "cell_index"])["timestamp"].max()
+    .rename("_reserve_ts")
+)
+decision_time = pd.concat([cards_ready_ts, reserve_ts], axis=1).reset_index()
+decision_time["decision_time_seconds"] = (decision_time["_reserve_ts"] - decision_time["_cards_ready_ts"]) / 1000.0
+decision_time = decision_time[["participant_code", "cell_index", "decision_time_seconds"]]
+
+property_page_visits = (
+    df_ev[df_ev["_is_detail_page_view"]]
+    .groupby(["participant_code", "cell_index"])
+    .size()
+    .reset_index(name="property_page_visits_number")
+)
 
 # ---------------------------------------------------------------------------
 # PART D: Assemble the listing-level table
