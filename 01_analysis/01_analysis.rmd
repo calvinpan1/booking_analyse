@@ -68,7 +68,9 @@ Per the pre-registration's data inclusion and exclusion criteria, two rules appl
 to this dataset: (1) "Technical issues/link failures" — subjects who hit a
 technical issue that prevented them from completing all 12 choices (3 cities x 4
 weekends) are fully excluded from the analysis (e.g. a `reserve` event that never
-got tracked for some weekend, or a session abandoned partway through); and (2)
+got tracked for some weekend, or a session abandoned partway through)
+
+(2)
 "Reduced choice sets" — if a city x weekend choice set ends up with fewer than 9
 listings, only the four weekends for that subject x city are dropped, while the
 subject's other cities and post-experiment questionnaire variables remain in the
