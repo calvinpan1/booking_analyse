@@ -439,8 +439,6 @@ h22_df <- df %>%
   ) %>%
   mutate(participant_code = factor(participant_code))
 
-## TODO :THIS IS WEIRD FIX
-
 # Logit: glm(), no fixed effects (1 observation per subject — no panel structure to absorb).
 m_h22 <- glm(
   cue_recognition ~ clutter_high,
@@ -506,7 +504,6 @@ h231_df <- df %>%
 # (this matches the pre-registration, which only specifies city-level fixed
 # effects for H2.3).
 
-# TODO : Make sure this doesn't involve loading
 m_h231 <- feols(
   log_decision_time_seconds ~ clutter_high | city,
   data = h231_df
@@ -602,9 +599,37 @@ etable(m_h233_list)
 
 # Compact one-sided-test summary across all 6 dimensions.
 print(h233_results, row.names = FALSE)
+```
 
+#### Audit: decision_time_seconds (sum) vs NASA-TLX dimensions
+```{r}
+# Exploratory/descriptive only — not a pre-registered analysis. Subject-level
+# total decision time: raw (unlogged) decision_time_seconds summed across all
+# 12 weekends per subject (weekends with no tracked preload event, and thus no
+# decision_time_seconds, contribute 0 via na.rm = TRUE rather than dropping the
+# subject entirely).
+decision_time_by_subject <- df %>%
+  group_by(participant_code, city, weekend_number_global) %>%
+  summarise(decision_time_seconds = first(decision_time_seconds), .groups = "drop") %>%
+  group_by(participant_code) %>%
+  summarise(total_decision_time_seconds = sum(decision_time_seconds, na.rm = TRUE), .groups = "drop")
 
-#TODO: Look at decision time
+audit_df <- h233_df %>%
+  select(participant_code, all_of(nasa_vars)) %>%
+  left_join(decision_time_by_subject, by = "participant_code")
+
+for (v in nasa_vars) {
+  p <- ggplot(audit_df, aes(x = total_decision_time_seconds, y = .data[[v]])) +
+    geom_point(alpha = 0.6) +
+    geom_smooth(method = "lm", se = TRUE, color = "firebrick") +
+    labs(
+      title = paste("Total decision time vs", v),
+      x = "Total decision time across all weekends (seconds)",
+      y = v
+    ) +
+    theme_minimal()
+  print(p)
+}
 ```
 
 
@@ -653,7 +678,8 @@ p_twosided_h31 <- 2 * pnorm(abs(z_h31), lower.tail = FALSE)
 
 cat("z =", round(z_h31, 3), " | two-sided p-value (H1: beta != 0) =", round(p_twosided_h31, 4), "\n")
 
-# TODO: Print average preference consistency, at indv-time-city level
+# Print mean preference consistency to audit
+mean(h31_df$preference_consistency)
 ```
 
 
@@ -742,10 +768,6 @@ h_manip_df <- df %>%
 # complexity between High Clutter and Low Clutter subjects.
 t_manip <- t.test(visual_complexity ~ clutter_high, data = h_manip_df)
 print(t_manip)
-
-# TODO: right now this errors with only 6 subjects as synthetic test data —
-# confirm this resolves once real data (60-72 subjects across both clutter
-# conditions) is used.
 
 cat("Mean visual complexity — High Clutter:",
     round(mean(h_manip_df$visual_complexity[h_manip_df$clutter_high], na.rm = TRUE), 2),
