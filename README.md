@@ -63,9 +63,9 @@ than one candidate exists.
 
 - **Python 3** with `pandas` and `matplotlib` (`pip install pandas
   matplotlib`).
-- **R** with the packages `fs`, `readr`, `dplyr`, `ggplot2`, `fixest`,
-  `scales` (and optionally `rstudioapi`, used only to detect the script's own
-  path when run inside RStudio).
+- **R** with the packages `fs`, `readr`, `dplyr`, `purrr`, `ggplot2`,
+  `fixest`, `scales`, `rlang` (and optionally `rstudioapi`, used only to
+  detect a script's own path when run inside RStudio).
 
 ## Pipeline — run in this order
 
@@ -115,23 +115,10 @@ in-session substitutions).
 
 ### 01_analysis — checks and hypothesis tests
 
-**4a. `01b_choicesetnumbers.py`** (independent data-quality check, Python)
-Reads the raw per-cell JSONs directly (not `analysis_dataset.csv`) to
-double-check, per participant × weekend, how many distinct hotels were
-actually shown and how often a substitute hotel had to be used.
-- Input: participant folders in `inputs/`
-- Output: `choice_set_size_histogram_python.png`,
-  `substitute_weekend_histogram_python.png`
-- Run: `python3 01_analysis/01b_choicesetnumbers.py`
+Run `01_analysis.rmd` first — the other two scripts here are secondary
+checks, not part of the main pipeline.
 
-**4b. `01b_choicesetnumbers.R`** (same check, R, off the built dataset)
-Same question as 4a, but computed from `analysis_dataset.csv`'s
-`n_hotels_in_choice_set` column instead of re-reading the raw JSONs.
-- Input: `analysis_dataset.csv` (from 00c)
-- Output: `choice_set_size_histogram.png`
-- Run: `Rscript 01_analysis/01b_choicesetnumbers.R`
-
-**5. `01_analysis.rmd`**
+**4. `01_analysis.rmd`**
 The main analysis notebook: applies the pre-registration's sample exclusions,
 reports descriptives (choice completeness, loading time), and runs every
 pre-registered hypothesis test (H1.1, H1.2.1/H1.2.2, H2.1.1–H2.1.3, H2.2,
@@ -141,3 +128,24 @@ H2.3.1–H2.3.3, H3.1, H3.2) plus the manipulation checks.
   RStudio, or render headless
 - Run: open in RStudio and "Run All", or
   `Rscript -e "rmarkdown::render('01_analysis/01_analysis.rmd')"`
+
+**5. `01b_choicesetnumbers.py`** (independent data-quality check)
+Reads the raw per-cell JSONs directly (not `analysis_dataset.csv`) to
+double-check, per participant × weekend, how many distinct hotels were
+actually shown and how often a substitute hotel had to be used.
+- Input: participant folders in `inputs/`
+- Output: `choice_set_size_histogram_python.png`,
+  `substitute_weekend_histogram_python.png`
+- Run: `python3 01_analysis/01b_choicesetnumbers.py`
+
+**6. `01c_cluster_randomization.R`** (follow-up to the preference-consistency
+manipulation check, not part of the pre-registered analysis plan)
+Since clusters are structurally correlated with on-page position (Booking's
+results are price-sorted), this checks whether the "preference consistency"
+manipulation check would still clear chance (1/3) if cluster labels carried
+no information — by reshuffling cluster labels across each city's property
+pool (held fixed across a subject's weekends per draw) 5,000 times and
+recomputing the consistency rate each time.
+- Input: `analysis_dataset.csv` (from 00c)
+- Output: `cluster_randomization_histogram.png`
+- Run: `Rscript 01_analysis/01c_cluster_randomization.R`
