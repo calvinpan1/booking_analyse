@@ -1,3 +1,9 @@
+---
+output:
+  pdf_document:
+    latex_engine: xelatex
+  html_document: default
+---
 # Booking Experiment Analysis Script
 
 Authors: Calvin Pan Created: June 8th 2026 Last modified: June 30th 2026
@@ -28,7 +34,12 @@ library(fs)
 
 args <- commandArgs(trailingOnly = TRUE)
 
-script_path <- if (requireNamespace("rstudioapi", quietly = TRUE) &&
+script_path <- if (requireNamespace("knitr", quietly = TRUE) &&
+                   !is.null(knitr::current_input())) {
+  # Knitting: sys.frames()/rstudioapi don't reliably see the Rmd's own path
+  # inside a knit session, so ask knitr directly for the file it's rendering.
+  knitr::current_input(dir = TRUE)
+} else if (requireNamespace("rstudioapi", quietly = TRUE) &&
                    rstudioapi::isAvailable()) {
   rstudioapi::getActiveDocumentContext()$path
 } else {
