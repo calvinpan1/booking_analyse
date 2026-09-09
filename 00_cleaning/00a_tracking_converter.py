@@ -13,6 +13,7 @@
 
 import json
 import csv
+import os
 from pathlib import Path
 from datetime import datetime
 
@@ -22,18 +23,31 @@ from datetime import datetime
 # containing one JSON (+ HTML) per cell instead of a single session export.
 # Detect these and offer to merge them into one flat JSON in inputs/ so they
 # can be picked up like any other session file below.
+#
+# On the SSD-equipped machine, participant folders sit a few levels deeper
+# (e.g. <SSD_DATA_ROOT>/DataAt080726_12h/<participant>/cellNN_*.json,
+# one DataAt*/ subfolder per session) rather than directly under inputs/, so
+# this scans recursively (any depth) instead of assuming a flat layout.
 # ---------------------------------------------------------------------------
 
 def find_export_folders(inputs_dir: Path) -> list:
-    """Subdirectories of inputs_dir that directly contain one or more JSON files.
+    """Every directory STRICTLY UNDER inputs_dir (at any depth) that directly
+    contains one or more JSON files.
 
-    Excludes inputs/merged/ itself, which holds this script's own output
-    rather than a raw per-cell export from the extension.
+    Excludes any directory named "merged" (or anything under one) — that
+    holds this script's own output rather than a raw per-cell export from
+    the extension. Also excludes inputs_dir itself: a real participant
+    export is always in a subfolder, never a loose JSON dropped directly at
+    the root — this matters in local/dev mode, where inputs_dir may also
+    hold an unrelated config JSON (e.g. choice_sets_with_substitutes.json)
+    that would otherwise get misread as a (garbage, 0-event) export folder.
     """
-    return sorted(
-        sub for sub in inputs_dir.iterdir()
-        if sub.is_dir() and sub.name != "merged" and any(sub.glob("*.json"))
-    )
+    found = []
+    for dirpath, dirnames, filenames in os.walk(inputs_dir):
+        dirnames[:] = [d for d in dirnames if d != "merged"]
+        if Path(dirpath) != inputs_dir and any(f.endswith(".json") for f in filenames):
+            found.append(Path(dirpath))
+    return sorted(found)
 
 
 def merge_export_folder(folder: Path, merged_dir: Path) -> Path:
@@ -105,21 +119,33 @@ def merge_all_folders(inputs_dir: Path, merged_dir: Path) -> None:
 
 
 # ---------------------------------------------------------------------------
-# Discover every participant export folder in inputs/, merge the new ones
-# into inputs/merged/, and load each one's events for conversion below.
+# Discover every participant export folder in raw_dir, merge the new ones
+# into target_dir/merged/, and load each one's events for conversion below.
+#
+# raw_dir/target_dir default to the local analyse/inputs/ and analyse/outputs/
+# folders (unchanged behaviour), but are redirected under SSD_DATA_ROOT (one
+# shared env var across projects, see _ssd_paths.py) when that's set — reads
+# come from <SSD_DATA_ROOT>/Booking_in_the_dark/raw/ (participant-
+# identifiable, e.g. on Windows D:\data\Booking_in_the_dark\raw), and EVERY
+# file this script writes (merged/, extension_converted.csv — both still
+# real, participant-level data at this stage) goes to
+# <SSD_DATA_ROOT>/Booking_in_the_dark/inputs/ instead of the Nextcloud-synced
+# project, so no raw or derived personal data ever lands in the synced tree.
 # ---------------------------------------------------------------------------
 
-inputs_dir = Path(__file__).parent.parent / "inputs"
-inputs_dir.mkdir(parents=True, exist_ok=True)
-merged_dir = inputs_dir / "merged"
+from _ssd_paths import resolve_dirs
+raw_dir, target_dir = resolve_dirs(Path(__file__).parent.parent)
+raw_dir.mkdir(parents=True, exist_ok=True)
+target_dir.mkdir(parents=True, exist_ok=True)
+merged_dir = target_dir / "merged"
 merged_dir.mkdir(parents=True, exist_ok=True)
-merge_all_folders(inputs_dir, merged_dir)
+merge_all_folders(raw_dir, merged_dir)
 
-OUTPUT_DIR  = Path(__file__).parent.parent / "outputs"
+OUTPUT_DIR  = target_dir
 OUTPUT_FILE = OUTPUT_DIR / "extension_converted.csv"
 
 sessions = []  # list of (subject_id, events) — one per export folder
-for folder in find_export_folders(inputs_dir):
+for folder in find_export_folders(raw_dir):
     merged_candidates = list(merged_dir.glob(f"*{folder.name}*merged*.json"))
     if not merged_candidates:
         print(f"  ! Pas de fichier fusionné trouvé pour {folder.name}/, dossier ignoré.")
@@ -150,7 +176,7 @@ for folder in find_export_folders(inputs_dir):
     sessions.append((subject_id, events))
 
 if not sessions:
-    raise SystemExit(f"No export folders found in {inputs_dir}.")
+    raise SystemExit(f"No export folders found in {raw_dir}.")
 
 # ---------------------------------------------------------------------------
 # PART C: Convert to rows and save as CSV

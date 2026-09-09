@@ -23,6 +23,7 @@ import re
 import unicodedata
 from pathlib import Path
 from urllib.parse import urlparse
+import numpy as np
 import pandas as pd
 
 # ---------------------------------------------------------------------------
@@ -31,9 +32,16 @@ import pandas as pd
 
 BASE_DIR    = Path(__file__).parent.parent          # analyse/
 PLUGIN_DIR  = BASE_DIR.parent                       # booking_plugin/
-INPUTS_DIR  = BASE_DIR / "inputs"
-OUTPUTS_DIR = BASE_DIR / "outputs"
 CONFIG_CHOICESET_JSON = PLUGIN_DIR /"booking_plugin" / "config" / "choice_sets_with_substitutes.json"
+
+# INPUTS_DIR (raw oTree wide export: all_apps_wide_*.csv, PageTimes-*.csv) and
+# OUTPUTS_DIR (extension_converted/joined.csv from 00a/00b, and this script's
+# own analysis_dataset.csv) all hold participant-identifiable data, so both
+# are redirected under SSD_DATA_ROOT (see _ssd_paths.py) instead of ever
+# touching the Nextcloud-synced project. Unset SSD_DATA_ROOT (the default)
+# keeps the old local analyse/inputs, analyse/outputs behaviour.
+from _ssd_paths import resolve_dirs
+INPUTS_DIR, OUTPUTS_DIR = resolve_dirs(BASE_DIR)
 
 EXTENSION_CONVERTED_CSV = OUTPUTS_DIR / "extension_converted.csv"  # from 00a (every event, unfiltered)
 EXTENSION_JOINED_CSV    = OUTPUTS_DIR / "extension_joined.csv"     # from 00b (events ↔ choice-set join)
@@ -56,44 +64,24 @@ def derive_city_key(text) -> str:
     return text.strip("-")
 
 # ---------------------------------------------------------------------------
-# Prompt for the oTree wide-export CSV — same numbered-list / filename /
-# Enter-for-most-recent selection logic as 00a/00b.
+# oTree wide-export CSV: defaults to the most recently modified
+# all_apps_wide*.csv found in INPUTS_DIR (same default the old interactive
+# prompt used on Enter); pass a filename as argv[1] to override. No prompt —
+# needed for a fully automated / non-interactive pipeline run.
 # ---------------------------------------------------------------------------
-
-def prompt_for_file_choice(candidates: list, prompt_label: str = "Which file to use?") -> Path:
-    if len(candidates) == 1:
-        return candidates[0]
-
-    print("CSV files found in inputs/:")
-    for i, p in enumerate(candidates, start=1):
-        print(f"  [{i}] {p.name}")
-    print("  Press Enter for the most recent.")
-
-    choice = input(f"{prompt_label} [1-{len(candidates)}]: ").strip()
-    if choice == "":
-        return candidates[0]  # most recently modified
-    if choice.isdigit() and 1 <= int(choice) <= len(candidates):
-        return candidates[int(choice) - 1]
-
-    by_name = {p.name: p for p in candidates}
-    if choice in by_name:
-        return by_name[choice]
-    if not choice.endswith(".csv") and f"{choice}.csv" in by_name:
-        return by_name[f"{choice}.csv"]
-
-    sys.exit(f"Invalid choice: {choice!r}")
-
 
 if len(sys.argv) > 1:
     csv_name = sys.argv[1]
     if not csv_name.endswith(".csv"):
         csv_name += ".csv"
     OTREE_CSV = INPUTS_DIR / csv_name
+    if not OTREE_CSV.exists():
+        sys.exit(f"oTree CSV not found: {OTREE_CSV}")
 else:
-    candidates = sorted(INPUTS_DIR.glob("*.csv"), key=lambda p: p.stat().st_mtime, reverse=True)
+    candidates = sorted(INPUTS_DIR.glob("all_apps_wide*.csv"), key=lambda p: p.stat().st_mtime, reverse=True)
     if not candidates:
-        sys.exit(f"No CSV files found in {INPUTS_DIR}. Put the oTree wide export there or pass a path as argument.")
-    OTREE_CSV = prompt_for_file_choice(candidates, "Fichier oTree (all_apps_wide) à utiliser ?")
+        sys.exit(f"No all_apps_wide*.csv found in {INPUTS_DIR}. Put the oTree wide export there or pass a filename as argv[1].")
+    OTREE_CSV = candidates[0]
 
 print(f"oTree input: {OTREE_CSV}")
 
@@ -115,7 +103,7 @@ if len(sys.argv) > 2:
         pt_name += ".csv"
     PAGETIMES_CSV = INPUTS_DIR / pt_name
 elif pagetimes_candidates:
-    PAGETIMES_CSV = prompt_for_file_choice(pagetimes_candidates, "Fichier oTree PageTimes à utiliser ?")
+    PAGETIMES_CSV = pagetimes_candidates[0]  # most recently modified, no prompt
 else:
     PAGETIMES_CSV = None
     print("  ! No PageTimes-*.csv found in inputs/ — whole_experiment_time_seconds and "
@@ -341,11 +329,47 @@ df_ev["_is_detail_page_view"] = is_page_view & (df_ev["_detail_slug"] != "")
 df_ev["_eff_slug"] = df_ev["property_slug"].fillna("")
 df_ev.loc[df_ev["_is_detail_page_view"], "_eff_slug"] = df_ev.loc[df_ev["_is_detail_page_view"], "_detail_slug"]
 
-# --- Time on listing page: duration until the NEXT event in the same cell
-# session (any type — leaving the detail page, whatever the destination,
-# ends the clock on that page view). Last event of a cell has no "next" event
-# to bound it, so its dwell time is unknown (NaN), not zero. ---
-df_ev["_next_ts"] = df_ev.groupby(["participant_code", "cell_index"])["timestamp"].shift(-1)
+# --- Time on listing page: duration from the detail page_view until the next
+# event that means the participant LEFT that page. Bounding by the next event
+# of ANY type (the previous rule) was wrong: the content script keeps logging
+# on the detail page itself (page_ready, page_snapshot, scraped_content,
+# visibility 'init', viewport...) within milliseconds of the page_view, so
+# dwell collapsed to ~1 ms for every listing (mean 0.0005 s in the 2026-09-04
+# run, and a 0.000 coefficient for H1.2.2). Booking opens detail pages in NEW
+# tabs (cf. src/shared/types.ts, TabFocusEvent), and Booking rewrites the
+# detail URL on load, so an event only counts as LEAVING when it points away
+# from the detail page being viewed (its URL slug differs from the detail
+# slug most recently opened in the cell):
+#   - page_view / tab_navigation / tab_focus with a DIFFERENT slug (a
+#     navigation elsewhere, or the foreground moving to another tab) —
+#     same-slug ones are the detail tab's own URL rewrite / activation;
+#   - visibility 'hidden' with the SAME slug (the detail tab itself hidden)
+#     — the results tab's own 'hidden', fired as the new tab opens, is not;
+#   - reserve (the choice is made).
+# (The first, type-agnostic rule gave 1 ms dwells; the second, which ignored
+# URLs, still gave a 2.4 s median — both were same-page events.) Last page
+# view of a cell with no departure after it has an unknown dwell (NaN). ---
+df_ev["_ev_slug"] = df_ev["url"].apply(slug_from_url) if "url" in df_ev.columns else ""
+_grp = df_ev.groupby(["participant_code", "cell_index"])
+# ffill on integer codes rather than strings (a string ffill trips pandas'
+# object-downcasting FutureWarning three times per run).
+_codes, _levels = pd.factorize(df_ev["_detail_slug"].where(df_ev["_detail_slug"] != ""))
+_codes = pd.Series(_codes, index=df_ev.index).where(lambda c: c >= 0)  # -1 (no slug) -> NaN
+_last = _codes.groupby([df_ev["participant_code"], df_ev["cell_index"]]).ffill()
+df_ev["_last_detail_slug"] = pd.Series(
+    np.where(_last.notna(), np.asarray(_levels)[_last.fillna(0).astype(int)], ""), index=df_ev.index
+)
+_state = df_ev["state"].astype(str) if "state" in df_ev.columns else pd.Series("", index=df_ev.index)
+_same_slug = (df_ev["_ev_slug"] != "") & (df_ev["_ev_slug"] == df_ev["_last_detail_slug"])
+_is_leave = (
+    (df_ev["type"].isin(["page_view", "tab_navigation", "tab_focus"]) & ~_same_slug)
+    | ((df_ev["type"] == "visibility") & (_state == "hidden") & _same_slug)
+    | (df_ev["type"] == "reserve")
+)
+df_ev["_leave_ts"] = df_ev["timestamp"].where(_is_leave)
+# Next leaving event strictly AFTER each row: shift within the cell, then
+# back-fill so every row sees the first leave timestamp that follows it.
+df_ev["_next_ts"] = _grp["_leave_ts"].transform(lambda s: s.shift(-1).bfill())
 df_ev["_dwell_s"] = (df_ev["_next_ts"] - df_ev["timestamp"]) / 1000.0
 
 time_on_listing = (
@@ -429,9 +453,30 @@ reserve_ts = (
     .groupby(["participant_code", "cell_index"])["timestamp"].max()
     .rename("_reserve_ts")
 )
-decision_time = pd.concat([cards_ready_ts, reserve_ts], axis=1).reset_index()
-decision_time["decision_time_seconds"] = (decision_time["_reserve_ts"] - decision_time["_cards_ready_ts"]) / 1000.0
-decision_time = decision_time[["participant_code", "cell_index", "decision_time_seconds"]]
+# Fallback anchor for the few cells with NO preload event (3 weekends in the
+# 2026-07 data), so decision time is not missing there and every
+# decision-time specification keeps the same N as the choice ones: the
+# subject's first INTERACTION with the results page in that cell (first
+# viewport/hover/scroll/click event), which can only happen once the cards
+# are visible and is guaranteed to precede the reserve click; the cell's
+# first page_view if there is no such event. (Arrival + the subject's median
+# loading time was tried first and overshot the reserve click.) Flagged in
+# decision_time_imputed so the analysis can report (or drop) them.
+_first_ts = lambda mask, name: (
+    df_ev[mask].groupby(["participant_code", "cell_index"])["timestamp"].min().rename(name)
+)
+first_interaction_ts = _first_ts(df_ev["type"].isin(["viewport", "hover", "scroll", "click"]), "_first_interaction_ts")
+first_pv_ts = _first_ts(df_ev["type"] == "page_view", "_first_pv_ts")
+decision_time = pd.concat([cards_ready_ts, reserve_ts, first_interaction_ts, first_pv_ts], axis=1).reset_index()
+decision_time["_fallback_ready_ts"] = decision_time["_first_interaction_ts"].fillna(decision_time["_first_pv_ts"])
+decision_time["decision_time_imputed"] = (
+    decision_time["_cards_ready_ts"].isna()
+    & decision_time["_fallback_ready_ts"].notna()
+    & decision_time["_reserve_ts"].notna()
+)
+_anchor_ts = decision_time["_cards_ready_ts"].fillna(decision_time["_fallback_ready_ts"])
+decision_time["decision_time_seconds"] = (decision_time["_reserve_ts"] - _anchor_ts) / 1000.0
+decision_time = decision_time[["participant_code", "cell_index", "decision_time_seconds", "decision_time_imputed"]]
 
 property_page_visits = (
     df_ev[df_ev["_is_detail_page_view"]]
@@ -609,6 +654,10 @@ subject_cols = {
     "participant.code":                                          "participant_code",
     "participant.clutter_treatment":                              "clutter_treatment",
     "postexperiment_block.1.player.noticed_thumb":                "cue_recognition",
+    # The two decoy icons of the recognition item (never shown on the site):
+    # a "yes" here is false recognition, used to qualify cue_recognition.
+    "postexperiment_block.1.player.noticed_checkmark":            "noticed_decoy_checkmark",
+    "postexperiment_block.1.player.noticed_badge":                "noticed_decoy_badge",
     "postexperiment_block.1.player.visual_complexity":            "visual_complexity",
     "postexperiment_block.1.player.nasa_tlx_mental":              "nasa_tlx_mental",
     "postexperiment_block.1.player.nasa_tlx_physical":            "nasa_tlx_physical",
@@ -619,6 +668,20 @@ subject_cols = {
     "instructions_block.1.player.failed_comprehension_prize":                       "failed_comprehension_prize",
     "instructions_block.1.player.failed_comprehension_choice_city_weekend":         "failed_comprehension_choice_city_weekend",
     "instructions_block.1.player.failed_comprehension_no_cancellation":             "failed_comprehension_no_cancellation",
+    "postexperiment_block.1.player.gender":                        "gender",
+    "postexperiment_block.1.player.age":                           "age",
+    "postexperiment_block.1.player.student_status":                "student_status",
+    "postexperiment_block.1.player.household_structure":           "household_structure",
+    "postexperiment_block.1.player.paris_resident":                "paris_resident",
+    "postexperiment_block.1.player.booking_familiarity":           "booking_familiarity",
+    "postexperiment_block.1.player.belief_thumb_quality":          "belief_thumb_quality",
+    # open-text answers (coded by keyword rules in 01_analysis.R; never
+    # copied by the synthetic generator, which fabricates every column)
+    "pretask_block.1.player.accommodation_preference_open":        "accommodation_preference_open",
+    "postexperiment_block.1.player.choice_process_open":           "choice_process_open",
+    "postexperiment_block.1.player.belief_thumb_meaning_open":     "belief_thumb_meaning_open",
+    "postexperiment_block.1.player.thumb_use_open":                "thumb_use_open",
+    "postexperiment_block.1.player.feedback_open":                 "feedback_open",
 }
 missing_otree_cols = [c for c in subject_cols if c not in df_otree.columns]
 if missing_otree_cols:
@@ -691,11 +754,20 @@ COLUMNS = [
     "nasa_tlx_performance", "nasa_tlx_effort", "nasa_tlx_frustration",
     "visual_complexity",
     "whole_experiment_time_seconds", "choice_task_time_seconds",
+    # subject level -- demographics
+    "gender", "age", "student_status", "household_structure",
+    "paris_resident", "booking_familiarity", "belief_thumb_quality",
+    "noticed_decoy_checkmark", "noticed_decoy_badge",
+    "accommodation_preference_open", "choice_process_open", "belief_thumb_meaning_open",
+    "thumb_use_open", "feedback_open",
+    # subject level -- comprehension checks
+    "failed_comprehension_prize", "failed_comprehension_choice_city_weekend",
+    "failed_comprehension_no_cancellation",
     # city level
     "preference_consistency", "cued_choice_preference_consistency",
     # weekend level
     "n_hotels_in_choice_set", "property_page_visits_number",
-    "decision_time_seconds", "loading_time_seconds", "cued_weekend",
+    "decision_time_seconds", "decision_time_imputed", "loading_time_seconds", "cued_weekend",
     # listing level
     "listing_chosen", "listing_clicked", "listing_n_clicks",
     "time_on_listing_page_seconds", "cluster", "cued_listing",

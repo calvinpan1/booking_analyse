@@ -13,6 +13,7 @@ import sys
 import json
 import re
 import unicodedata
+from collections import Counter
 from pathlib import Path
 from urllib.parse import urlparse, parse_qs
 import pandas as pd
@@ -23,78 +24,36 @@ import pandas as pd
 
 BASE_DIR    = Path(__file__).parent.parent          # analyse/
 PLUGIN_DIR  = BASE_DIR.parent                       # booking_plugin/
-INPUTS_DIR  = BASE_DIR / "inputs"
-OUTPUTS_DIR = BASE_DIR / "outputs"
+INPUTS_DIR  = BASE_DIR / "inputs"                   # choice-sets JSON override only — not sensitive, stays local
 CONFIG_CHOICESET_JSON = PLUGIN_DIR / "booking_plugin" / "config" / "choice_sets_with_substitutes.json"
+
+# OUTPUTS_DIR holds real, participant-level data (reads extension_converted.csv
+# from 00a, writes extension_joined*.csv) — redirected under SSD_DATA_ROOT
+# (see _ssd_paths.py) so it never lands in the Nextcloud-synced project.
+from _ssd_paths import resolve_dirs
+_raw_dir_unused, OUTPUTS_DIR = resolve_dirs(BASE_DIR)
 
 EXTENSION_CSV = OUTPUTS_DIR / "extension_converted.csv"
 OUTPUT_CSV_RAW = OUTPUTS_DIR / "extension_joined_raw.csv"
 
 # ---------------------------------------------------------------------------
-# Prompt for the choice-sets JSON filename — same numbered-list / filename /
-# Enter-for-most-recent selection logic as 00a_tracking_converter.py.
+# Choice-sets JSON: defaults to the canonical config/ file (same default the
+# old interactive prompt used on Enter); pass a filename (found in
+# INPUTS_DIR) as argv[1] to override, e.g. for testing against a draft file.
+# No prompt — needed for a fully automated / non-interactive pipeline run.
 # ---------------------------------------------------------------------------
-
-def prompt_for_json_choice(candidates: list, prompt_label: str = "Which file to use?") -> Path:
-    if len(candidates) == 1:
-        return candidates[0]
-
-    print("JSON files found:")
-    for i, p in enumerate(candidates, start=1):
-        print(f"  [{i}] {p.name}")
-    print("  Press Enter for the most recent.")
-
-    choice = input(f"{prompt_label} [1-{len(candidates)}]: ").strip()
-    if choice == "":
-        return candidates[0]  # most recently modified
-    if choice.isdigit() and 1 <= int(choice) <= len(candidates):
-        return candidates[int(choice) - 1]
-
-    # Allow typing the filename directly (with or without .json)
-    by_name = {p.name: p for p in candidates}
-    if choice in by_name:
-        return by_name[choice]
-    if not choice.endswith(".json") and f"{choice}.json" in by_name:
-        return by_name[f"{choice}.json"]
-
-    sys.exit(f"Invalid choice: {choice!r}")
-
 
 if len(sys.argv) > 1:
     json_name = sys.argv[1]
     if not json_name.endswith(".json"):
         json_name += ".json"
     CHOICESET_JSON = INPUTS_DIR / json_name
+    if not CHOICESET_JSON.exists():
+        sys.exit(f"Choice-sets file not found: {CHOICESET_JSON}")
 else:
-    use_config = input(
-        f"Utiliser le fichier choice-sets de config/ ({CONFIG_CHOICESET_JSON}) ? [O/n]: "
-    ).strip().lower()
-    if use_config in ("", "o", "oui", "y", "yes"):
-        if not CONFIG_CHOICESET_JSON.exists():
-            sys.exit(f"Fichier introuvable : {CONFIG_CHOICESET_JSON}")
-        CHOICESET_JSON = CONFIG_CHOICESET_JSON
-    else:
-        candidates = sorted(INPUTS_DIR.glob("*.json"), key=lambda p: p.stat().st_mtime, reverse=True)
-        if not candidates:
-            sys.exit(f"No JSON files found in {INPUTS_DIR}. Put your choice-sets file there or pass a path as argument.")
-        CHOICESET_JSON = prompt_for_json_choice(candidates, "Choice-sets JSON to use?")
-
-# ---------------------------------------------------------------------------
-# Prompt for the oTree host's root domain — used to label tab_focus /
-# tab_navigation rows that point at the lab's oTree instance (e.g. a subject
-# coming back from a weekend/city selection page). This is lab-specific and
-# not hardcoded anywhere in the extension, so it can't be inferred reliably.
-# ---------------------------------------------------------------------------
-
-print(
-    "\nNom de domaine racine de l'hôte oTree (ex: univ-paris1.fr).\n"
-    "  Pour le trouver : ouvrez extension_converted.csv (sortie de 00a) et repérez\n"
-    "  une ligne de type tab_navigation ou tab_focus dont l'URL contient '/p/<id_sujet>/'\n"
-    "  (le chemin oTree) — le nom de domaine de cette URL est l'hôte oTree.\n"
-    "  Vous pouvez aussi demander l'URL d'accès oTree à l'administrateur de la session.\n"
-    "  Laissez vide pour ne pas distinguer les événements oTree des autres sites permis."
-)
-OTREE_ROOT = input("Domaine racine oTree : ").strip().lower()
+    if not CONFIG_CHOICESET_JSON.exists():
+        sys.exit(f"Choice-sets config file not found: {CONFIG_CHOICESET_JSON}")
+    CHOICESET_JSON = CONFIG_CHOICESET_JSON
 
 # ---------------------------------------------------------------------------
 # Load
@@ -462,6 +421,39 @@ def host_of(url) -> str:
 CROSS_TAB_TYPES = {"tab_focus", "tab_navigation"}
 cross_tab_mask = df_merged["type"].isin(CROSS_TAB_TYPES)
 hosts = df_merged["url"].apply(host_of)
+
+
+def guess_otree_root(urls: pd.Series, hosts: pd.Series) -> str:
+    """Auto-detect the oTree host's root domain (e.g. "univ-paris1.fr") from
+    cross-tab rows whose URL path contains oTree's "/p/<subject_id>/" pattern
+    — no more prompting the user for it. Root domain = last two dot-separated
+    labels of the host, so a subdomain like otree.univ-paris1.fr still
+    matches every other otree.* / www.* host via host_matches()'s suffix
+    check downstream. Falls back to "" (no oTree events distinguished) if no
+    such URL is found, same as leaving the old prompt blank."""
+    otree_path = re.compile(r"/p/[^/]+/")
+    candidates = []
+    for url, host in zip(urls, hosts):
+        if not host or host_matches(host, "booking.com") or not isinstance(url, str):
+            continue
+        if any(host_matches(host, allowed) for allowed in OTHER_ALLOWED_HOSTS):
+            continue
+        try:
+            path = urlparse(url).path or ""
+        except ValueError:
+            continue
+        if otree_path.search(path):
+            labels = host.split(".")
+            candidates.append(".".join(labels[-2:]) if len(labels) >= 2 else host)
+    if not candidates:
+        return ""
+    root, _count = Counter(candidates).most_common(1)[0]
+    return root
+
+
+OTREE_ROOT = guess_otree_root(df_merged.loc[cross_tab_mask, "url"], hosts.loc[cross_tab_mask])
+print(f"Auto-detected oTree root domain: {OTREE_ROOT!r}" if OTREE_ROOT
+      else "Auto-detected oTree root domain: none found (no oTree events will be distinguished from other allowed sites).")
 
 is_booking = hosts.apply(lambda h: host_matches(h, "booking.com"))
 is_otree = hosts.apply(lambda h: host_matches(h, OTREE_ROOT)) if OTREE_ROOT else pd.Series(False, index=df_merged.index)
