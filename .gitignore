@@ -1,11 +1,6 @@
-documents/
-.DS_Store
 __pycache__/
-*.log
-
+.DS_Store
 inputs/*
-!inputs/choice_sets_with_substitutes.json
-outputs/extension_converted.csv
-outputs/extension_joined_raw.csv
-outputs/extension_joined.csv
-Rplots.pdf
+raw/*
+!raw/choice_sets_with_substitutes.json
+outputs/values/

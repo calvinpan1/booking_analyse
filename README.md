@@ -1,151 +1,75 @@
-# booking_analyse
+# Booking in the dark -- replication package
 
-Analyse des données générées par l'expérience Booking.com : ce dépôt prend les
-exports bruts de l'extension Chrome et d'oTree, les nettoie, les joint, et
-produit un dataset final (`outputs/analysis_dataset.csv`) prêt pour les tests
-d'hypothèses du pré-enregistrement.
+Reproduces every number and figure of the paper from the raw exports of the
+experiment: the browser extension's per-cell JSON files, the oTree "all apps
+wide" and PageTimes exports, and the choice-set file.
 
-## Set up — how `inputs/` must be organized
-
-Everything the pipeline reads lives in `inputs/`. Before running anything, lay
-it out like this:
+## Layout
 
 ```
-inputs/
-├── <participant_code_1>/            # one folder per participant
-│   ├── cell01_<city>_<checkin>.json
-│   ├── cell01_<city>_<checkin>.html
-│   ├── cell02_<city>_<checkin>.json
-│   ├── cell02_<city>_<checkin>.html
-│   └── ...                          # up to cell12
-├── <participant_code_2>/
-│   └── ...
-├── PageTimes-<date>.csv             # oTree PageTimes export
-├── <session>_all_apps_wide_<date>.csv   # oTree wide export
-└── choice_sets_with_substitutes.json     # OPTIONAL — see below
+main.R          the only file that knows where anything lives; runs everything
+build/          stage 1, raw/ -> inputs/   (Python cleaning, one R step)
+analysis/       stage 2, inputs/ -> outputs/ (R)
+tools/          not run by main.R: synthetic fixture, checks against the paper
+raw/            raw exports (see below) + choice_sets_with_substitutes.json
+inputs/         intermediate, participant-level files (never edit by hand)
+outputs/        values_BookingAnalysis.tex and figures/ for the paper
 ```
-
-- **Individual participant folders (top level)** — one folder per subject,
-  named with that subject's `participant_code`, containing the raw per-cell
-  JSON (+ matching HTML) exports dumped by the Booking.com extension — one
-  `cellNN_<city>_<checkin>.json` per weekend the subject saw (up to 12). Don't
-  rename or restructure these; 00a discovers every such folder automatically
-  and merges its 12 files into a single session JSON under `inputs/merged/`
-  the first time it runs.
-- **A CSV starting with `PageTime`, at the top level** — oTree's PageTimes
-  export (`session_code, participant_code, app_name, page_name,
-  round_number, epoch_time_completed, ...`). It records the completion
-  timestamp of every page a subject reached, including subjects who never
-  finished. 00c uses it to compute `whole_experiment_time_seconds` and
-  `choice_task_time_seconds`. Optional: if it's missing, those two columns
-  are just left blank in the final dataset.
-- **The oTree file, at the top level** — oTree's "all apps wide" session
-  export (one row per participant, e.g.
-  `session_2_all_apps_wide_<date>.csv`), containing treatment assignment
-  (`participant.clutter_treatment`), the post-experiment questionnaire
-  (NASA-TLX, cue recognition, visual complexity), and each round's
-  `choice_cluster` / `choice_preferred`. Any `.csv` in `inputs/` that doesn't
-  start with `PageTimes` is treated as a candidate for this file.
-- **A choice-set file, at the top level (optional)** — a JSON with the
-  canonical 9-listing roster per city × choice_set, plus substitute pools
-  (e.g. `choice_sets_with_substitutes.json`). Only 00b actually needs a
-  choice-set file: it will offer to use the canonical copy already committed
-  in `booking_plugin/config/choice_sets_with_substitutes.json` instead, so
-  dropping one in `inputs/` is only necessary if you want to join against a
-  different/older choice-set version. (00c always reads the
-  `booking_plugin/config/` copy directly — it does not look in `inputs/`.)
-
-None of the scripts need to be told which file is which beyond this — they
-scan `inputs/` and prompt you (or take a filename as a CLI argument) when more
-than one candidate exists.
 
 ## Requirements
 
-- **Python 3** with `pandas` and `matplotlib` (`pip install pandas
-  matplotlib`).
-- **R** with the packages `fs`, `readr`, `dplyr`, `purrr`, `ggplot2`,
-  `fixest`, `scales`, `rlang` (and optionally `rstudioapi`, used only to
-  detect a script's own path when run inside RStudio).
+- R with `dplyr`, `readr`, `ggplot2`, `fixest`, `scales`.
+- Python 3 with `pandas` and `numpy`.
 
-## Pipeline — run in this order
+## Running
 
-Run everything from the `booking_analyse/` directory (or use full paths —
-each script locates `inputs/`/`outputs/` relative to its own file, not your
-shell's working directory).
+```
+Rscript main.R              # everything
+Rscript main.R build        # stage 1 only
+Rscript main.R analyse      # stage 2 only
+Rscript main.R analysis/02_hypotheses.R   # one script, paths already set
+```
 
-### 00_cleaning — build the analysis dataset
+`raw/` must contain, at any depth: one folder per participant holding the
+`cellNN_<city>_<checkin>.json` exports, one `all_apps_wide*.csv` and one
+`PageTimes*.csv` (the most recent of each is used), and
+`choice_sets_with_substitutes.json`. Paths can be overridden with the
+environment variables `BOOKING_RAW`, `BOOKING_INPUTS`, `BOOKING_OUTPUTS`,
+`BOOKING_PAPER` (an Overleaf clone to copy outputs into; unset = no copy) and
+`BOOKING_PYTHON` (interpreter, default `python3`, `python` on Windows).
 
-**1. `00a_tracking_converter.py`**
-Converts every participant's raw extension JSON exports into one flat CSV of
-events. Auto-merges any raw per-cell export folders it finds in `inputs/`
-into `inputs/merged/` first, drops non-interaction `scraped_content` events,
-and sorts every participant's events by timestamp.
-- Input: participant folders in `inputs/` (or already-merged files in
-  `inputs/merged/`)
-- Output: `extension_converted.csv`, plus the merged JSONs in `inputs/merged/`
-- Run: `python3 00_cleaning/00a_tracking_converter.py`
+While the package lives in the synced project folder, `main.R` reads `raw/` and
+writes `inputs/` under `SSD_DATA_ROOT/Booking_in_the_dark/` when that
+variable is set, so participant-level files stay on the SSD; the block doing
+this is marked INTERIM and is to be deleted once the package moves there.
 
-**2. `00b_choiceset_joining.py`**
-Joins `extension_converted.csv` against the choice-set JSON on
-`(targetPropertyId, city)`, backfills missing property IDs from the URL,
-flags protocol violations (pages outside the subject's assigned design) and
-cross-tab navigation (oTree vs. other allowed sites vs. forbidden sites), and
-prints a join-validation matrix.
-- Input: `extension_converted.csv` (from 00a), a choice-set JSON (prompted —
-  either `booking_plugin/config/choice_sets_with_substitutes.json` or a file
-  in `inputs/`)
-- Output: `extension_joined_raw.csv` (full outer join, everything kept, for
-  audit), `extension_joined.csv` (cleaned — noise statuses dropped)
-- Run: `python3 00_cleaning/00b_choiceset_joining.py [choiceset_filename]`
-  (interactive prompts for the choice-set file and the oTree host domain if
-  no argument is given)
+## Scripts
 
-**3. `00c_build_analysis_dataset.py`**
-Builds the final listing-level dataset: one row per subject × city ×
-weekend × listing, combining the tracked behavioural measures (clicks, time
-on listing page, decision time, loading time, ...) with the oTree wide export
-(treatment, questionnaire) and the choice-set roster (including
-in-session substitutions).
-- Input: `extension_converted.csv` (from 00a), `extension_joined.csv` (from
-  00b), the oTree wide CSV and PageTimes CSV (both prompted from `inputs/`),
-  `booking_plugin/config/choice_sets_with_substitutes.json`
-- Output: `analysis_dataset.csv`
-- Run: `python3 00_cleaning/00c_build_analysis_dataset.py [otree_csv_name] [pagetimes_csv_name]`
-  (interactive prompts if arguments are omitted)
+| Script | Reads | Writes |
+|---|---|---|
+| `build/01_convert_tracking.py` | participant folders | `inputs/merged/`, `inputs/extension_converted.csv` |
+| `build/02_join_choice_sets.py` | converted events, choice sets | `inputs/extension_joined_raw.csv`, `inputs/extension_joined.csv` |
+| `build/03_build_analysis_dataset.py` | joined events, oTree, PageTimes | `inputs/analysis_dataset.csv` (subject x city x weekend x listing) |
+| `build/04_tracking_measures.R` | event files | `inputs/subject_tracking.csv`, `inputs/tooltip_cells.csv` |
+| `analysis/01_sample.R` | analysis dataset | `inputs/analysis_sample.csv` (preregistered exclusions), descriptives |
+| `analysis/02_hypotheses.R` | analysis sample | H1, H2, H3, manipulation check, preference-measure validity |
+| `analysis/03_figures.R` | analysis sample | the three figures and their sample sizes |
+| `analysis/04_exploratory.R` | analysis sample, tracking measures | belief, decision time, interface use, coded open answers |
 
-### 01_analysis — checks and hypothesis tests
+Each analysis script writes `outputs/values/values_<script>.tex`; `main.R`
+concatenates them into `outputs/values_BookingAnalysis.tex` after every run.
+Scripts contain no paths and no `source()`: the invariant
+`grep -rn 'Sys.getenv\|source(' build/ analysis/` returns nothing.
 
-Run `01_analysis.rmd` first — the other two scripts here are secondary
-checks, not part of the main pipeline.
+## Checks (tools/)
 
-**4. `01_analysis.rmd`**
-The main analysis notebook: applies the pre-registration's sample exclusions,
-reports descriptives (choice completeness, loading time), and runs every
-pre-registered hypothesis test (H1.1, H1.2.1/H1.2.2, H2.1.1–H2.1.3, H2.2,
-H2.3.1–H2.3.3, H3.1, H3.2) plus the manipulation checks.
-- Input: `analysis_dataset.csv` (from 00c)
-- Output: knitted report (console/inline plots); run interactively in
-  RStudio, or render headless
-- Run: open in RStudio and "Run All", or
-  `Rscript -e "rmarkdown::render('01_analysis/01_analysis.rmd')"`
+```
+python3 tools/make_synthetic_raw.py /tmp/fake/raw raw/choice_sets_with_substitutes.json 60
+Rscript tools/compare_values.R outputs/values_BookingAnalysis.tex <overleaf>/values/values_BookingAnalysis.tex
+Rscript tools/check_paper_coverage.R <overleaf> outputs/values_BookingAnalysis.tex <overleaf>/values/values_BookingAnalysis.tex
+```
 
-**5. `01b_choicesetnumbers.py`** (independent data-quality check)
-Reads the raw per-cell JSONs directly (not `analysis_dataset.csv`) to
-double-check, per participant × weekend, how many distinct hotels were
-actually shown and how often a substitute hotel had to be used.
-- Input: participant folders in `inputs/`
-- Output: `choice_set_size_histogram_python.png`,
-  `substitute_weekend_histogram_python.png`
-- Run: `python3 01_analysis/01b_choicesetnumbers.py`
-
-**6. `01c_cluster_randomization.R`** (follow-up to the preference-consistency
-manipulation check, not part of the pre-registered analysis plan)
-Since clusters are structurally correlated with on-page position (Booking's
-results are price-sorted), this checks whether the "preference consistency"
-manipulation check would still clear chance (1/3) if cluster labels carried
-no information — by reshuffling cluster labels across each city's property
-pool (held fixed across a subject's weekends per draw) 5,000 times and
-recomputing the consistency rate each time.
-- Input: `analysis_dataset.csv` (from 00c)
-- Output: `cluster_randomization_histogram.png`
-- Run: `Rscript 01_analysis/01c_cluster_randomization.R`
+The first fabricates a raw tree in the export formats (random values, no
+participant data) for smoke tests. The second compares two values files
+name by name. The third lists every value command the paper cites that the
+package does not define.

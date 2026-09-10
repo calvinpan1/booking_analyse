@@ -1,13 +1,3 @@
-# Keyword coding of the questionnaire's open-text answers.
-#
-# Rules were calibrated on the anonymised export (inputs/open_fields_anonymized.txt,
-# 60 answers per field) against a manual reading, and validated with DM on
-# 2026-09-05. Every flag is a regex on the answer normalised to lower-case
-# ASCII (accents stripped), so "Évaluations" and "evaluations" match alike.
-# Flags may overlap; code_open_text() also derives the mutually exclusive
-# groupings used in the paper. Kept in its own file so the rules can be run
-# on the anonymised file locally (see tests at the bottom of 01_analysis.R's
-# open-text block) as well as on the identified rows on the SSD.
 
 normalize_text <- function(x) {
   # chartr rather than iconv(..., "ASCII//TRANSLIT"): macOS iconv renders
