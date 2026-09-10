@@ -29,7 +29,7 @@ CONFIG_CHOICESET_JSON = PLUGIN_DIR / "booking_plugin" / "config" / "choice_sets_
 
 # OUTPUTS_DIR holds real, participant-level data (reads extension_converted.csv
 # from 00a, writes extension_joined*.csv) — redirected under SSD_DATA_ROOT
-# (see _ssd_paths.py) so it never lands in the Nextcloud-synced project.
+# (see _ssd_paths.py) so it never lands in the synced project.
 from _ssd_paths import resolve_dirs
 _raw_dir_unused, OUTPUTS_DIR = resolve_dirs(BASE_DIR)
 
@@ -179,7 +179,7 @@ if n_backfilled:
 # ---------------------------------------------------------------------------
 # Fallback for `reserve` events fired directly from a search-results page —
 # Booking.com sometimes renders an inline "Réserver pour X €" CTA on a
-# search-result row itself (seen for bra326dw/weekend 10: targetText
+# search-result row itself (seen for one subject/weekend: targetText
 # "Réserver pour 99 euros", url still searchresults.fr.html), letting a
 # subject reserve without ever opening the property's own /hotel/... page.
 # The reserve interceptor (src/content/index.ts) reads targetPropertyId via
@@ -424,10 +424,10 @@ hosts = df_merged["url"].apply(host_of)
 
 
 def guess_otree_root(urls: pd.Series, hosts: pd.Series) -> str:
-    """Auto-detect the oTree host's root domain (e.g. "univ-paris1.fr") from
+    """Auto-detect the oTree host's root domain from
     cross-tab rows whose URL path contains oTree's "/p/<subject_id>/" pattern
     — no more prompting the user for it. Root domain = last two dot-separated
-    labels of the host, so a subdomain like otree.univ-paris1.fr still
+    labels of the host, so a subdomain like otree.<domain> still
     matches every other otree.* / www.* host via host_matches()'s suffix
     check downstream. Falls back to "" (no oTree events distinguished) if no
     such URL is found, same as leaving the old prompt blank."""

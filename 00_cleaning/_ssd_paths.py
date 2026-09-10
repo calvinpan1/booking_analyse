@@ -11,7 +11,7 @@
 #                                             this pipeline WRITES (still
 #                                             real, participant-level data
 #                                             at the 00a/00b/00c stage) goes
-#                                             here instead of the Nextcloud-
+#                                             here instead of the synced 
 #                                             synced project, so no raw or
 #                                             intermediate personal data ever
 #                                             touches the synced tree.
@@ -32,7 +32,7 @@ def resolve_dirs(base_dir: Path) -> tuple[Path, Path]:
     fallback root.
 
     Always prints which branch it took and why — silently falling back to
-    the local (Nextcloud-synced) folders is exactly the failure mode that
+    the local (synced) folders is exactly the failure mode that
     writes real participant data into the synced project, so this must never
     be quiet about it.
     """
@@ -52,7 +52,7 @@ def resolve_dirs(base_dir: Path) -> tuple[Path, Path]:
             "[paths] WARNING: SSD_DATA_ROOT is not set in this process's environment "
             f"-> falling back to LOCAL folders (raw={raw_dir}  target={target_dir}). "
             "If you meant to read/write on the SSD, this run just used the "
-            "Nextcloud-synced folders instead — set SSD_DATA_ROOT and open a "
+            "synced folders instead — set SSD_DATA_ROOT and open a "
             "NEW terminal/IDE window (env vars set via setx/System Properties "
             "do not apply to already-running processes) before re-running."
         )

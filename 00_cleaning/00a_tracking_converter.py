@@ -18,15 +18,15 @@ from pathlib import Path
 from datetime import datetime
 
 # ---------------------------------------------------------------------------
-# Raw extension export folders (e.g. inputs/qq9zdg2k/cell01_*.json, ...)
+# Raw extension export folders (e.g. inputs/<participant_code>/cell01_*.json, ...)
 # The extension sometimes drops a folder named after the participant ID,
 # containing one JSON (+ HTML) per cell instead of a single session export.
 # Detect these and offer to merge them into one flat JSON in inputs/ so they
 # can be picked up like any other session file below.
 #
 # On the SSD-equipped machine, participant folders sit a few levels deeper
-# (e.g. <SSD_DATA_ROOT>/DataAt080726_12h/<participant>/cellNN_*.json,
-# one DataAt*/ subfolder per session) rather than directly under inputs/, so
+# (e.g. <SSD_DATA_ROOT>/<session>/<participant>/cellNN_*.json,
+# one subfolder per session) rather than directly under inputs/, so
 # this scans recursively (any depth) instead of assuming a flat layout.
 # ---------------------------------------------------------------------------
 
@@ -126,10 +126,10 @@ def merge_all_folders(inputs_dir: Path, merged_dir: Path) -> None:
 # folders (unchanged behaviour), but are redirected under SSD_DATA_ROOT (one
 # shared env var across projects, see _ssd_paths.py) when that's set — reads
 # come from <SSD_DATA_ROOT>/Booking_in_the_dark/raw/ (participant-
-# identifiable, e.g. on Windows D:\data\Booking_in_the_dark\raw), and EVERY
+# identifiable), and EVERY
 # file this script writes (merged/, extension_converted.csv — both still
 # real, participant-level data at this stage) goes to
-# <SSD_DATA_ROOT>/Booking_in_the_dark/inputs/ instead of the Nextcloud-synced
+# <SSD_DATA_ROOT>/Booking_in_the_dark/inputs/ instead of the synced
 # project, so no raw or derived personal data ever lands in the synced tree.
 # ---------------------------------------------------------------------------
 

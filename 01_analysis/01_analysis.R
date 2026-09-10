@@ -57,13 +57,13 @@ script_dir <- path_dir(path_dir(script_path)) # Define script directory
 # _ssd_paths.py convention (one shared SSD_DATA_ROOT env var across
 # projects). On the SSD-equipped machine this reads/writes REAL data under
 # <SSD_DATA_ROOT>/Booking_in_the_dark/{raw,inputs}/ instead of the
-# Nextcloud-synced project. Unset SSD_DATA_ROOT (the default) keeps the old
+# synced project. Unset SSD_DATA_ROOT (the default) keeps the old
 # local analyse/inputs, analyse/outputs behaviour for both.
 #
-# NEXTCLOUD_OUTPUT_DIR is separate and ALWAYS the local analyse/outputs/
+# LOCAL_OUTPUT_DIR is separate and ALWAYS the local analyse/outputs/
 # folder (never the SSD target dir), regardless of SSD_DATA_ROOT: the
 # synthetic dataset and values.tex generated at the end of this script are
-# privacy-safe artifacts meant to be picked up from the Nextcloud-synced
+# privacy-safe artifacts meant to be picked up from the synced
 # project, so they are written there directly rather than needing a manual
 # copy step off the SSD machine.
 ssd_root <- Sys.getenv("SSD_DATA_ROOT", unset = "")
@@ -75,8 +75,8 @@ if (nzchar(ssd_root)) {
   INPUT_DIR  <- path(script_dir, "inputs")
   OUTPUT_DIR <- path(script_dir, "outputs")
 }
-NEXTCLOUD_OUTPUT_DIR <- path(script_dir, "outputs")
-dir_create(NEXTCLOUD_OUTPUT_DIR)
+LOCAL_OUTPUT_DIR <- path(script_dir, "outputs")
+dir_create(LOCAL_OUTPUT_DIR)
 
 # Locate the Overleaf-synced paper project (a sibling of script_dir named
 # "overleaf_<id>") so values.tex and paper figures can be written straight
@@ -85,7 +85,7 @@ dir_create(NEXTCLOUD_OUTPUT_DIR)
 # Overleaf project and could change if the project is ever recreated.
 # Resolved relative to script_dir (itself derived from the running script's
 # own path, never a hardcoded absolute path) so this works unmodified
-# regardless of where the Nextcloud sync folder sits on a given machine.
+# regardless of where the sync folder sits on a given machine.
 overleaf_candidates <- dir_ls(path_dir(script_dir), type = "directory", regexp = "/overleaf_")
 if (length(overleaf_candidates) == 0) {
   stop("Could not find an overleaf_* project directory next to ", script_dir,
@@ -117,7 +117,7 @@ pdf(PLOTS_PDF)
 # SEs, p-values, descriptive stats) gets written out for \input{} into the
 # LaTeX article, instead of only living in this script's console/log output.
 source(path(script_dir, "R", "tex_values.R"))
-VALUES_TEX <- path(NEXTCLOUD_OUTPUT_DIR, "values_BookingAnalysis.tex")
+VALUES_TEX <- path(LOCAL_OUTPUT_DIR, "values_BookingAnalysis.tex")
 file.create(VALUES_TEX)
 
 # Load the cleaned analysis dataset (one row per subject x city x weekend x listing)
@@ -744,7 +744,7 @@ p_choice_prob_audit <- p_choice_prob + labs(
 )
 print(p_choice_prob_audit) # page in the audit PDF (PLOTS_PDF)
 
-CHOICE_PROB_FIGURES_DIR <- path(NEXTCLOUD_OUTPUT_DIR, "figures")
+CHOICE_PROB_FIGURES_DIR <- path(LOCAL_OUTPUT_DIR, "figures")
 dir_create(CHOICE_PROB_FIGURES_DIR)
 choice_prob_fig_path <- path(CHOICE_PROB_FIGURES_DIR, "cue_choice_probability.png")
 ggsave(choice_prob_fig_path, p_choice_prob, width = 9, height = 3.2, dpi = 300)
@@ -977,6 +977,7 @@ compute_click_prob <- function(data) {
     bind_cols(wilson_ci(.$n_clicked, .$n))
 }
 
+# Mean over all sets (never-clicked = 0 s), +/- 1.96 SE.
 compute_time_on_page <- function(data) {
   data %>%
     group_by(would_be_cued, cued_weekend) %>%
@@ -1270,6 +1271,9 @@ write_tex_value("RegStarsHTwoTwo", stars_from_pvalue(p_onesided_h22), file = VAL
 write_tex_value("RegNHTwoTwo", nobs(m_h22), fmt = "%d", file = VALUES_TEX)
 write_tex_value("RegInterceptHTwoTwo", coef(m_h22)["(Intercept)"], file = VALUES_TEX)
 write_tex_value("RegInterceptSEHTwoTwo", summary(m_h22)$coefficients["(Intercept)", "Std. Error"], file = VALUES_TEX)
+# Raw recognition rates by clutter condition, quoted in the H2.2 prose.
+write_tex_value("PctCueRecognitionHighClutter", format_pct(mean(h22_df$cue_recognition[h22_df$clutter_high], na.rm = TRUE)), file = VALUES_TEX)
+write_tex_value("PctCueRecognitionLowClutter", format_pct(mean(h22_df$cue_recognition[!h22_df$clutter_high], na.rm = TRUE)), file = VALUES_TEX)
 
 ### Testing H2.3 — Decision mode mechanism
 # We test H2.3 using a set of OLS regressions. The dependent variables are (i)
@@ -1645,7 +1649,7 @@ cluster_pairs_by_city <- no_cue_choices %>%
     .groups = "drop"
   )
 
-FIGURES_DIR <- path(NEXTCLOUD_OUTPUT_DIR, "figures")
+FIGURES_DIR <- path(LOCAL_OUTPUT_DIR, "figures")
 dir_create(FIGURES_DIR)
 
 for (ct in sort(unique(cluster_pairs_by_city$city))) {
@@ -1868,7 +1872,7 @@ p_triangular_audit <- p_triangular + labs(
 )
 print(p_triangular_audit) # page in the audit PDF (PLOTS_PDF)
 
-TRIANGULAR_FIGURES_DIR <- path(NEXTCLOUD_OUTPUT_DIR, "figures")
+TRIANGULAR_FIGURES_DIR <- path(LOCAL_OUTPUT_DIR, "figures")
 triangular_fig_path <- path(TRIANGULAR_FIGURES_DIR, "h3_cluster_corr_triangular.png")
 ggsave(triangular_fig_path, p_triangular, width = 7, height = 6.3, dpi = 300)
 cat("Wrote triangular cluster-correlation figure to", triangular_fig_path, "\n")
@@ -1925,11 +1929,22 @@ if (all(c("cue_recognition", decoy_cols) %in% names(df))) {
     distinct(participant_code, cue_recognition, noticed_decoy_checkmark, noticed_decoy_badge) %>%
     mutate(across(-participant_code, ~ as.logical(.x)))
   write_tex_value("NSubjectsRecognition", sum(!is.na(recog_df$cue_recognition)), fmt = "%d", file = VALUES_TEX)
+  # False recognition (any decoy) by clutter condition, Fisher exact test.
+  decoy_clutter <- recog_df %>%
+    mutate(any_decoy = noticed_decoy_checkmark | noticed_decoy_badge) %>%
+    left_join(df %>% distinct(participant_code, clutter_high), by = "participant_code") %>%
+    filter(!is.na(any_decoy), !is.na(clutter_high))
+  write_tex_value("PctDecoyAnyHighClutter", format_pct(mean(decoy_clutter$any_decoy[decoy_clutter$clutter_high])), file = VALUES_TEX)
+  write_tex_value("PctDecoyAnyLowClutter", format_pct(mean(decoy_clutter$any_decoy[!decoy_clutter$clutter_high])), file = VALUES_TEX)
+  write_pvalue_pair("PvalDecoyAnyClutter", fisher.test(table(decoy_clutter$clutter_high, decoy_clutter$any_decoy))$p.value, file = VALUES_TEX)
   write_tex_value("NSubjectsNoticedThumb", sum(recog_df$cue_recognition, na.rm = TRUE), fmt = "%d", file = VALUES_TEX)
   write_tex_value("NSubjectsNoticedAnyDecoy",
                   sum(recog_df$noticed_decoy_checkmark | recog_df$noticed_decoy_badge, na.rm = TRUE), fmt = "%d", file = VALUES_TEX)
   write_tex_value("NSubjectsNoticedBothDecoys",
                   sum(recog_df$noticed_decoy_checkmark & recog_df$noticed_decoy_badge, na.rm = TRUE), fmt = "%d", file = VALUES_TEX)
+  write_tex_value("PctRecognitionCorrect",
+                  format_pct(mean(recog_df$cue_recognition & !(recog_df$noticed_decoy_checkmark | recog_df$noticed_decoy_badge), na.rm = TRUE)),
+                  file = VALUES_TEX)
   write_tex_value("NSubjectsNoticedThumbNoDecoy",
                   sum(recog_df$cue_recognition & !(recog_df$noticed_decoy_checkmark | recog_df$noticed_decoy_badge), na.rm = TRUE),
                   fmt = "%d", file = VALUES_TEX)
@@ -1975,6 +1990,20 @@ manip_het_rows <- manip_het_groups %>%
   mutate(diff = mean_high - mean_low) %>%
   # Age block first, "<=" row before ">" row; decision-time quartiles Q1..Q4.
   arrange(block, grepl("^Age \\$>", group), group)
+# Same numbers as \newcommand values, so the paper can quote them in the text
+# instead of the table: \ManipHet<Group><High|Low|N>, groups AgeYoung / AgeOld
+# (median split, cut point in \ManipHetAgeCut) and DtimeQOne..DtimeQFour.
+for (i in seq_len(nrow(manip_het_rows))) {
+  g <- manip_het_rows$group[i]
+  key <- if (grepl("^Age \\$\\\\le", g)) "AgeYoung" else if (grepl("^Age \\$>", g)) "AgeOld" else
+    paste0("DtimeQ", c("One", "Two", "Three", "Four")[as.integer(sub("^Decision time Q(\\d).*$", "\\1", g))])
+  write_tex_value(paste0("ManipHet", key, "High"), manip_het_rows$mean_high[i], fmt = "%.2f", file = VALUES_TEX)
+  write_tex_value(paste0("ManipHet", key, "Low"),  manip_het_rows$mean_low[i],  fmt = "%.2f", file = VALUES_TEX)
+  write_tex_value(paste0("ManipHet", key, "N"),    manip_het_rows$n[i],         fmt = "%d",   file = VALUES_TEX)
+  write_pvalue_pair(paste0("ManipHet", key, "Pval"), manip_het_rows$p[i], file = VALUES_TEX)
+}
+write_tex_value("ManipHetAgeCut", age_cut, fmt = "%d", file = VALUES_TEX)
+
 manip_het_lines <- c(
   "\\begin{tabular}{lcccc}",
   "\\toprule\\toprule",
@@ -2178,6 +2207,16 @@ if (!"belief_thumb_quality" %in% names(df)) {
       }
       write_tex_value("NObsBeliefCueEffectFamiliar", nrow(familiar_df), fmt = "%d", file = VALUES_TEX)
 
+      # Mean cue effect by belief level (1-4), full sample and regular users.
+      for (sub in list(list(d = explore_belief_df, sfx = ""), list(d = familiar_df, sfx = "Familiar"))) {
+        for (b in 1:4) {
+          v <- sub$d$cue_effect[sub$d$belief_thumb_quality == b]
+          lab <- c("One", "Two", "Three", "Four")[b]
+          write_tex_value(paste0("MeanCueEffectBelief", lab, sub$sfx), if (length(v)) mean(v) else NA, fmt = "%.3f", file = VALUES_TEX)
+          write_tex_value(paste0("NCueEffectBelief", lab, sub$sfx), length(v), fmt = "%d", file = VALUES_TEX)
+        }
+      }
+
       p_belief_audit <- ggplot(explore_belief_df, aes(x = factor(belief_thumb_quality), y = cue_effect)) +
         geom_boxplot(outlier.shape = NA, fill = "#cde2fb") +
         geom_jitter(width = 0.1, height = 0, alpha = 0.6) +
@@ -2226,6 +2265,17 @@ tryCatch({
   write_tex_value("RegPvalTrialOrder", format_pvalue(p_trial), file = VALUES_TEX)
   write_tex_value("RegStarsTrialOrder", stars_from_pvalue(p_trial), file = VALUES_TEX)
   write_tex_value("RegNTrialOrder", nobs(m_trial), fmt = "%d", file = VALUES_TEX)
+
+  # Median decision time by block of four choices (choices 1-4, 5-8, 9-12 = the three cities in presentation order).
+  block_medians <- decision_time_df %>%
+    mutate(block = ceiling(weekend_number_global / 4)) %>%
+    group_by(block) %>%
+    summarise(med = median(decision_time_seconds), n = n(), .groups = "drop")
+  for (i in seq_len(nrow(block_medians))) {
+    lab <- c("One", "Two", "Three")[block_medians$block[i]]
+    write_tex_value(paste0("MedianDecisionTimeBlock", lab), block_medians$med[i], fmt = "%.0f", file = VALUES_TEX)
+    write_tex_value(paste0("NObsDecisionTimeBlock", lab), block_medians$n[i], fmt = "%d", file = VALUES_TEX)
+  }
 
   timing_corr_df <- df %>%
     distinct(participant_code, weekend_number_global, decision_time_seconds, loading_time_seconds) %>%
@@ -2322,7 +2372,7 @@ tryCatch({
 
   ORDER_MEDIAN_FIGURES_DIR <- path(OVERLEAF_DIR, "illustrations", "response_time_by_order")
   dir_create(ORDER_MEDIAN_FIGURES_DIR)
-  order_median_fig_path <- path(NEXTCLOUD_OUTPUT_DIR, "figures", "response_time_by_order.png")
+  order_median_fig_path <- path(LOCAL_OUTPUT_DIR, "figures", "response_time_by_order.png")
   ggsave(order_median_fig_path, p_order_quantile, width = 5.5, height = 3.5, dpi = 300)
   overleaf_order_median_path <- path(ORDER_MEDIAN_FIGURES_DIR, "response_time_by_order.png")
   file_copy(order_median_fig_path, overleaf_order_median_path, overwrite = TRUE)
@@ -2463,31 +2513,21 @@ tryCatch({
     summarise(mean_total_viewport_s = mean(total_viewport_s, na.rm = TRUE), .groups = "drop")
   report_clutter_contrast("ViewportDwell", viewport_dwell_by_subject, "mean_total_viewport_s")
 
-  # --- Share of individual listings reaching >=11s of cumulative
-  # viewport-visible time (a listing can accumulate this across several
-  # separate viewport episodes -- e.g. scrolled past, then scrolled back to).
-  # 11s is long enough that a listing crossing it was very unlikely to be an
-  # incidental scroll-past. Listing-level (not weekend-total like
-  # ViewportDwell above), so this answers "how many properties held the
-  # subject's attention for a substantial stretch", not "how much total time
-  # did a weekend's cards get". Reported both as the raw listing-level share
-  # (PctViewportLongDwell) and as a per-subject share contrasted across clutter
-  # conditions (ViewportLongDwell*), same pattern as every other tracked measure here.
-  viewport_11s_by_listing <- viewport_dwell_episodes %>%
+  # Share of listings with >=10s cumulative viewport-visible time (across
+  # episodes); listing-level share plus per-subject contrast by clutter.
+  viewport_10s_by_listing <- viewport_dwell_episodes %>%
     group_by(participant_code, cell_index, targetPropertyId) %>%
     summarise(total_dwell_s = sum(dwell_s), .groups = "drop") %>%
-    mutate(reached_11s = total_dwell_s >= 11)
+    mutate(reached_10s = total_dwell_s >= 10)
 
-  write_tex_value("PctViewportLongDwell", format_pct(mean(viewport_11s_by_listing$reached_11s)), file = VALUES_TEX)
-  write_tex_value("NObsViewportLongDwellListings", nrow(viewport_11s_by_listing), fmt = "%d", file = VALUES_TEX)
+  write_tex_value("PctViewportLongDwell", format_pct(mean(viewport_10s_by_listing$reached_10s)), file = VALUES_TEX)
+  write_tex_value("NObsViewportLongDwellListings", nrow(viewport_10s_by_listing), fmt = "%d", file = VALUES_TEX)
 
-  # share_reached_11s is on a 0-100 (not 0-1) scale, matching MaxScrollDepth's
-  # convention above -- report_clutter_contrast() writes the raw column mean,
-  # and the paper's prose appends "\%" directly (as it does for MaxScrollDepth).
-  viewport_11s_by_subject <- viewport_11s_by_listing %>%
+  # 0-100 scale, as MaxScrollDepth.
+  viewport_10s_by_subject <- viewport_10s_by_listing %>%
     group_by(participant_code) %>%
-    summarise(share_reached_11s = 100 * mean(reached_11s), .groups = "drop")
-  report_clutter_contrast("ViewportLongDwell", viewport_11s_by_subject, "share_reached_11s")
+    summarise(share_reached_10s = 100 * mean(reached_10s), .groups = "drop")
+  report_clutter_contrast("ViewportLongDwell", viewport_10s_by_subject, "share_reached_10s")
 
   # --- Badge tooltip (pouce_explanation) exposure ---
   tooltip_by_cell <- extension_converted %>%
@@ -2679,6 +2719,10 @@ tryCatch({
              cue_recognition, clutter_high, across(any_of(c("noticed_decoy_checkmark", "noticed_decoy_badge")))) %>%
     mutate(participant_code = as.character(participant_code),
            cue_recognition = as.logical(cue_recognition))
+  if (all(c("noticed_decoy_checkmark", "noticed_decoy_badge") %in% names(open_df))) {
+    open_df <- open_df %>%
+      mutate(recognition_correct = cue_recognition & !(as.logical(noticed_decoy_checkmark) | as.logical(noticed_decoy_badge)))
+  }
   if (exists("individual_cue_effect")) {
     open_df <- open_df %>% left_join(individual_cue_effect %>% mutate(participant_code = as.character(participant_code)) %>%
                                        select(participant_code, cue_effect), by = "participant_code")
@@ -2727,6 +2771,7 @@ tryCatch({
     Familiarity = list(col = "booking_familiarity",  binary = FALSE, fmt = "%.2f"),
     CueEffect   = list(col = "cue_effect",           binary = FALSE, fmt = "%.3f"),
     Recognition = list(col = "cue_recognition",      binary = TRUE),
+    RecognitionCorrect = list(col = "recognition_correct", binary = TRUE),
     Clutter     = list(col = "clutter_high",         binary = TRUE),
     Tooltip     = list(col = "tooltip_opened",       binary = TRUE)
   )
@@ -2770,18 +2815,18 @@ cat("Copied it into the Overleaf project at", overleaf_values_path, "\n")
 # ---------------------------------------------------------------------------
 # Adapted from Rmd: generate the synthetic dataset from the same real data
 # this run just analyzed, writing it (like values.tex above) directly to
-# NEXTCLOUD_OUTPUT_DIR — never the SSD target dir — so both privacy-safe
-# artifacts land straight in the Nextcloud-synced project with no manual
+# LOCAL_OUTPUT_DIR — never the SSD target dir — so both privacy-safe
+# artifacts land straight in the synced project with no manual
 # copy step off the SSD machine. This script does NOT delete anything from
 # the SSD-side target directory: real-data intermediates
 # (extension_converted.csv, extension_joined.csv, analysis_dataset.csv,
 # merged/, the plots PDF) are left in place there for you to keep, inspect,
 # or clean up yourself — the privacy boundary this pipeline enforces is
-# "never write real data to the Nextcloud-synced tree," not "delete real
+# "never write real data to the synced tree," not "delete real
 # data off the SSD you already own."
 # ---------------------------------------------------------------------------
 source(path(script_dir, "R", "generate_synthetic.R"))
-SYNTHETIC_CSV <- path(NEXTCLOUD_OUTPUT_DIR, "analysis_dataset_synthetic.csv")
+SYNTHETIC_CSV <- path(LOCAL_OUTPUT_DIR, "analysis_dataset_synthetic.csv")
 generate_synthetic_dataset(CLEANED_CSV, SYNTHETIC_CSV)
 
-cat("Synthetic dataset and values.tex written to", NEXTCLOUD_OUTPUT_DIR, "\n")
+cat("Synthetic dataset and values.tex written to", LOCAL_OUTPUT_DIR, "\n")

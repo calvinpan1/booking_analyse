@@ -3,7 +3,7 @@
 Purpose: let the researcher screen the free-text answers for anything
 sensitive before deciding whether the file may be read by an assistant.
 The file is written next to the other pipeline outputs on the SSD (never in
-the Nextcloud-synced tree) and contains no identifier: each open field is a
+the synced tree) and contains no identifier: each open field is a
 separate block, and within a block the answers are shuffled with a fresh,
 unrecorded random seed, so answers cannot be linked to each other across
 fields nor to a participant.

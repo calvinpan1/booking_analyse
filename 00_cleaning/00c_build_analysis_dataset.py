@@ -38,7 +38,7 @@ CONFIG_CHOICESET_JSON = PLUGIN_DIR /"booking_plugin" / "config" / "choice_sets_w
 # OUTPUTS_DIR (extension_converted/joined.csv from 00a/00b, and this script's
 # own analysis_dataset.csv) all hold participant-identifiable data, so both
 # are redirected under SSD_DATA_ROOT (see _ssd_paths.py) instead of ever
-# touching the Nextcloud-synced project. Unset SSD_DATA_ROOT (the default)
+# touching the synced project. Unset SSD_DATA_ROOT (the default)
 # keeps the old local analyse/inputs, analyse/outputs behaviour.
 from _ssd_paths import resolve_dirs
 INPUTS_DIR, OUTPUTS_DIR = resolve_dirs(BASE_DIR)
