@@ -27,7 +27,7 @@ outputs/        values_BookingAnalysis.tex and figures/ for the paper
 Rscript main.R              # everything
 Rscript main.R build        # stage 1 only
 Rscript main.R analyse      # stage 2 only
-Rscript main.R analysis/02_hypotheses.R   # one script, paths already set
+Rscript main.R analysis/02_hypotheses.R   # one script, paths already set (either slash, or just 02_hypotheses.R)
 ```
 
 `raw/` must contain, at any depth: one folder per participant holding the
@@ -37,6 +37,8 @@ Rscript main.R analysis/02_hypotheses.R   # one script, paths already set
 environment variables `BOOKING_RAW`, `BOOKING_INPUTS`, `BOOKING_OUTPUTS`,
 `BOOKING_PAPER` (an Overleaf clone to copy outputs into; unset = no copy) and
 `BOOKING_PYTHON` (interpreter, default `python3`, `python` on Windows).
+All paths are handled in `main.R` with R's `file.path`, so the package runs
+unchanged on Windows, macOS and Linux.
 
 While the package lives in the synced project folder, `main.R` reads `raw/` and
 writes `inputs/` under `SSD_DATA_ROOT/Booking_in_the_dark/` when that

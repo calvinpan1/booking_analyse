@@ -4,7 +4,7 @@
 #   Rscript main.R            everything: build the analysis dataset, then analyse
 #   Rscript main.R build      stage 1 only (raw/ -> inputs/)
 #   Rscript main.R analyse    stage 2 only (inputs/ -> outputs/)
-#   Rscript main.R <script>   one script, e.g. analysis/02_hypotheses.R
+#   Rscript main.R <script>   one script, e.g. analysis/02_hypotheses.R or just 02_hypotheses.R
 # Sourcing this file sets the paths and helpers without running anything.
 # This is the only file that knows where anything lives.
 # =============================================================================
@@ -134,8 +134,11 @@ if (.invoked_directly) {
   stage <- commandArgs(trailingOnly = TRUE)
   stage <- if (length(stage) == 0) "all" else stage[1]
   scripts <- c(PIPELINE$build, PIPELINE$analyse)
-  if (stage %in% names(scripts)) {
-    run(stage, scripts[[stage]])
+  # A script can be given with either slash, with or without its folder.
+  key <- sub("^\\./", "", gsub("\\\\", "/", stage))
+  key <- names(scripts)[match(key, names(scripts), nomatch = match(key, basename(names(scripts))))]
+  if (!is.na(key)) {
+    run(key, scripts[[key]])
   } else {
     switch(stage,
       all = { build(); analyse() },
