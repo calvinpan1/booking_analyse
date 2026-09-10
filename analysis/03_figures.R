@@ -84,50 +84,49 @@ save_fig(eligibility_bars(time_fig, "mean_time", "Mean time on detail pages per 
 write_n_by_facet(click_fig, "NObsClickProbFig")
 write_n_by_facet(time_fig, "NObsTimeOnPageFig")
 
-# --- H3: phi correlation of the two no-cue choices' clusters, and cued-choice match, by city ----
+# --- H3: cluster of the second no-cue choice given the first, and cued-choice match, by city ----
 clusters <- sort(unique(df$cluster))
 chosen <- df %>% filter(listing_chosen) %>% distinct(participant_code, city, weekend_number_global, cued_weekend, cluster)
 nocue_pairs <- chosen %>%
   filter(!cued_weekend) %>% group_by(participant_code, city) %>% filter(n() == 2) %>%
-  summarise(lo = min(cluster), hi = max(cluster), .groups = "drop")
+  arrange(weekend_number_global, .by_group = TRUE) %>%
+  summarise(first = cluster[1], second = cluster[2], .groups = "drop")
 cued_match <- chosen %>%
   filter(cued_weekend) %>%
-  inner_join(nocue_pairs %>% filter(lo == hi) %>% transmute(participant_code, city, preferred = lo), by = c("participant_code", "city")) %>%
+  inner_join(nocue_pairs %>% filter(first == second) %>% transmute(participant_code, city, preferred = first), by = c("participant_code", "city")) %>%
   group_by(city, preferred) %>% summarise(p_match = mean(cluster == preferred), n = n(), .groups = "drop")
 
 cells <- list()
 for (ct in sort(unique(nocue_pairs$city))) {
   pairs_ct <- nocue_pairs %>% filter(city == ct)
   write_tex_value(paste0("NClusterCorr", city_labels[[ct]]), nrow(pairs_ct), fmt = "%d", file = VALUES)
-  counts <- pairs_ct %>% count(lo, hi, name = "n")
-  grid <- expand.grid(x = clusters, y = clusters) %>%
-    mutate(lo = pmin(x, y), hi = pmax(x, y)) %>%
-    left_join(counts, by = c("lo", "hi")) %>%
-    mutate(n = coalesce(n, 0L), share = ifelse(lo == hi, n, n / 2) / nrow(pairs_ct))
-  marginal <- grid %>% group_by(x) %>% summarise(m = sum(share), .groups = "drop")
-  phi <- grid %>%
-    left_join(marginal, by = "x") %>% rename(mx = m) %>%
-    left_join(marginal, by = c("y" = "x")) %>% rename(my = m) %>%
-    mutate(phi = (share - mx * my) / sqrt(mx * (1 - mx) * my * (1 - my))) %>%
-    filter(match(y, clusters) <= match(x, clusters)) %>%
-    transmute(city = ct, row = y, col = as.character(x), value = phi, label = sprintf("%.2f", phi))
+  transitions <- expand.grid(first = clusters, second = clusters) %>%
+    left_join(pairs_ct %>% count(first, second, name = "n"), by = c("first", "second")) %>%
+    left_join(pairs_ct %>% count(first, name = "n_first"), by = "first") %>%
+    mutate(n = coalesce(n, 0L), n_first = coalesce(n_first, 0L), value = ifelse(n_first > 0, n / n_first, NA)) %>%
+    transmute(city = ct, row = first, x = as.numeric(second), value, n = n_first)
   match_col <- tibble(cluster = clusters) %>%
     left_join(cued_match %>% filter(city == ct), by = c("cluster" = "preferred")) %>%
-    transmute(city = ct, row = cluster, col = "match", value = p_match,
-              label = ifelse(is.na(p_match), "n/a", sprintf("%.2f\n(N=%d)", p_match, n)))
-  cells[[ct]] <- bind_rows(phi, match_col)
+    transmute(city = ct, row = cluster, x = length(clusters) + 1.4, value = p_match, n = n)
+  cells[[ct]] <- bind_rows(transitions, match_col)
 }
 tri <- bind_rows(cells) %>%
   mutate(city_facet = factor(unname(city_display[city]), levels = unname(city_display)),
-         col = factor(col, levels = c(as.character(clusters), "match"), labels = c(as.character(clusters), "P(cued\nmatch)")),
-         row = factor(row, levels = rev(clusters)))
-p <- ggplot(tri, aes(x = col, y = row, fill = value)) +
-  geom_tile(color = "white") +
-  geom_text(aes(label = label), size = 2.6, lineheight = 0.85) +
-  geom_vline(xintercept = length(clusters) + 0.5, color = "grey40", linewidth = 0.4) +
+         row = factor(row, levels = rev(clusters)),
+         label = ifelse(is.na(value), "n/a", sprintf("%.0f%%", 100 * value)),
+         n_label = ifelse(is.na(value), "", sprintf("N=%d", n)),
+         dark = coalesce(value > 0.55, FALSE))
+p <- ggplot(tri, aes(x = x, y = row, fill = value)) +
+  geom_tile(color = "white", width = 1, height = 1) +
+  geom_text(aes(label = label, color = dark), size = 3, vjust = -0.1) +
+  geom_text(aes(label = n_label, color = dark), size = 2, vjust = 1.8) +
+  scale_color_manual(values = c("FALSE" = "black", "TRUE" = "white"), guide = "none") +
+  geom_vline(xintercept = length(clusters) + 0.65, color = "grey40", linewidth = 0.4) +
   facet_wrap(~ city_facet, ncol = 2) +
-  scale_fill_gradient2(low = "#b2182b", mid = "white", high = "#08306b", midpoint = 0, limits = c(-1, 1), na.value = "grey90", name = NULL) +
+  scale_x_continuous(breaks = c(seq_along(clusters), length(clusters) + 1.4),
+                     labels = c(as.character(clusters), "P(cued match)")) +
+  scale_fill_gradient(low = "white", high = "#08306b", limits = c(0, 1), na.value = "grey90", guide = "none") +
   coord_fixed() +
-  labs(x = NULL, y = "Preferred cluster (no-cue choices)") +
+  labs(x = "Cluster of the second no-cue choice", y = "Cluster of the first no-cue choice") +
   theme_minimal(base_size = 11) + theme(panel.grid = element_blank())
 save_fig(p, "h3_cluster_corr_triangular.png", 7, 6.3)
