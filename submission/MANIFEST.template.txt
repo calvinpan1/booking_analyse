@@ -1,0 +1,13 @@
+# CHI 2027 submission manifest -- filled by build_submission.sh; do not edit by hand
+submission_date: <YYYY-MM-DD>
+pcs_submission_id: <fill in after upload>
+
+## Pinned versions
+overleaf_project: 696f65d34724990226e22ad6
+overleaf_commit: <sha>            # Overleaf history label "CHI 2027 submitted"
+booking_analyse_commit: <sha>     # branch supplementary-materials-chi2027 (analysis zip built with git archive)
+booking_otree_experiment_commit: <sha>   # branch supplementary-materials-chi2027; package cleaned by hand from dfbee72
+booking_plugin_commit: <sha>      # chaves/booking_plugin, branch supplementary-materials-chi2027 (curated snapshot; main was b68e121)
+bookiing_scraping_commit: <sha>   # chaves/bookiing_scraping, branch supplementary-materials-chi2027, code only (curated snapshot; main was ce69699)
+
+## Checksums (sha256  size  file)
