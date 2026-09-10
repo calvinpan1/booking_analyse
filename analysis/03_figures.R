@@ -94,7 +94,7 @@ nocue_pairs <- chosen %>%
 cued_match <- chosen %>%
   filter(cued_weekend) %>%
   inner_join(nocue_pairs %>% filter(first == second) %>% transmute(participant_code, city, preferred = first), by = c("participant_code", "city")) %>%
-  group_by(city, preferred) %>% summarise(p_match = mean(cluster == preferred), n = n(), .groups = "drop")
+  group_by(city, preferred) %>% summarise(n_match = sum(cluster == preferred), n = n(), .groups = "drop")
 
 cells <- list()
 for (ct in sort(unique(nocue_pairs$city))) {
@@ -104,17 +104,17 @@ for (ct in sort(unique(nocue_pairs$city))) {
     left_join(pairs_ct %>% count(first, second, name = "n"), by = c("first", "second")) %>%
     left_join(pairs_ct %>% count(first, name = "n_first"), by = "first") %>%
     mutate(n = coalesce(n, 0L), n_first = coalesce(n_first, 0L), value = ifelse(n_first > 0, n / n_first, NA)) %>%
-    transmute(city = ct, row = first, x = as.numeric(second), value, n = n_first)
+    transmute(city = ct, row = first, x = as.numeric(second), value, k = n, n = n_first)
   match_col <- tibble(cluster = clusters) %>%
     left_join(cued_match %>% filter(city == ct), by = c("cluster" = "preferred")) %>%
-    transmute(city = ct, row = cluster, x = length(clusters) + 1.4, value = p_match, n = n)
+    transmute(city = ct, row = cluster, x = length(clusters) + 1.4, value = n_match / n, k = n_match, n = n)
   cells[[ct]] <- bind_rows(transitions, match_col)
 }
 tri <- bind_rows(cells) %>%
   mutate(city_facet = factor(unname(city_display[city]), levels = unname(city_display)),
          row = factor(row, levels = rev(clusters)),
          label = ifelse(is.na(value), "n/a", sprintf("%.0f%%", 100 * value)),
-         n_label = ifelse(is.na(value), "", sprintf("N=%d", n)),
+         n_label = ifelse(is.na(value), "", sprintf("%d/%d", k, n)),
          dark = coalesce(value > 0.55, FALSE))
 p <- ggplot(tri, aes(x = x, y = row, fill = value)) +
   geom_tile(color = "white", width = 1, height = 1) +
@@ -128,5 +128,7 @@ p <- ggplot(tri, aes(x = x, y = row, fill = value)) +
   scale_fill_gradient(low = "white", high = "#08306b", limits = c(0, 1), na.value = "grey90", guide = "none") +
   coord_fixed() +
   labs(x = "Cluster of the second no-cue choice", y = "Cluster of the first no-cue choice") +
-  theme_minimal(base_size = 11) + theme(panel.grid = element_blank())
-save_fig(p, "h3_cluster_corr_triangular.png", 7, 6.3)
+  theme_minimal(base_size = 11) +
+  theme(panel.grid = element_blank(), panel.spacing = unit(2, "lines"),
+        axis.title.x = element_text(margin = margin(t = 12)), axis.title.y = element_text(margin = margin(r = 12)))
+save_fig(p, "h3_cluster_corr_triangular.png", 7, 6.5)
