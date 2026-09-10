@@ -40,10 +40,16 @@ environment variables `BOOKING_RAW`, `BOOKING_INPUTS`, `BOOKING_OUTPUTS`,
 All paths are handled in `main.R` with R's `file.path`, so the package runs
 unchanged on Windows, macOS and Linux.
 
-While the package lives in the synced project folder, `main.R` reads `raw/` and
-writes `inputs/` under `SSD_DATA_ROOT/Booking_in_the_dark/` when that
-variable is set, so participant-level files stay on the SSD; the block doing
-this is marked INTERIM and is to be deleted once the package moves there.
+## Data
+
+The raw exports (participant folders, `all_apps_wide*.csv`, `PageTimes*.csv`)
+are participant-level data and are not distributed with the package; they are
+available under a data agreement after acceptance. Place them under `raw/` and
+run the package from the folder that holds them. `raw/` and `inputs/` are
+ignored by git so participant-level files are never committed.
+`tools/make_synthetic_raw.py` fabricates a raw tree with the same formats
+(random values, no participant data), so the whole pipeline can be run without
+the real exports.
 
 ## Scripts
 

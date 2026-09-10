@@ -42,9 +42,9 @@ by_weekend <- df_all %>%
   group_by(participant_code, weekend_number_global) %>%
   summarise(loading = first(loading_time_seconds),
             n_substitutes = sum(as.logical(is_substitute_listing), na.rm = TRUE), .groups = "drop")
-write_tex_value("MeanLoadingTime", mean(by_weekend$loading, na.rm = TRUE), fmt = "%.2f", file = VALUES)
-write_tex_value("MedianLoadingTime", median(by_weekend$loading, na.rm = TRUE), fmt = "%.2f", file = VALUES)
-write_tex_value("SDLoadingTime", sd(by_weekend$loading, na.rm = TRUE), fmt = "%.2f", file = VALUES)
+write_tex_value("MeanLoadingTime", mean(by_weekend$loading, na.rm = TRUE), fmt = "%.0f", file = VALUES)
+write_tex_value("MedianLoadingTime", median(by_weekend$loading, na.rm = TRUE), fmt = "%.0f", file = VALUES)
+write_tex_value("SDLoadingTime", sd(by_weekend$loading, na.rm = TRUE), fmt = "%.0f", file = VALUES)
 write_tex_value("NObsLoadingTime", nrow(by_weekend), fmt = "%d", file = VALUES)
 write_tex_value("NChoiceSetsSubstitutesTotal", nrow(by_weekend), fmt = "%d", file = VALUES)
 write_tex_value("NChoiceSetsSubstitutesOne", sum(by_weekend$n_substitutes == 1), fmt = "%d", file = VALUES)

@@ -18,16 +18,6 @@ OUTPUT_DIR <- Sys.getenv("BOOKING_OUTPUTS", unset = "outputs")  # values and fig
 PAPER_DIR  <- Sys.getenv("BOOKING_PAPER",   unset = "")         # Overleaf clone; "" = do not copy
 PYTHON     <- Sys.getenv("BOOKING_PYTHON",  unset = if (.Platform$OS.type == "windows") "python" else "python3")
 
-# --- INTERIM: delete this block when the package moves to the SSD -----------
-# While the package sits in the synced project folder, raw and intermediate
-# participant-level files stay on the SSD; only outputs/ is written here.
-.ssd <- Sys.getenv("SSD_DATA_ROOT", unset = "")
-if (nzchar(.ssd)) {
-  if (!nzchar(Sys.getenv("BOOKING_RAW")))    RAW_DIR    <- file.path(.ssd, "Booking_in_the_dark", "raw")
-  if (!nzchar(Sys.getenv("BOOKING_INPUTS"))) INPUTS_DIR <- file.path(.ssd, "Booking_in_the_dark", "inputs")
-}
-# --- end interim -------------------------------------------------------------
-
 # --- Locate this file; everything below is machine-independent --------------
 .args_file <- sub("^--file=", "", grep("^--file=", commandArgs(trailingOnly = FALSE), value = TRUE))
 .invoked_directly <- length(.args_file) == 1 && basename(.args_file) == "main.R"
