@@ -4,3 +4,4 @@ inputs/*
 raw/*
 !raw/choice_sets_with_substitutes.json
 outputs/values/
+outputs/
